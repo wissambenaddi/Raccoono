@@ -1,0 +1,187 @@
+<section
+  class="raccoono-trust"
+  style="
+    --raccoono-trust-bg: {{ section.settings.background }};
+    --raccoono-trust-color: {{ section.settings.text_color }};
+    --raccoono-trust-accent: {{ section.settings.accent_color }};
+  "
+  aria-label="{{ section.settings.accessibility_label | escape }}"
+>
+  <div class="raccoono-trust__grid">
+    {% for block in section.blocks %}
+      <article class="raccoono-trust__item" {{ block.shopify_attributes }}>
+        <span class="raccoono-trust__icon">
+          {% render 'raccoono-icon', name: block.settings.icon, class: 'raccoono-trust__svg' %}
+        </span>
+        <div>
+          <h2 class="raccoono-trust__title">{{ block.settings.title | escape }}</h2>
+          {% if block.settings.text != blank %}
+            <p class="raccoono-trust__text">{{ block.settings.text | escape }}</p>
+          {% endif %}
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .raccoono-trust {
+    padding: clamp(2.4rem, 4vw, 4rem) max(2rem, calc((100vw - 140rem) / 2));
+    background: var(--raccoono-trust-bg);
+    color: var(--raccoono-trust-color);
+  }
+
+  .raccoono-trust__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--raccoono-trust-count, 4), minmax(0, 1fr));
+    gap: clamp(1.6rem, 3vw, 4rem);
+  }
+
+  .raccoono-trust__item {
+    display: grid;
+    grid-template-columns: 5rem 1fr;
+    align-items: center;
+    gap: 1.3rem;
+    min-width: 0;
+  }
+
+  .raccoono-trust__icon {
+    display: grid;
+    width: 5rem;
+    height: 5rem;
+    place-items: center;
+    border-radius: 1.6rem 1.6rem 1.6rem 0.4rem;
+    background: color-mix(in srgb, var(--raccoono-trust-accent) 18%, white);
+    color: var(--raccoono-trust-accent);
+    transform: rotate(-3deg);
+  }
+
+  .raccoono-trust__svg {
+    width: 2.8rem;
+    height: 2.8rem;
+  }
+
+  .raccoono-trust__title,
+  .raccoono-trust__text {
+    margin: 0;
+  }
+
+  .raccoono-trust__title {
+    font-family: var(--font-subheading--family);
+    font-size: 1.5rem;
+    font-weight: 750;
+  }
+
+  .raccoono-trust__text {
+    margin-top: 0.3rem;
+    color: color-mix(in srgb, currentColor 68%, transparent);
+    font-size: 1.3rem;
+    line-height: 1.4;
+  }
+
+  @media (max-width: 989px) {
+    .raccoono-trust__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 539px) {
+    .raccoono-trust {
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+    }
+
+    .raccoono-trust__grid {
+      display: flex;
+      width: max-content;
+      padding-right: 2rem;
+    }
+
+    .raccoono-trust__item {
+      width: min(78vw, 30rem);
+      scroll-snap-align: start;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Raccoono — Réassurance",
+  "tag": "section",
+  "class": "raccoono-section",
+  "max_blocks": 4,
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "accessibility_label",
+      "label": "Libellé accessible",
+      "default": "Nos avantages"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Arrière-plan",
+      "default": "#fffaf0"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Texte",
+      "default": "#071a39"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent",
+      "default": "#0aaec3"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Avantage",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icône",
+          "options": [
+            { "value": "shipping", "label": "Expédition" },
+            { "value": "craft", "label": "Fabrication" },
+            { "value": "packaging", "label": "Emballage" },
+            { "value": "returns", "label": "Retours" },
+            { "value": "spark", "label": "Éclat" }
+          ],
+          "default": "spark"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Titre",
+          "default": "Avantage à personnaliser"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Texte",
+          "default": "Remplacez ce contenu temporaire."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Raccoono — Réassurance",
+      "blocks": [
+        { "type": "feature", "settings": { "icon": "shipping", "title": "Expédition suivie", "text": "Délais à confirmer dans vos politiques." } },
+        { "type": "feature", "settings": { "icon": "craft", "title": "Détails soignés", "text": "Présentez ici votre méthode réelle." } },
+        { "type": "feature", "settings": { "icon": "packaging", "title": "Emballage choisi", "text": "Ajoutez uniquement vos engagements vérifiés." } },
+        { "type": "feature", "settings": { "icon": "returns", "title": "Retours simplifiés", "text": "Indiquez ici vos conditions réelles." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,322 @@
+<section
+  class="raccoono-editorial raccoono-editorial--{{ section.settings.layout }}"
+  style="
+    --raccoono-editorial-bg: {{ section.settings.background }};
+    --raccoono-editorial-color: {{ section.settings.text_color }};
+    --raccoono-editorial-accent: {{ section.settings.accent_color }};
+    --raccoono-editorial-radius: {{ section.settings.radius }}px;
+  "
+  aria-labelledby="RaccoonoEditorialTitle-{{ section.id }}"
+>
+  <div class="raccoono-editorial__inner">
+    <div class="raccoono-editorial__media">
+      {% if section.settings.image != blank %}
+        {{
+          section.settings.image
+          | image_url: width: 1600
+          | image_tag:
+            widths: '500, 750, 1000, 1300, 1600',
+            sizes: '(min-width: 990px) 50vw, 100vw',
+            loading: 'lazy',
+            class: 'raccoono-editorial__image'
+        }}
+      {% elsif section.settings.show_default_visual %}
+        <img
+          class="raccoono-editorial__image"
+          src="{{ 'raccoono-studio-v1.webp' | asset_url }}"
+          width="1400"
+          height="933"
+          loading="lazy"
+          alt=""
+        >
+      {% else %}
+        <div class="raccoono-editorial__graphic" aria-hidden="true">
+          <span>R</span>
+          <span>+</span>
+          <span>R</span>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="raccoono-editorial__content">
+      {% if section.settings.eyebrow != blank %}
+        <p class="raccoono-editorial__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {% endif %}
+      <h2 id="RaccoonoEditorialTitle-{{ section.id }}" class="raccoono-editorial__title">
+        {{ section.settings.heading }}
+      </h2>
+      {% if section.settings.text != blank %}
+        <div class="raccoono-editorial__text rte">{{ section.settings.text }}</div>
+      {% endif %}
+      {% if section.settings.highlight != blank %}
+        <p class="raccoono-editorial__highlight">
+          {% render 'raccoono-icon', name: 'spark', class: 'raccoono-editorial__highlight-icon' %}
+          {{ section.settings.highlight | escape }}
+        </p>
+      {% endif %}
+      {% if section.settings.quote != blank %}
+        <blockquote class="raccoono-editorial__quote">{{ section.settings.quote | escape }}</blockquote>
+      {% endif %}
+      {% if section.settings.button_label != blank %}
+        <a class="button raccoono-editorial__button" href="{{ section.settings.button_link }}">
+          {{ section.settings.button_label | escape }}
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .raccoono-editorial {
+    padding: clamp(5rem, 9vw, 12rem) max(2rem, calc((100vw - 140rem) / 2));
+    background: var(--raccoono-editorial-bg);
+    color: var(--raccoono-editorial-color);
+  }
+
+  .raccoono-editorial__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(32rem, 0.9fr);
+    align-items: center;
+    gap: clamp(3rem, 7vw, 10rem);
+  }
+
+  .raccoono-editorial--image-right .raccoono-editorial__media {
+    order: 2;
+  }
+
+  .raccoono-editorial__media {
+    min-height: 36rem;
+    overflow: hidden;
+    border-radius: var(--raccoono-editorial-radius);
+    background: color-mix(in srgb, var(--raccoono-editorial-accent) 16%, white);
+    box-shadow: 0 2rem 6rem color-mix(in srgb, var(--raccoono-editorial-color) 12%, transparent);
+  }
+
+  .raccoono-editorial__image {
+    width: 100%;
+    height: 100%;
+    min-height: 36rem;
+    object-fit: cover;
+    transition: transform 600ms ease;
+  }
+
+  .raccoono-editorial__media:hover .raccoono-editorial__image {
+    transform: scale(1.025);
+  }
+
+  .raccoono-editorial__graphic {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    min-height: 48rem;
+    place-content: center;
+    gap: 1.5rem;
+    font-family: var(--font-heading--family);
+    font-size: clamp(6rem, 12vw, 14rem);
+    line-height: 1;
+    color: var(--raccoono-editorial-accent);
+  }
+
+  .raccoono-editorial__graphic span:nth-child(2) {
+    color: #f06c56;
+    transform: rotate(8deg);
+  }
+
+  .raccoono-editorial__content {
+    display: grid;
+    justify-items: start;
+    gap: 1.8rem;
+    max-width: 62rem;
+  }
+
+  .raccoono-editorial__eyebrow,
+  .raccoono-editorial__title,
+  .raccoono-editorial__highlight,
+  .raccoono-editorial__quote {
+    margin: 0;
+  }
+
+  .raccoono-editorial__eyebrow {
+    font-family: var(--font-subheading--family);
+    font-size: 1.2rem;
+    font-weight: 750;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .raccoono-editorial__title {
+    max-width: 16ch;
+    font-family: var(--font-heading--family);
+    font-size: clamp(4rem, 6vw, 7.8rem);
+    line-height: 0.96;
+    letter-spacing: -0.045em;
+    text-wrap: balance;
+  }
+
+  .raccoono-editorial__text {
+    max-width: 58ch;
+    font-size: clamp(1.6rem, 2vw, 1.9rem);
+  }
+
+  .raccoono-editorial__highlight {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.1rem 1.5rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--raccoono-editorial-accent) 16%, transparent);
+    color: var(--raccoono-editorial-color);
+    font-weight: 700;
+  }
+
+  .raccoono-editorial__highlight-icon {
+    width: 2rem;
+    height: 2rem;
+    color: var(--raccoono-editorial-accent);
+  }
+
+  .raccoono-editorial__quote {
+    padding-left: 1.8rem;
+    border-left: 0.4rem solid var(--raccoono-editorial-accent);
+    font-family: var(--font-accent--family);
+    font-size: 2rem;
+    font-style: italic;
+  }
+
+  .raccoono-editorial__button {
+    min-height: 4.8rem;
+    padding-inline: 2.4rem;
+    border-color: var(--raccoono-editorial-color);
+    border-radius: 999px;
+    background: var(--raccoono-editorial-color);
+    color: var(--raccoono-editorial-bg);
+  }
+
+  @media (max-width: 899px) {
+    .raccoono-editorial__inner {
+      grid-template-columns: 1fr;
+    }
+
+    .raccoono-editorial--image-right .raccoono-editorial__media {
+      order: 0;
+    }
+
+    .raccoono-editorial__media,
+    .raccoono-editorial__image {
+      min-height: 30rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .raccoono-editorial__image {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Raccoono — Éditorial",
+  "tag": "section",
+  "class": "raccoono-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_default_visual",
+      "label": "Utiliser le visuel d’atelier fourni",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Position de l’image",
+      "options": [
+        { "value": "image-left", "label": "Gauche" },
+        { "value": "image-right", "label": "Droite" }
+      ],
+      "default": "image-left"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Sur-titre",
+      "default": "Notre manifeste"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Titre",
+      "default": "Des objets expressifs, pour des humains nuancés."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Texte",
+      "default": "<p>Contenu temporaire à remplacer. Utilisez cet espace pour expliquer votre mission, votre méthode et ce qui rend votre marque réellement singulière.</p><p>Restez précis : aucun engagement ne doit être présenté sans preuve.</p>"
+    },
+    {
+      "type": "text",
+      "id": "highlight",
+      "label": "Engagement mis en avant",
+      "default": "Engagement temporaire — à confirmer"
+    },
+    {
+      "type": "text",
+      "id": "quote",
+      "label": "Citation facultative",
+      "default": "Votre personnalité mérite mieux qu’un produit sans histoire."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Libellé du bouton",
+      "default": "Découvrir notre histoire"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Lien du bouton"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Arrière-plan",
+      "default": "#f4eddf"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Texte",
+      "default": "#071a39"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent",
+      "default": "#0aaec3"
+    },
+    {
+      "type": "range",
+      "id": "radius",
+      "label": "Arrondi de l’image",
+      "min": 0,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "default": 28
+    }
+  ],
+  "presets": [
+    {
+      "name": "Raccoono — Éditorial"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,330 @@
+<section
+  class="raccoono-comparison{% if section.settings.sticky_header %} raccoono-comparison--sticky{% endif %}"
+  style="
+    --raccoono-comparison-bg: {{ section.settings.background }};
+    --raccoono-comparison-color: {{ section.settings.text_color }};
+    --raccoono-comparison-panel: {{ section.settings.panel_color }};
+    --raccoono-comparison-accent: {{ section.settings.accent_color }};
+  "
+  aria-labelledby="RaccoonoComparisonTitle-{{ section.id }}"
+>
+  <header class="raccoono-comparison__header">
+    <div>
+      {% if section.settings.eyebrow != blank %}
+        <p>{{ section.settings.eyebrow | escape }}</p>
+      {% endif %}
+      <h2 id="RaccoonoComparisonTitle-{{ section.id }}">{{ section.settings.heading }}</h2>
+    </div>
+    {% if section.settings.text != blank %}
+      <div class="raccoono-comparison__intro rte">{{ section.settings.text }}</div>
+    {% endif %}
+  </header>
+
+  <div class="raccoono-comparison__table" role="table" aria-label="{{ section.settings.table_label | escape }}">
+    <div class="raccoono-comparison__row raccoono-comparison__row--head" role="row">
+      <div role="columnheader">{{ section.settings.feature_label | escape }}</div>
+      <div role="columnheader">{{ section.settings.brand_label | escape }}</div>
+      <div role="columnheader">{{ section.settings.other_label | escape }}</div>
+    </div>
+    {% for block in section.blocks %}
+      <div class="raccoono-comparison__row" role="row" {{ block.shopify_attributes }}>
+        <div class="raccoono-comparison__feature" role="rowheader">{{ block.settings.feature | escape }}</div>
+        <div class="raccoono-comparison__value raccoono-comparison__value--brand" role="cell">
+          {% if block.settings.brand_value == 'yes' %}
+            {% render 'raccoono-icon', name: 'check', class: 'raccoono-comparison__icon' %}
+            <span class="visually-hidden">{{ section.settings.yes_label | escape }}</span>
+          {% elsif block.settings.brand_value == 'no' %}
+            {% render 'raccoono-icon', name: 'minus', class: 'raccoono-comparison__icon' %}
+            <span class="visually-hidden">{{ section.settings.no_label | escape }}</span>
+          {% else %}
+            {{ block.settings.brand_text | escape }}
+          {% endif %}
+        </div>
+        <div class="raccoono-comparison__value" role="cell">
+          {% if block.settings.other_value == 'yes' %}
+            {% render 'raccoono-icon', name: 'check', class: 'raccoono-comparison__icon' %}
+            <span class="visually-hidden">{{ section.settings.yes_label | escape }}</span>
+          {% elsif block.settings.other_value == 'no' %}
+            {% render 'raccoono-icon', name: 'minus', class: 'raccoono-comparison__icon' %}
+            <span class="visually-hidden">{{ section.settings.no_label | escape }}</span>
+          {% else %}
+            {{ block.settings.other_text | escape }}
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .raccoono-comparison {
+    padding: clamp(6rem, 10vw, 12rem) max(2rem, calc((100vw - 130rem) / 2));
+    background: var(--raccoono-comparison-bg);
+    color: var(--raccoono-comparison-color);
+  }
+
+  .raccoono-comparison__header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(28rem, 0.7fr);
+    align-items: end;
+    gap: 3rem;
+    margin-bottom: clamp(3rem, 6vw, 6rem);
+  }
+
+  .raccoono-comparison__header p,
+  .raccoono-comparison__header h2 {
+    margin: 0;
+  }
+
+  .raccoono-comparison__header > div:first-child > p {
+    margin-bottom: 0.8rem;
+    font-size: 1.2rem;
+    font-weight: 750;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .raccoono-comparison__header h2 {
+    max-width: 15ch;
+    font-family: var(--font-heading--family);
+    font-size: clamp(4rem, 6vw, 7.2rem);
+    line-height: 0.95;
+    letter-spacing: -0.045em;
+  }
+
+  .raccoono-comparison__intro {
+    max-width: 52ch;
+    font-size: 1.6rem;
+  }
+
+  .raccoono-comparison__table {
+    overflow: clip;
+    border: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+    border-radius: 2.4rem;
+  }
+
+  .raccoono-comparison__row {
+    display: grid;
+    grid-template-columns: minmax(18rem, 1.3fr) minmax(10rem, 0.8fr) minmax(10rem, 0.8fr);
+  }
+
+  .raccoono-comparison__row + .raccoono-comparison__row {
+    border-top: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+  }
+
+  .raccoono-comparison__row > div {
+    display: grid;
+    min-height: 6.4rem;
+    place-items: center;
+    padding: 1.2rem 1.8rem;
+    text-align: center;
+  }
+
+  .raccoono-comparison__row > div + div {
+    border-left: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+  }
+
+  .raccoono-comparison__feature {
+    justify-items: start;
+    text-align: left;
+    font-weight: 700;
+  }
+
+  .raccoono-comparison__value--brand {
+    background: var(--raccoono-comparison-panel);
+    color: var(--raccoono-comparison-accent);
+    font-weight: 800;
+  }
+
+  .raccoono-comparison__row--head {
+    background: var(--raccoono-comparison-color);
+    color: var(--raccoono-comparison-bg);
+    font-size: 1.2rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .raccoono-comparison--sticky .raccoono-comparison__row--head {
+    position: sticky;
+    z-index: 1;
+    top: var(--header-height, 0);
+  }
+
+  .raccoono-comparison__icon {
+    width: 2.4rem;
+    height: 2.4rem;
+  }
+
+  @media (max-width: 749px) {
+    .raccoono-comparison__header {
+      grid-template-columns: 1fr;
+    }
+
+    .raccoono-comparison__row {
+      grid-template-columns: minmax(10rem, 1.15fr) minmax(7rem, 0.8fr) minmax(7rem, 0.8fr);
+    }
+
+    .raccoono-comparison__row > div {
+      min-height: 5.8rem;
+      padding: 1rem 0.8rem;
+      font-size: 1.2rem;
+      overflow-wrap: anywhere;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Raccoono — Comparatif",
+  "tag": "section",
+  "class": "raccoono-section",
+  "max_blocks": 12,
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Sur-titre",
+      "default": "Les détails comptent"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Titre",
+      "default": "Pourquoi choisir Raccoono ?"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Introduction",
+      "default": "<p>Valeurs temporaires à valider. Ne conservez que des comparaisons exactes et démontrables.</p>"
+    },
+    {
+      "type": "text",
+      "id": "table_label",
+      "label": "Libellé accessible du tableau",
+      "default": "Comparaison de l’offre"
+    },
+    {
+      "type": "text",
+      "id": "feature_label",
+      "label": "En-tête des caractéristiques",
+      "default": "Caractéristique"
+    },
+    {
+      "type": "text",
+      "id": "brand_label",
+      "label": "En-tête de la marque",
+      "default": "Raccoono"
+    },
+    {
+      "type": "text",
+      "id": "other_label",
+      "label": "En-tête de comparaison",
+      "default": "Offre générique"
+    },
+    {
+      "type": "text",
+      "id": "yes_label",
+      "label": "Libellé accessible pour oui",
+      "default": "Oui"
+    },
+    {
+      "type": "text",
+      "id": "no_label",
+      "label": "Libellé accessible pour non",
+      "default": "Non"
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky_header",
+      "label": "En-tête sticky",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Arrière-plan",
+      "default": "#fffaf0"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Texte",
+      "default": "#071a39"
+    },
+    {
+      "type": "color",
+      "id": "panel_color",
+      "label": "Colonne de la marque",
+      "default": "#071a39"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent",
+      "default": "#23d5e9"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Ligne",
+      "settings": [
+        {
+          "type": "text",
+          "id": "feature",
+          "label": "Caractéristique",
+          "default": "Critère à personnaliser"
+        },
+        {
+          "type": "select",
+          "id": "brand_value",
+          "label": "Valeur de la marque",
+          "options": [
+            { "value": "yes", "label": "Oui" },
+            { "value": "no", "label": "Non" },
+            { "value": "text", "label": "Texte" }
+          ],
+          "default": "yes"
+        },
+        {
+          "type": "text",
+          "id": "brand_text",
+          "label": "Texte de la marque"
+        },
+        {
+          "type": "select",
+          "id": "other_value",
+          "label": "Valeur générique",
+          "options": [
+            { "value": "yes", "label": "Oui" },
+            { "value": "no", "label": "Non" },
+            { "value": "text", "label": "Texte" }
+          ],
+          "default": "no"
+        },
+        {
+          "type": "text",
+          "id": "other_text",
+          "label": "Texte générique"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Raccoono — Comparatif",
+      "blocks": [
+        { "type": "row", "settings": { "feature": "Design original" } },
+        { "type": "row", "settings": { "feature": "Matériaux sélectionnés" } },
+        { "type": "row", "settings": { "feature": "Petite série" } },
+        { "type": "row", "settings": { "feature": "Service humain" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

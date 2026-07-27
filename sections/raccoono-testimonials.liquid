@@ -1,0 +1,405 @@
+<raccoono-testimonials
+  class="raccoono-testimonials"
+  style="
+    --raccoono-testimonials-bg: {{ section.settings.background }};
+    --raccoono-testimonials-color: {{ section.settings.text_color }};
+    --raccoono-testimonials-accent: {{ section.settings.accent_color }};
+  "
+>
+  <section class="raccoono-testimonials__inner" aria-labelledby="RaccoonoTestimonialsTitle-{{ section.id }}">
+    <header class="raccoono-testimonials__header">
+      <div>
+        {% if section.settings.eyebrow != blank %}
+          <p class="raccoono-testimonials__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        {% endif %}
+        <h2 id="RaccoonoTestimonialsTitle-{{ section.id }}" class="raccoono-testimonials__title">
+          {{ section.settings.heading }}
+        </h2>
+      </div>
+      <div class="raccoono-testimonials__summary" aria-label="{{ section.settings.summary_label | escape }}">
+        <span aria-hidden="true">★★★★★</span>
+        <strong>{{ section.settings.average_rating | escape }}</strong>
+        <small>{{ section.settings.review_count | escape }}</small>
+      </div>
+    </header>
+
+    <p class="raccoono-testimonials__notice">{{ section.settings.demo_notice | escape }}</p>
+
+    <div class="raccoono-testimonials__viewport" data-viewport tabindex="0">
+      <div class="raccoono-testimonials__track">
+        {% for block in section.blocks %}
+          <article class="raccoono-testimonials__card" {{ block.shopify_attributes }}>
+            {% render 'raccoono-icon', name: 'quote', class: 'raccoono-testimonials__quote-icon' %}
+            <div class="raccoono-testimonials__stars" aria-label="{{ 'accessibility.rating' | t: rating: block.settings.rating }}">
+              {% for star in (1..5) %}
+                <span aria-hidden="true">{% if star <= block.settings.rating %}★{% else %}☆{% endif %}</span>
+              {% endfor %}
+            </div>
+            <blockquote>{{ block.settings.text | escape }}</blockquote>
+            <footer>
+              <strong>{{ block.settings.name | escape }}</strong>
+              {% if block.settings.verified %}
+                <span>{% render 'raccoono-icon', name: 'check', class: 'raccoono-testimonials__check' %} {{ section.settings.verified_label | escape }}</span>
+              {% endif %}
+              {% if block.settings.product != blank %}
+                <a href="{{ block.settings.product.url }}">{{ block.settings.product.title | escape }}</a>
+              {% elsif block.settings.product_label != blank %}
+                <small>{{ block.settings.product_label | escape }}</small>
+              {% endif %}
+            </footer>
+          </article>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="raccoono-testimonials__controls">
+      <button type="button" data-previous aria-label="{{ 'accessibility.slideshow_previous' | t }}">←</button>
+      <button type="button" data-next aria-label="{{ 'accessibility.slideshow_next' | t }}">→</button>
+    </div>
+
+    {% if section.settings.app_liquid != blank %}
+      <div class="raccoono-testimonials__app">{{ section.settings.app_liquid }}</div>
+    {% endif %}
+  </section>
+</raccoono-testimonials>
+
+{% stylesheet %}
+  .raccoono-testimonials {
+    display: block;
+    background: var(--raccoono-testimonials-bg);
+    color: var(--raccoono-testimonials-color);
+  }
+
+  .raccoono-testimonials__inner {
+    padding: clamp(6rem, 9vw, 11rem) max(2rem, calc((100vw - 140rem) / 2));
+  }
+
+  .raccoono-testimonials__header {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 3rem;
+    margin-bottom: 1.4rem;
+  }
+
+  .raccoono-testimonials__eyebrow,
+  .raccoono-testimonials__title,
+  .raccoono-testimonials__notice {
+    margin: 0;
+  }
+
+  .raccoono-testimonials__eyebrow {
+    font-size: 1.2rem;
+    font-weight: 750;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .raccoono-testimonials__title {
+    margin-top: 0.8rem;
+    font-family: var(--font-heading--family);
+    font-size: clamp(4rem, 6vw, 7rem);
+    line-height: 0.95;
+    letter-spacing: -0.045em;
+  }
+
+  .raccoono-testimonials__summary {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 0.3rem 1rem;
+    text-align: right;
+  }
+
+  .raccoono-testimonials__summary > span {
+    color: var(--raccoono-testimonials-accent);
+    letter-spacing: 0.15em;
+  }
+
+  .raccoono-testimonials__summary small {
+    grid-column: 1 / -1;
+  }
+
+  .raccoono-testimonials__notice {
+    margin-bottom: 2.6rem;
+    color: color-mix(in srgb, currentColor 66%, transparent);
+    font-size: 1.3rem;
+  }
+
+  .raccoono-testimonials__viewport {
+    overflow-x: auto;
+    padding-block: 1rem 2rem;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+  }
+
+  .raccoono-testimonials__viewport:focus-visible {
+    outline: 0.3rem solid var(--raccoono-testimonials-accent);
+    outline-offset: 0.4rem;
+  }
+
+  .raccoono-testimonials__track {
+    display: grid;
+    grid-auto-columns: minmax(28rem, 39rem);
+    grid-auto-flow: column;
+    gap: 1.6rem;
+  }
+
+  .raccoono-testimonials__card {
+    display: grid;
+    align-content: start;
+    gap: 1.5rem;
+    min-height: 32rem;
+    padding: 2.6rem;
+    border: 1px solid color-mix(in srgb, currentColor 13%, transparent);
+    border-radius: 2.4rem 2.4rem 2.4rem 0.7rem;
+    background: color-mix(in srgb, var(--raccoono-testimonials-bg) 90%, white);
+    scroll-snap-align: start;
+  }
+
+  .raccoono-testimonials__quote-icon {
+    width: 4rem;
+    height: 4rem;
+    color: color-mix(in srgb, var(--raccoono-testimonials-accent) 25%, transparent);
+  }
+
+  .raccoono-testimonials__stars {
+    color: var(--raccoono-testimonials-accent);
+  }
+
+  .raccoono-testimonials__card blockquote {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-size: 2.2rem;
+    line-height: 1.25;
+  }
+
+  .raccoono-testimonials__card footer {
+    display: grid;
+    gap: 0.4rem;
+    margin-top: auto;
+  }
+
+  .raccoono-testimonials__card footer span {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: color-mix(in srgb, currentColor 68%, transparent);
+    font-size: 1.2rem;
+  }
+
+  .raccoono-testimonials__check {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .raccoono-testimonials__controls {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.8rem;
+    margin-top: 1rem;
+  }
+
+  .raccoono-testimonials__controls button {
+    display: grid;
+    width: 4.8rem;
+    height: 4.8rem;
+    place-items: center;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .raccoono-testimonials__controls button:hover {
+    background: var(--raccoono-testimonials-color);
+    color: var(--raccoono-testimonials-bg);
+  }
+
+  @media (max-width: 749px) {
+    .raccoono-testimonials__header {
+      align-items: start;
+      flex-direction: column;
+    }
+
+    .raccoono-testimonials__summary {
+      text-align: left;
+    }
+
+    .raccoono-testimonials__track {
+      grid-auto-columns: 84vw;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .raccoono-testimonials__viewport {
+      scroll-behavior: auto;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  class RaccoonoTestimonials extends HTMLElement {
+    connectedCallback() {
+      this.viewport = this.querySelector('[data-viewport]');
+      this.previous = this.querySelector('[data-previous]');
+      this.next = this.querySelector('[data-next]');
+      if (!this.viewport) return;
+      this.scroll = (direction) => {
+        const card = this.viewport.querySelector('.raccoono-testimonials__card');
+        const distance = card ? card.getBoundingClientRect().width + 16 : this.viewport.clientWidth;
+        this.viewport.scrollBy({ left: distance * direction, behavior: 'smooth' });
+      };
+      this.handlePrevious = () => this.scroll(-1);
+      this.handleNext = () => this.scroll(1);
+      this.previous?.addEventListener('click', this.handlePrevious);
+      this.next?.addEventListener('click', this.handleNext);
+    }
+
+    disconnectedCallback() {
+      this.previous?.removeEventListener('click', this.handlePrevious);
+      this.next?.removeEventListener('click', this.handleNext);
+    }
+  }
+
+  if (!customElements.get('raccoono-testimonials')) {
+    customElements.define('raccoono-testimonials', RaccoonoTestimonials);
+  }
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Raccoono — Témoignages",
+  "tag": "section",
+  "class": "raccoono-section",
+  "max_blocks": 10,
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Sur-titre",
+      "default": "Paroles de démonstration"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Titre",
+      "default": "Ils ont essayé. Ils ont eu des choses à dire."
+    },
+    {
+      "type": "text",
+      "id": "summary_label",
+      "label": "Libellé accessible de la note",
+      "default": "Note de démonstration"
+    },
+    {
+      "type": "text",
+      "id": "average_rating",
+      "label": "Note moyenne affichée",
+      "default": "5,0 / 5"
+    },
+    {
+      "type": "text",
+      "id": "review_count",
+      "label": "Nombre d’avis affiché",
+      "default": "Exemples temporaires"
+    },
+    {
+      "type": "text",
+      "id": "demo_notice",
+      "label": "Avertissement",
+      "default": "Contenus fictifs de démonstration — remplacez-les uniquement par de vrais avis."
+    },
+    {
+      "type": "text",
+      "id": "verified_label",
+      "label": "Libellé du badge",
+      "default": "Badge de démonstration"
+    },
+    {
+      "type": "liquid",
+      "id": "app_liquid",
+      "label": "Emplacement pour une application d’avis"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Arrière-plan",
+      "default": "#f4eddf"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Texte",
+      "default": "#071a39"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent",
+      "default": "#0aaec3"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Témoignage",
+      "settings": [
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Note",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Texte",
+          "default": "Exemple temporaire : remplacez ce texte par un avis client authentique."
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Prénom",
+          "default": "Prénom exemple"
+        },
+        {
+          "type": "checkbox",
+          "id": "verified",
+          "label": "Afficher le badge de démonstration",
+          "default": false
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Produit concerné"
+        },
+        {
+          "type": "text",
+          "id": "product_label",
+          "label": "Libellé produit temporaire",
+          "default": "Produit à sélectionner"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Raccoono — Témoignages",
+      "blocks": [
+        { "type": "testimonial" },
+        { "type": "testimonial" },
+        { "type": "testimonial" },
+        { "type": "testimonial" }
+      ]
+    }
+  ]
+}
+{% endschema %}

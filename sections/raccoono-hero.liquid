@@ -1,0 +1,438 @@
+{% liquid
+  assign desktop_image = section.settings.image
+  assign mobile_image = section.settings.mobile_image | default: desktop_image
+%}
+
+<section
+  class="raccoono-hero raccoono-hero--{{ section.settings.height }}"
+  style="
+    --raccoono-hero-overlay: {{ section.settings.overlay_color }};
+    --raccoono-hero-overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+    --raccoono-hero-color: {{ section.settings.text_color }};
+    --raccoono-hero-accent: {{ section.settings.accent_color }};
+    --raccoono-hero-position: {{ section.settings.focal_point }};
+  "
+  aria-labelledby="RaccoonoHeroTitle-{{ section.id }}"
+>
+  <div class="raccoono-hero__media">
+    {% if desktop_image != blank %}
+      <picture>
+        {% if mobile_image != blank %}
+          <source
+            media="(max-width: 749px)"
+            srcset="
+              {{ mobile_image | image_url: width: 750 }} 750w,
+              {{ mobile_image | image_url: width: 1100 }} 1100w
+            "
+            sizes="100vw"
+          >
+        {% endif %}
+        {{
+          desktop_image
+          | image_url: width: 2400
+          | image_tag:
+            widths: '900, 1200, 1600, 2000, 2400',
+            sizes: '100vw',
+            class: 'raccoono-hero__image',
+            loading: 'eager',
+            fetchpriority: 'high'
+        }}
+      </picture>
+    {% else %}
+      <img
+        class="raccoono-hero__image"
+        src="{{ 'raccoono-hero-v1.webp' | asset_url }}"
+        width="1983"
+        height="793"
+        alt=""
+        loading="eager"
+        fetchpriority="high"
+      >
+    {% endif %}
+  </div>
+
+  <div class="raccoono-hero__overlay"></div>
+
+  <div class="raccoono-hero__inner raccoono-hero__inner--{{ section.settings.alignment }}">
+    <div class="raccoono-hero__content">
+      {% if section.settings.eyebrow != blank %}
+        <p class="raccoono-hero__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <h1 id="RaccoonoHeroTitle-{{ section.id }}" class="raccoono-hero__title">
+          {{ section.settings.heading }}
+        </h1>
+      {% endif %}
+
+      {% if section.settings.text != blank %}
+        <div class="raccoono-hero__text rte">{{ section.settings.text }}</div>
+      {% endif %}
+
+      <div class="raccoono-hero__actions">
+        {% if section.settings.primary_label != blank %}
+          <a class="button raccoono-hero__button raccoono-hero__button--primary" href="{{ section.settings.primary_link }}">
+            {{ section.settings.primary_label | escape }}
+          </a>
+        {% endif %}
+        {% if section.settings.secondary_label != blank %}
+          <a class="button raccoono-hero__button raccoono-hero__button--secondary" href="{{ section.settings.secondary_link }}">
+            {{ section.settings.secondary_label | escape }}
+          </a>
+        {% endif %}
+      </div>
+
+      {% if section.settings.note != blank %}
+        <p class="raccoono-hero__note">
+          {% render 'raccoono-icon', name: 'spark', class: 'raccoono-hero__note-icon' %}
+          {{ section.settings.note | escape }}
+        </p>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .raccoono-hero {
+    position: relative;
+    display: grid;
+    min-height: 38rem;
+    overflow: clip;
+    isolation: isolate;
+    background: #f6edda;
+    color: var(--raccoono-hero-color);
+  }
+
+  .raccoono-hero--small {
+    min-height: 32rem;
+  }
+
+  .raccoono-hero--large {
+    min-height: min(54rem, 86svh);
+  }
+
+  .raccoono-hero--full {
+    min-height: 100svh;
+  }
+
+  .raccoono-hero__media,
+  .raccoono-hero__overlay,
+  .raccoono-hero__inner {
+    grid-area: 1 / 1;
+  }
+
+  .raccoono-hero__media,
+  .raccoono-hero__media picture {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .raccoono-hero__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--raccoono-hero-position);
+  }
+
+  .raccoono-hero__overlay {
+    z-index: 1;
+    background: var(--raccoono-hero-overlay);
+    opacity: var(--raccoono-hero-overlay-opacity);
+    pointer-events: none;
+  }
+
+  .raccoono-hero__inner {
+    z-index: 2;
+    display: flex;
+    align-items: flex-start;
+    width: min(100%, 150rem);
+    margin-inline: auto;
+    padding: clamp(6rem, 12vw, 14rem) max(2rem, calc((100vw - 140rem) / 2));
+  }
+
+  .raccoono-hero__inner--center {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .raccoono-hero__inner--right {
+    justify-content: flex-end;
+    text-align: right;
+  }
+
+  .raccoono-hero__content {
+    display: grid;
+    gap: 1.8rem;
+    width: min(100%, 72rem);
+    padding: clamp(2rem, 4vw, 4rem);
+    border: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+    border-radius: 3rem;
+    background: color-mix(in srgb, #071a39 58%, transparent);
+    box-shadow: 0 2rem 6rem rgb(7 26 57 / 18%);
+    backdrop-filter: blur(0.8rem);
+  }
+
+  .raccoono-hero__eyebrow {
+    margin: 0;
+    font-family: var(--font-subheading--family);
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .raccoono-hero__title {
+    max-width: 14ch;
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-size: clamp(4.4rem, 8vw, 10rem);
+    line-height: 0.9;
+    letter-spacing: -0.055em;
+    text-wrap: balance;
+  }
+
+  .raccoono-hero__inner--center .raccoono-hero__title {
+    margin-inline: auto;
+  }
+
+  .raccoono-hero__inner--right .raccoono-hero__title {
+    margin-left: auto;
+  }
+
+  .raccoono-hero__text {
+    max-width: 56ch;
+    font-size: clamp(1.6rem, 2vw, 2rem);
+  }
+
+  .raccoono-hero__inner--center .raccoono-hero__text {
+    margin-inline: auto;
+  }
+
+  .raccoono-hero__inner--right .raccoono-hero__text {
+    margin-left: auto;
+  }
+
+  .raccoono-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .raccoono-hero__inner--center .raccoono-hero__actions {
+    justify-content: center;
+  }
+
+  .raccoono-hero__inner--right .raccoono-hero__actions {
+    justify-content: flex-end;
+  }
+
+  .raccoono-hero__button {
+    min-height: 4.8rem;
+    padding-inline: 2.4rem;
+    border-radius: 999px;
+    font-weight: 700;
+  }
+
+  .raccoono-hero__button--primary {
+    border-color: var(--raccoono-hero-accent);
+    background: var(--raccoono-hero-accent);
+    color: #071a39;
+  }
+
+  .raccoono-hero__button--secondary {
+    border-color: currentColor;
+    background: transparent;
+    color: currentColor;
+  }
+
+  .raccoono-hero__note {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin: 0;
+    font-size: 1.3rem;
+  }
+
+  .raccoono-hero__note-icon {
+    width: 1.8rem;
+    height: 1.8rem;
+  }
+
+  @media (max-width: 749px) {
+    .raccoono-hero {
+      min-height: 65rem;
+    }
+
+    .raccoono-hero__inner {
+      align-items: flex-end;
+      padding: 3rem 1.6rem;
+      text-align: left;
+    }
+
+    .raccoono-hero__content {
+      gap: 1.3rem;
+      padding: 2.2rem;
+      border-radius: 2.2rem;
+    }
+
+    .raccoono-hero__title {
+      font-size: clamp(4rem, 14vw, 6.4rem);
+    }
+
+    .raccoono-hero__actions,
+    .raccoono-hero__inner--center .raccoono-hero__actions,
+    .raccoono-hero__inner--right .raccoono-hero__actions {
+      justify-content: flex-start;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .raccoono-hero__content {
+      animation: raccoono-hero-in 700ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    }
+  }
+
+  @keyframes raccoono-hero-in {
+    from {
+      opacity: 0;
+      transform: translateY(2rem);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Raccoono — Hero",
+  "tag": "section",
+  "class": "raccoono-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image desktop"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Image mobile"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Sur-titre",
+      "default": "Collection de démonstration"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Titre",
+      "default": "Des couvre-chefs pour sortir du rang."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Texte",
+      "default": "<p>Contenu temporaire à remplacer — des pièces expressives, pensées pour les personnalités impossibles à ranger dans une case.</p>"
+    },
+    {
+      "type": "text",
+      "id": "primary_label",
+      "label": "Libellé du bouton principal",
+      "default": "Découvrir la collection"
+    },
+    {
+      "type": "url",
+      "id": "primary_link",
+      "label": "Lien du bouton principal"
+    },
+    {
+      "type": "text",
+      "id": "secondary_label",
+      "label": "Libellé du bouton secondaire",
+      "default": "Trouver mon style"
+    },
+    {
+      "type": "url",
+      "id": "secondary_link",
+      "label": "Lien du bouton secondaire"
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "Petite annotation",
+      "default": "Visuel original généré pour Raccoono"
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Alignement du contenu",
+      "options": [
+        { "value": "left", "label": "Gauche" },
+        { "value": "center", "label": "Centre" },
+        { "value": "right", "label": "Droite" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "height",
+      "label": "Hauteur",
+      "options": [
+        { "value": "small", "label": "Petite" },
+        { "value": "medium", "label": "Moyenne" },
+        { "value": "large", "label": "Grande" },
+        { "value": "full", "label": "Plein écran" }
+      ],
+      "default": "large"
+    },
+    {
+      "type": "select",
+      "id": "focal_point",
+      "label": "Point focal",
+      "options": [
+        { "value": "left center", "label": "Gauche" },
+        { "value": "center center", "label": "Centre" },
+        { "value": "right center", "label": "Droite" }
+      ],
+      "default": "center center"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Couleur du texte",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Couleur d’accent",
+      "default": "#23d5e9"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Couleur de l’overlay",
+      "default": "#071a39"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Opacité de l’overlay",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "default": 20
+    }
+  ],
+  "presets": [
+    {
+      "name": "Raccoono — Hero"
+    }
+  ]
+}
+{% endschema %}

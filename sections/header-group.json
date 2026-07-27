@@ -17,7 +17,29 @@
         "announcement_BxgCk9": {
           "type": "_announcement",
           "settings": {
-            "text": "Welcome to our store",
+            "text": "Livraison offerte à partir de [montant à définir]",
+            "font": "var(--font-subheading--family)",
+            "font_size": "0.75rem",
+            "letter_spacing": "normal",
+            "case": "none"
+          },
+          "blocks": {}
+        },
+        "announcement_cause": {
+          "type": "_announcement",
+          "settings": {
+            "text": "Engagement de marque à confirmer",
+            "font": "var(--font-subheading--family)",
+            "font_size": "0.75rem",
+            "letter_spacing": "normal",
+            "case": "none"
+          },
+          "blocks": {}
+        },
+        "announcement_returns": {
+          "type": "_announcement",
+          "settings": {
+            "text": "Retours sous [nombre de jours à définir]",
             "font": "var(--font-subheading--family)",
             "font_size": "0.75rem",
             "letter_spacing": "normal",
@@ -27,17 +49,19 @@
         }
       },
       "block_order": [
-        "announcement_BxgCk9"
+        "announcement_BxgCk9",
+        "announcement_cause",
+        "announcement_returns"
       ],
       "name": "t:names.announcement_bar",
       "settings": {
         "speed": 5,
         "section_width": "page-width",
-        "background_color": "{{ settings.color_palette.background }}",
+        "background_color": "#071a39",
         "divider_width": 1,
-        "divider_color": "{{ settings.color_palette.color2 }}",
-        "padding-block-start": 15,
-        "padding-block-end": 15
+        "divider_color": "#23d5e9",
+        "padding-block-start": 10,
+        "padding-block-end": 10
       }
     },
     "header_section": {
@@ -94,8 +118,8 @@
         "divider_width": 0,
         "divider_size": "page-width",
         "border_width": 0,
-        "background_color_top": "{{ settings.color_palette.background }}",
-        "enable_transparent_header_home": false,
+        "background_color_top": "#fffaf0",
+        "enable_transparent_header_home": true,
         "enable_transparent_header_product": false,
         "enable_transparent_header_collection": false
       }

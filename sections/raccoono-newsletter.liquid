@@ -1,0 +1,338 @@
+<section
+  class="raccoono-newsletter"
+  style="
+    --raccoono-newsletter-bg: {{ section.settings.background }};
+    --raccoono-newsletter-color: {{ section.settings.text_color }};
+    --raccoono-newsletter-accent: {{ section.settings.accent_color }};
+  "
+  aria-labelledby="RaccoonoNewsletterTitle-{{ section.id }}"
+>
+  <div class="raccoono-newsletter__decor" aria-hidden="true">
+    <span></span><span></span><span></span>
+  </div>
+  <div class="raccoono-newsletter__inner">
+    <div class="raccoono-newsletter__copy">
+      {% if section.settings.eyebrow != blank %}
+        <p>{{ section.settings.eyebrow | escape }}</p>
+      {% endif %}
+      <h2 id="RaccoonoNewsletterTitle-{{ section.id }}">{{ section.settings.heading }}</h2>
+      {% if section.settings.text != blank %}
+        <div class="rte">{{ section.settings.text }}</div>
+      {% endif %}
+    </div>
+
+    <div class="raccoono-newsletter__form">
+      {% liquid
+        assign newsletter_form_id = 'RaccoonoNewsletterForm-' | append: section.id
+      %}
+      {% form 'customer', id: newsletter_form_id %}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <div class="raccoono-newsletter__field">
+          <label for="RaccoonoNewsletterEmail-{{ section.id }}">{{ 'blocks.email_signup.label' | t }}</label>
+          <div class="raccoono-newsletter__input-row">
+            <input
+              id="RaccoonoNewsletterEmail-{{ section.id }}"
+              type="email"
+              name="contact[email]"
+              value="{{ form.email }}"
+              autocomplete="email"
+              autocorrect="off"
+              autocapitalize="off"
+              placeholder="{{ section.settings.placeholder | escape }}"
+              required
+              {% if form.errors %}
+                aria-invalid="true"
+                aria-describedby="RaccoonoNewsletterError-{{ section.id }}"
+              {% elsif form.posted_successfully? %}
+                aria-describedby="RaccoonoNewsletterSuccess-{{ section.id }}"
+              {% endif %}
+            >
+            <button type="submit">
+              {{ section.settings.button_label | escape }}
+              <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        </div>
+
+        {% if section.settings.show_consent %}
+          <label class="raccoono-newsletter__consent">
+            <input type="checkbox" name="contact[accepts_marketing]" value="true" required>
+            <span>{{ section.settings.consent_text | escape }}</span>
+          </label>
+        {% endif %}
+
+        {% if form.errors %}
+          <div id="RaccoonoNewsletterError-{{ section.id }}" class="raccoono-newsletter__message" role="alert">
+            {{ form.errors | default_errors }}
+          </div>
+        {% endif %}
+
+        {% if form.posted_successfully? %}
+          <p id="RaccoonoNewsletterSuccess-{{ section.id }}" class="raccoono-newsletter__message" tabindex="-1">
+            {{ 'blocks.email_signup.success' | t }}
+          </p>
+        {% endif %}
+      {% endform %}
+
+      {% if section.settings.legal_text != blank %}
+        <div class="raccoono-newsletter__legal rte">{{ section.settings.legal_text }}</div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .raccoono-newsletter {
+    position: relative;
+    overflow: clip;
+    padding: clamp(6rem, 10vw, 12rem) max(2rem, calc((100vw - 130rem) / 2));
+    background: var(--raccoono-newsletter-bg);
+    color: var(--raccoono-newsletter-color);
+  }
+
+  .raccoono-newsletter__inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(32rem, 1fr);
+    align-items: center;
+    gap: clamp(3rem, 8vw, 10rem);
+  }
+
+  .raccoono-newsletter__copy > p,
+  .raccoono-newsletter__copy h2 {
+    margin: 0;
+  }
+
+  .raccoono-newsletter__copy > p {
+    margin-bottom: 0.8rem;
+    font-size: 1.2rem;
+    font-weight: 750;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .raccoono-newsletter__copy h2 {
+    max-width: 12ch;
+    font-family: var(--font-heading--family);
+    font-size: clamp(4rem, 6vw, 7.6rem);
+    line-height: 0.95;
+    letter-spacing: -0.045em;
+    text-wrap: balance;
+  }
+
+  .raccoono-newsletter__copy .rte {
+    max-width: 52ch;
+    margin-top: 1.6rem;
+    font-size: 1.6rem;
+  }
+
+  .raccoono-newsletter__form form {
+    display: grid;
+    gap: 1.4rem;
+  }
+
+  .raccoono-newsletter__field > label {
+    display: block;
+    margin-bottom: 0.8rem;
+    font-weight: 700;
+  }
+
+  .raccoono-newsletter__input-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.8rem;
+    padding: 0.7rem;
+    border: 1px solid color-mix(in srgb, currentColor 26%, transparent);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--raccoono-newsletter-bg) 78%, white);
+  }
+
+  .raccoono-newsletter__input-row input {
+    min-width: 0;
+    min-height: 4.8rem;
+    padding: 0 1.5rem;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+  }
+
+  .raccoono-newsletter__input-row:focus-within {
+    outline: 0.3rem solid var(--raccoono-newsletter-accent);
+    outline-offset: 0.3rem;
+  }
+
+  .raccoono-newsletter__input-row button {
+    min-height: 4.8rem;
+    padding-inline: 2.2rem;
+    border: 0;
+    border-radius: 999px;
+    background: var(--raccoono-newsletter-color);
+    color: var(--raccoono-newsletter-bg);
+    font-weight: 750;
+    cursor: pointer;
+  }
+
+  .raccoono-newsletter__consent {
+    display: grid;
+    grid-template-columns: 2rem 1fr;
+    align-items: start;
+    gap: 0.9rem;
+    font-size: 1.3rem;
+  }
+
+  .raccoono-newsletter__consent input {
+    width: 1.8rem;
+    height: 1.8rem;
+    margin: 0;
+    accent-color: var(--raccoono-newsletter-accent);
+  }
+
+  .raccoono-newsletter__message {
+    margin: 0;
+    padding: 1rem 1.2rem;
+    border-radius: 1rem;
+    background: color-mix(in srgb, var(--raccoono-newsletter-accent) 18%, transparent);
+  }
+
+  .raccoono-newsletter__legal {
+    margin-top: 1.2rem;
+    color: color-mix(in srgb, currentColor 66%, transparent);
+    font-size: 1.2rem;
+  }
+
+  .raccoono-newsletter__decor span {
+    position: absolute;
+    display: block;
+    border: 0.4rem solid var(--raccoono-newsletter-accent);
+    opacity: 0.35;
+  }
+
+  .raccoono-newsletter__decor span:nth-child(1) {
+    top: -5rem;
+    right: 8%;
+    width: 14rem;
+    height: 14rem;
+    border-radius: 50%;
+  }
+
+  .raccoono-newsletter__decor span:nth-child(2) {
+    right: -4rem;
+    bottom: -6rem;
+    width: 20rem;
+    height: 20rem;
+    transform: rotate(18deg);
+  }
+
+  .raccoono-newsletter__decor span:nth-child(3) {
+    bottom: 8%;
+    left: 3%;
+    width: 5rem;
+    height: 5rem;
+    border-radius: 1.4rem;
+    transform: rotate(24deg);
+  }
+
+  @media (max-width: 799px) {
+    .raccoono-newsletter__inner {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 519px) {
+    .raccoono-newsletter__input-row {
+      grid-template-columns: 1fr;
+      border-radius: 2rem;
+    }
+
+    .raccoono-newsletter__input-row button {
+      width: 100%;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Raccoono — Newsletter",
+  "tag": "section",
+  "class": "raccoono-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Sur-titre",
+      "default": "Le courrier du terrier"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Titre",
+      "default": "Des nouvelles, pas du bruit."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Texte",
+      "default": "<p>Présentez ici la fréquence réelle de vos e-mails et la valeur offerte à vos abonnés.</p>"
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Texte indicatif",
+      "default": "vous@exemple.fr"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Libellé du bouton",
+      "default": "Je m’inscris"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_consent",
+      "label": "Afficher le consentement obligatoire",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "consent_text",
+      "label": "Texte de consentement",
+      "default": "J’accepte de recevoir les actualités de la marque et je peux me désabonner à tout moment."
+    },
+    {
+      "type": "richtext",
+      "id": "legal_text",
+      "label": "Texte légal",
+      "default": "<p>Adaptez ce texte à votre politique de confidentialité et à la réglementation applicable.</p>"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Arrière-plan",
+      "default": "#23d5e9"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Texte",
+      "default": "#071a39"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent",
+      "default": "#f06c56"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Raccoono — Newsletter"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,350 @@
+<section
+  class="raccoono-collections"
+  style="
+    --raccoono-collections-bg: {{ section.settings.background }};
+    --raccoono-collections-color: {{ section.settings.text_color }};
+    --raccoono-collections-accent: {{ section.settings.accent_color }};
+  "
+  aria-labelledby="RaccoonoCollectionsTitle-{{ section.id }}"
+>
+  <header class="raccoono-collections__header">
+    <div>
+      {% if section.settings.eyebrow != blank %}
+        <p>{{ section.settings.eyebrow | escape }}</p>
+      {% endif %}
+      <h2 id="RaccoonoCollectionsTitle-{{ section.id }}">{{ section.settings.heading }}</h2>
+    </div>
+    {% if section.settings.text != blank %}
+      <div class="raccoono-collections__intro rte">{{ section.settings.text }}</div>
+    {% endif %}
+  </header>
+
+  <div class="raccoono-collections__grid raccoono-collections__grid--{{ section.settings.layout }}">
+    {% for block in section.blocks %}
+      {% liquid
+        assign collection_resource = block.settings.collection
+        assign card_image = block.settings.image | default: collection_resource.image
+        assign card_title = block.settings.title | default: collection_resource.title
+        assign card_link = block.settings.link | default: collection_resource.url | default: routes.all_products_collection_url
+      %}
+      <article class="raccoono-collections__card" {{ block.shopify_attributes }}>
+        <a href="{{ card_link }}" class="raccoono-collections__link">
+          <div class="raccoono-collections__media">
+            {% if card_image != blank %}
+              {{
+                card_image
+                | image_url: width: 1400
+                | image_tag:
+                  widths: '420, 640, 900, 1200, 1400',
+                  sizes: '(min-width: 990px) 34vw, 82vw',
+                  loading: 'lazy',
+                  class: 'raccoono-collections__image'
+              }}
+            {% else %}
+              {{ 'collection-apparel-1' | placeholder_svg_tag: 'raccoono-collections__placeholder' }}
+            {% endif %}
+            <span class="raccoono-collections__overlay"></span>
+          </div>
+          <div class="raccoono-collections__copy">
+            <span class="raccoono-collections__index" aria-hidden="true">0{{ forloop.index }}</span>
+            <h3>{{ card_title | default: 'Collection à sélectionner' | escape }}</h3>
+            {% if block.settings.subtitle != blank %}
+              <p>{{ block.settings.subtitle | escape }}</p>
+            {% endif %}
+            <span class="raccoono-collections__arrow" aria-hidden="true">↗</span>
+          </div>
+        </a>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .raccoono-collections {
+    padding: clamp(6rem, 10vw, 12rem) max(2rem, calc((100vw - 140rem) / 2));
+    background: var(--raccoono-collections-bg);
+    color: var(--raccoono-collections-color);
+  }
+
+  .raccoono-collections__header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(28rem, 0.7fr);
+    align-items: end;
+    gap: 3rem;
+    margin-bottom: clamp(3rem, 6vw, 6rem);
+  }
+
+  .raccoono-collections__header p,
+  .raccoono-collections__header h2 {
+    margin: 0;
+  }
+
+  .raccoono-collections__header > div:first-child > p {
+    margin-bottom: 0.8rem;
+    font-size: 1.2rem;
+    font-weight: 750;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .raccoono-collections__header h2 {
+    max-width: 14ch;
+    font-family: var(--font-heading--family);
+    font-size: clamp(4rem, 6vw, 7.6rem);
+    line-height: 0.95;
+    letter-spacing: -0.045em;
+  }
+
+  .raccoono-collections__intro {
+    max-width: 52ch;
+    font-size: 1.6rem;
+  }
+
+  .raccoono-collections__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.6rem;
+  }
+
+  .raccoono-collections__grid--mosaic .raccoono-collections__card:first-child {
+    grid-column: span 2;
+  }
+
+  .raccoono-collections__card {
+    min-width: 0;
+  }
+
+  .raccoono-collections__link {
+    position: relative;
+    display: grid;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 2.6rem 2.6rem 2.6rem 0.7rem;
+    color: white;
+    text-decoration: none;
+  }
+
+  .raccoono-collections__media,
+  .raccoono-collections__copy {
+    grid-area: 1 / 1;
+  }
+
+  .raccoono-collections__media {
+    position: relative;
+    min-height: 44rem;
+    overflow: hidden;
+    background: #e8edf0;
+  }
+
+  .raccoono-collections__image,
+  .raccoono-collections__placeholder {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 600ms ease;
+  }
+
+  .raccoono-collections__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgb(7 26 57 / 78%), transparent 62%);
+  }
+
+  .raccoono-collections__copy {
+    z-index: 1;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-content: end;
+    align-items: end;
+    gap: 0.6rem 1rem;
+    padding: 2.4rem;
+  }
+
+  .raccoono-collections__index {
+    grid-row: 1 / span 2;
+    font-size: 1.2rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+  }
+
+  .raccoono-collections__copy h3,
+  .raccoono-collections__copy p {
+    margin: 0;
+  }
+
+  .raccoono-collections__copy h3 {
+    font-family: var(--font-heading--family);
+    font-size: clamp(2.8rem, 4vw, 4.8rem);
+    line-height: 0.95;
+  }
+
+  .raccoono-collections__copy p {
+    grid-column: 2;
+    font-size: 1.3rem;
+  }
+
+  .raccoono-collections__arrow {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+    display: grid;
+    width: 4.6rem;
+    height: 4.6rem;
+    place-items: center;
+    border: 1px solid rgb(255 255 255 / 50%);
+    border-radius: 50%;
+    background: rgb(255 255 255 / 12%);
+    font-size: 2rem;
+    transition: background 180ms ease, color 180ms ease, transform 180ms ease;
+  }
+
+  .raccoono-collections__link:hover .raccoono-collections__image {
+    transform: scale(1.04);
+  }
+
+  .raccoono-collections__link:hover .raccoono-collections__arrow {
+    background: var(--raccoono-collections-accent);
+    color: var(--raccoono-collections-color);
+    transform: rotate(8deg);
+  }
+
+  @media (max-width: 989px) {
+    .raccoono-collections__header {
+      grid-template-columns: 1fr;
+    }
+
+    .raccoono-collections__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 649px) {
+    .raccoono-collections__grid {
+      display: flex;
+      margin-right: -2rem;
+      padding-right: 2rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+    }
+
+    .raccoono-collections__card,
+    .raccoono-collections__grid--mosaic .raccoono-collections__card:first-child {
+      flex: 0 0 82vw;
+      scroll-snap-align: start;
+    }
+
+    .raccoono-collections__media {
+      min-height: 40rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .raccoono-collections__image,
+    .raccoono-collections__arrow {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Raccoono — Collections",
+  "tag": "section",
+  "class": "raccoono-section",
+  "max_blocks": 5,
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Sur-titre",
+      "default": "Explorer autrement"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Titre",
+      "default": "Une collection pour chaque humeur."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Introduction",
+      "default": "<p>Sélectionnez vos vraies collections et remplacez ces contenus temporaires depuis l’éditeur.</p>"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Mise en page",
+      "options": [
+        { "value": "grid", "label": "Grille" },
+        { "value": "mosaic", "label": "Mosaïque éditoriale" }
+      ],
+      "default": "mosaic"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Arrière-plan",
+      "default": "#071a39"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Texte",
+      "default": "#fffaf0"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent",
+      "default": "#23d5e9"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image de remplacement"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Titre de remplacement"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Sous-titre",
+          "default": "Description temporaire"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Lien de remplacement"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Raccoono — Collections",
+      "blocks": [
+        { "type": "collection" },
+        { "type": "collection" },
+        { "type": "collection" }
+      ]
+    }
+  ]
+}
+{% endschema %}

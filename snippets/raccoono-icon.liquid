@@ -1,0 +1,52 @@
+{% doc %}
+Renders a Raccoono interface icon.
+
+@param {string} name - Icon name.
+@param {string} [class] - Optional CSS class.
+
+@example
+{% render 'raccoono-icon', name: 'spark', class: 'raccoono-icon' %}
+{% enddoc %}
+
+{% liquid
+  assign icon_class = class | default: 'raccoono-icon'
+%}
+
+{% case name %}
+  {% when 'shipping' %}
+    <svg class="{{ icon_class }}" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+      <path d="M6 13h23v22H6zM29 20h7l6 7v8H29zM12 37a4 4 0 1 0 8 0M32 37a4 4 0 1 0 8 0M10 19h10M10 25h7" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/>
+    </svg>
+  {% when 'craft' %}
+    <svg class="{{ icon_class }}" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+      <path d="M24 7 8 17v14l16 10 16-10V17L24 7Zm0 0v34M8 17l16 10 16-10M14 13l16 10" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/>
+    </svg>
+  {% when 'packaging' %}
+    <svg class="{{ icon_class }}" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+      <path d="M24 8c8 6 11 12 7 19-3 5-10 7-15 3-5-4-3-12 8-22Zm0 0c-1 12-6 20-15 28M32 32c4 0 7 3 7 7" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/>
+    </svg>
+  {% when 'returns' %}
+    <svg class="{{ icon_class }}" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+      <path d="M15 15h18a10 10 0 0 1 0 20H18M15 15l6-6M15 15l6 6M18 35l-6-6M18 35l-6 6" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/>
+    </svg>
+  {% when 'check' %}
+    <svg class="{{ icon_class }}" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="m5 12 4 4L19 6" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/>
+    </svg>
+  {% when 'minus' %}
+    <svg class="{{ icon_class }}" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M5 12h14" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2.5"/>
+    </svg>
+  {% when 'quote' %}
+    <svg class="{{ icon_class }}" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+      <path d="M8 29c0-11 5-18 15-21v7c-5 2-7 5-8 9h8v16H8V29Zm23 0c0-11 5-18 15-21v7c-5 2-7 5-8 9h8v16H31V29Z" fill="currentColor"/>
+    </svg>
+  {% when 'camera' %}
+    <svg class="{{ icon_class }}" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+      <path d="M8 16h8l3-5h10l3 5h8v24H8V16Zm16 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/>
+    </svg>
+  {% else %}
+    <svg class="{{ icon_class }}" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+      <path d="m24 5 3.8 12.2L40 21l-12.2 3.8L24 37l-3.8-12.2L8 21l12.2-3.8L24 5Z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2.5"/>
+    </svg>
+{% endcase %}

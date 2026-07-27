@@ -1,0 +1,439 @@
+<raccoono-gallery
+  class="raccoono-gallery"
+  style="
+    --raccoono-gallery-bg: {{ section.settings.background }};
+    --raccoono-gallery-color: {{ section.settings.text_color }};
+    --raccoono-gallery-accent: {{ section.settings.accent_color }};
+  "
+>
+  <section class="raccoono-gallery__inner" aria-labelledby="RaccoonoGalleryTitle-{{ section.id }}">
+    <header class="raccoono-gallery__header">
+      <div>
+        {% if section.settings.eyebrow != blank %}
+          <p>{{ section.settings.eyebrow | escape }}</p>
+        {% endif %}
+        <h2 id="RaccoonoGalleryTitle-{{ section.id }}">{{ section.settings.heading }}</h2>
+      </div>
+      {% if section.settings.text != blank %}
+        <div class="raccoono-gallery__intro rte">{{ section.settings.text }}</div>
+      {% endif %}
+    </header>
+
+    <div class="raccoono-gallery__grid">
+      {% for block in section.blocks %}
+        {% liquid
+          if forloop.index == 1
+            assign fallback_asset = 'raccoono-hero-v1.webp'
+            assign fallback_width = 1983
+            assign fallback_height = 793
+          elsif forloop.index == 2
+            assign fallback_asset = 'raccoono-studio-v1.webp'
+            assign fallback_width = 1400
+            assign fallback_height = 933
+          else
+            assign fallback_asset = 'raccoono-personalities-v1.webp'
+            assign fallback_width = 1983
+            assign fallback_height = 793
+          endif
+        %}
+        <article class="raccoono-gallery__item" {{ block.shopify_attributes }}>
+          <button
+            class="raccoono-gallery__open"
+            type="button"
+            data-dialog-id="RaccoonoGalleryDialog-{{ section.id }}-{{ block.id }}"
+            aria-label="{{ 'actions.open' | t }} — {{ block.settings.caption | escape }}"
+          >
+            <span class="raccoono-gallery__media">
+              {% if block.settings.image != blank %}
+                {{
+                  block.settings.image
+                  | image_url: width: 1200
+                  | image_tag:
+                    widths: '360, 540, 750, 1000, 1200',
+                    sizes: '(min-width: 990px) 25vw, 50vw',
+                    loading: 'lazy',
+                    class: 'raccoono-gallery__image'
+                }}
+              {% else %}
+                <img
+                  class="raccoono-gallery__image"
+                  src="{{ fallback_asset | asset_url }}"
+                  width="{{ fallback_width }}"
+                  height="{{ fallback_height }}"
+                  loading="lazy"
+                  alt=""
+                >
+              {% endif %}
+              <span class="raccoono-gallery__camera">
+                {% render 'raccoono-icon', name: 'camera', class: 'raccoono-gallery__camera-icon' %}
+              </span>
+            </span>
+            <span class="raccoono-gallery__caption">
+              <strong>{{ block.settings.caption | escape }}</strong>
+              <small>{{ block.settings.creator | escape }}</small>
+            </span>
+          </button>
+
+          <dialog id="RaccoonoGalleryDialog-{{ section.id }}-{{ block.id }}" class="raccoono-gallery__dialog">
+            <button class="raccoono-gallery__close" type="button" data-close aria-label="{{ 'actions.close' | t }}">×</button>
+            {% if block.settings.image != blank %}
+              {{
+                block.settings.image
+                | image_url: width: 1800
+                | image_tag:
+                  widths: '750, 1100, 1500, 1800',
+                  sizes: '90vw',
+                  loading: 'lazy',
+                  class: 'raccoono-gallery__dialog-image'
+              }}
+            {% else %}
+              <img
+                class="raccoono-gallery__dialog-image"
+                src="{{ fallback_asset | asset_url }}"
+                width="{{ fallback_width }}"
+                height="{{ fallback_height }}"
+                loading="lazy"
+                alt=""
+              >
+            {% endif %}
+            <div class="raccoono-gallery__dialog-copy">
+              <h3>{{ block.settings.caption | escape }}</h3>
+              <p>{{ block.settings.creator | escape }}</p>
+              {% if block.settings.product != blank %}
+                <a class="button" href="{{ block.settings.product.url }}">{{ block.settings.product.title | escape }}</a>
+              {% endif %}
+            </div>
+          </dialog>
+        </article>
+      {% endfor %}
+    </div>
+  </section>
+</raccoono-gallery>
+
+{% stylesheet %}
+  .raccoono-gallery {
+    display: block;
+    background: var(--raccoono-gallery-bg);
+    color: var(--raccoono-gallery-color);
+  }
+
+  .raccoono-gallery__inner {
+    padding: clamp(6rem, 9vw, 11rem) max(2rem, calc((100vw - 140rem) / 2));
+  }
+
+  .raccoono-gallery__header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(28rem, 0.7fr);
+    align-items: end;
+    gap: 3rem;
+    margin-bottom: clamp(3rem, 6vw, 6rem);
+  }
+
+  .raccoono-gallery__header p,
+  .raccoono-gallery__header h2 {
+    margin: 0;
+  }
+
+  .raccoono-gallery__header > div:first-child > p {
+    margin-bottom: 0.8rem;
+    font-size: 1.2rem;
+    font-weight: 750;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .raccoono-gallery__header h2 {
+    max-width: 14ch;
+    font-family: var(--font-heading--family);
+    font-size: clamp(4rem, 6vw, 7rem);
+    line-height: 0.95;
+    letter-spacing: -0.045em;
+  }
+
+  .raccoono-gallery__intro {
+    max-width: 52ch;
+    font-size: 1.6rem;
+  }
+
+  .raccoono-gallery__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.2rem;
+  }
+
+  .raccoono-gallery__item:nth-child(3n + 1) {
+    transform: rotate(-1.1deg);
+  }
+
+  .raccoono-gallery__item:nth-child(3n + 2) {
+    transform: translateY(1.4rem) rotate(0.8deg);
+  }
+
+  .raccoono-gallery__open {
+    display: grid;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    text-align: left;
+    cursor: zoom-in;
+  }
+
+  .raccoono-gallery__media {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    border-radius: 2rem 2rem 2rem 0.6rem;
+    background: #e8edf0;
+  }
+
+  .raccoono-gallery__image {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    transition: transform 500ms ease;
+  }
+
+  .raccoono-gallery__camera {
+    position: absolute;
+    right: 1.2rem;
+    bottom: 1.2rem;
+    display: grid;
+    width: 4.4rem;
+    height: 4.4rem;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--raccoono-gallery-accent);
+    color: #071a39;
+  }
+
+  .raccoono-gallery__camera-icon {
+    width: 2.3rem;
+    height: 2.3rem;
+  }
+
+  .raccoono-gallery__caption {
+    display: grid;
+    gap: 0.2rem;
+    padding: 1.2rem 0.6rem;
+  }
+
+  .raccoono-gallery__caption small {
+    color: color-mix(in srgb, currentColor 64%, transparent);
+  }
+
+  .raccoono-gallery__open:hover .raccoono-gallery__image {
+    transform: scale(1.035);
+  }
+
+  .raccoono-gallery__open:focus-visible {
+    outline: 0.3rem solid var(--raccoono-gallery-accent);
+    outline-offset: 0.4rem;
+  }
+
+  .raccoono-gallery__dialog {
+    width: min(92vw, 100rem);
+    max-height: 90vh;
+    padding: 0;
+    overflow: auto;
+    border: 0;
+    border-radius: 2.4rem;
+    background: var(--raccoono-gallery-bg);
+    color: var(--raccoono-gallery-color);
+  }
+
+  .raccoono-gallery__dialog::backdrop {
+    background: rgb(7 26 57 / 78%);
+    backdrop-filter: blur(0.6rem);
+  }
+
+  .raccoono-gallery__close {
+    position: sticky;
+    z-index: 2;
+    top: 1rem;
+    float: right;
+    display: grid;
+    width: 4.8rem;
+    height: 4.8rem;
+    margin: 1rem 1rem -5.8rem 0;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    background: var(--raccoono-gallery-color);
+    color: var(--raccoono-gallery-bg);
+    font-size: 2.4rem;
+    cursor: pointer;
+  }
+
+  .raccoono-gallery__dialog-image {
+    display: block;
+    width: 100%;
+    max-height: 68vh;
+    object-fit: contain;
+    background: #e8edf0;
+  }
+
+  .raccoono-gallery__dialog-copy {
+    display: grid;
+    justify-items: start;
+    gap: 0.8rem;
+    padding: 2rem;
+  }
+
+  .raccoono-gallery__dialog-copy h3,
+  .raccoono-gallery__dialog-copy p {
+    margin: 0;
+  }
+
+  @media (max-width: 989px) {
+    .raccoono-gallery__header {
+      grid-template-columns: 1fr;
+    }
+
+    .raccoono-gallery__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 539px) {
+    .raccoono-gallery__grid {
+      display: flex;
+      margin-right: -2rem;
+      padding-right: 2rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+    }
+
+    .raccoono-gallery__item {
+      flex: 0 0 76vw;
+      scroll-snap-align: start;
+      transform: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .raccoono-gallery__image {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  class RaccoonoGallery extends HTMLElement {
+    connectedCallback() {
+      this.handleClick = (event) => {
+        const opener = event.target.closest('[data-dialog-id]');
+        if (opener) {
+          this.querySelector(`#${CSS.escape(opener.dataset.dialogId)}`)?.showModal();
+          return;
+        }
+        const close = event.target.closest('[data-close]');
+        if (close) close.closest('dialog')?.close();
+        if (event.target instanceof HTMLDialogElement) event.target.close();
+      };
+      this.addEventListener('click', this.handleClick);
+    }
+
+    disconnectedCallback() {
+      this.removeEventListener('click', this.handleClick);
+    }
+  }
+
+  if (!customElements.get('raccoono-gallery')) {
+    customElements.define('raccoono-gallery', RaccoonoGallery);
+  }
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Raccoono — Galerie UGC",
+  "tag": "section",
+  "class": "raccoono-section",
+  "max_blocks": 8,
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Sur-titre",
+      "default": "Dans la vraie vie"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Titre",
+      "default": "Le club, vu par le club."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Introduction",
+      "default": "<p>Les visuels fournis sont des créations originales de démonstration. Remplacez-les par vos contenus clients avec autorisation.</p>"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Arrière-plan",
+      "default": "#f4eddf"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Texte",
+      "default": "#071a39"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent",
+      "default": "#23d5e9"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "media",
+      "name": "Média",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Légende",
+          "default": "Visuel de démonstration"
+        },
+        {
+          "type": "text",
+          "id": "creator",
+          "label": "Créateur",
+          "default": "@compte-a-remplacer"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Produit associé"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Raccoono — Galerie UGC",
+      "blocks": [
+        { "type": "media" },
+        { "type": "media" },
+        { "type": "media" },
+        { "type": "media" }
+      ]
+    }
+  ]
+}
+{% endschema %}

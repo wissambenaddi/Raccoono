@@ -1,0 +1,313 @@
+<raccoono-faq
+  class="raccoono-faq"
+  data-single-open="{{ section.settings.single_open }}"
+  style="
+    --raccoono-faq-bg: {{ section.settings.background }};
+    --raccoono-faq-color: {{ section.settings.text_color }};
+    --raccoono-faq-accent: {{ section.settings.accent_color }};
+  "
+>
+  <section class="raccoono-faq__inner" aria-labelledby="RaccoonoFaqTitle-{{ section.id }}">
+    <header class="raccoono-faq__header">
+      <div>
+        {% if section.settings.eyebrow != blank %}
+          <p>{{ section.settings.eyebrow | escape }}</p>
+        {% endif %}
+        <h2 id="RaccoonoFaqTitle-{{ section.id }}">{{ section.settings.heading }}</h2>
+      </div>
+      {% if section.settings.text != blank %}
+        <div class="raccoono-faq__intro rte">{{ section.settings.text }}</div>
+      {% endif %}
+    </header>
+
+    <div class="raccoono-faq__items">
+      {% for block in section.blocks %}
+        <details class="raccoono-faq__item" {% if block.settings.open %}open{% endif %} {{ block.shopify_attributes }}>
+          <summary>
+            <span>{{ block.settings.question | escape }}</span>
+            <span class="raccoono-faq__plus" aria-hidden="true"></span>
+          </summary>
+          <div class="raccoono-faq__answer rte">{{ block.settings.answer }}</div>
+        </details>
+      {% endfor %}
+    </div>
+  </section>
+</raccoono-faq>
+
+{% if section.settings.structured_data and section.blocks.size > 0 %}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {% for block in section.blocks %}
+          {
+            "@type": "Question",
+            "name": {{ block.settings.question | json }},
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": {{ block.settings.answer | strip_html | json }}
+            }
+          }{% unless forloop.last %},{% endunless %}
+        {% endfor %}
+      ]
+    }
+  </script>
+{% endif %}
+
+{% stylesheet %}
+  .raccoono-faq {
+    display: block;
+    background: var(--raccoono-faq-bg);
+    color: var(--raccoono-faq-color);
+  }
+
+  .raccoono-faq__inner {
+    padding: clamp(6rem, 10vw, 12rem) max(2rem, calc((100vw - 120rem) / 2));
+  }
+
+  .raccoono-faq__header {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(28rem, 0.7fr);
+    align-items: end;
+    gap: 3rem;
+    margin-bottom: clamp(3rem, 6vw, 6rem);
+  }
+
+  .raccoono-faq__header p,
+  .raccoono-faq__header h2 {
+    margin: 0;
+  }
+
+  .raccoono-faq__header > div:first-child > p {
+    margin-bottom: 0.8rem;
+    font-size: 1.2rem;
+    font-weight: 750;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .raccoono-faq__header h2 {
+    max-width: 12ch;
+    font-family: var(--font-heading--family);
+    font-size: clamp(4rem, 6vw, 7rem);
+    line-height: 0.95;
+    letter-spacing: -0.045em;
+  }
+
+  .raccoono-faq__intro {
+    max-width: 52ch;
+    font-size: 1.6rem;
+  }
+
+  .raccoono-faq__items {
+    border-top: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+  }
+
+  .raccoono-faq__item {
+    border-bottom: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+  }
+
+  .raccoono-faq__item summary {
+    display: grid;
+    grid-template-columns: 1fr 4rem;
+    align-items: center;
+    gap: 2rem;
+    min-height: 7.2rem;
+    padding-block: 1.6rem;
+    font-family: var(--font-heading--family);
+    font-size: clamp(2rem, 3vw, 2.8rem);
+    line-height: 1.15;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .raccoono-faq__item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .raccoono-faq__item summary:focus-visible {
+    outline: 0.3rem solid var(--raccoono-faq-accent);
+    outline-offset: 0.4rem;
+  }
+
+  .raccoono-faq__plus {
+    position: relative;
+    display: grid;
+    width: 4rem;
+    height: 4rem;
+    place-items: center;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--raccoono-faq-accent) 18%, transparent);
+  }
+
+  .raccoono-faq__plus::before,
+  .raccoono-faq__plus::after {
+    position: absolute;
+    width: 1.8rem;
+    height: 0.2rem;
+    background: currentColor;
+    content: "";
+    transition: transform 180ms ease;
+  }
+
+  .raccoono-faq__plus::after {
+    transform: rotate(90deg);
+  }
+
+  .raccoono-faq__item[open] .raccoono-faq__plus::after {
+    transform: rotate(0);
+  }
+
+  .raccoono-faq__answer {
+    max-width: 72rem;
+    padding: 0 6rem 2.4rem 0;
+    font-size: 1.6rem;
+  }
+
+  @media (max-width: 749px) {
+    .raccoono-faq__header {
+      grid-template-columns: 1fr;
+    }
+
+    .raccoono-faq__item summary {
+      grid-template-columns: 1fr 3.8rem;
+      min-height: 6.4rem;
+    }
+
+    .raccoono-faq__answer {
+      padding-right: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .raccoono-faq__plus::before,
+    .raccoono-faq__plus::after {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  class RaccoonoFaq extends HTMLElement {
+    connectedCallback() {
+      if (this.dataset.singleOpen !== 'true') return;
+      this.handleToggle = (event) => {
+        const current = event.target;
+        if (!(current instanceof HTMLDetailsElement) || !current.open) return;
+        this.querySelectorAll('details[open]').forEach((item) => {
+          if (item !== current) item.open = false;
+        });
+      };
+      this.addEventListener('toggle', this.handleToggle, true);
+    }
+
+    disconnectedCallback() {
+      this.removeEventListener('toggle', this.handleToggle, true);
+    }
+  }
+
+  if (!customElements.get('raccoono-faq')) {
+    customElements.define('raccoono-faq', RaccoonoFaq);
+  }
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Raccoono — FAQ",
+  "tag": "section",
+  "class": "raccoono-section",
+  "max_blocks": 12,
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Sur-titre",
+      "default": "Question légitime"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Titre",
+      "default": "Les réponses avant le grand saut."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Introduction",
+      "default": "<p>Remplacez les réponses temporaires par vos politiques réelles de livraison, retour, taille et entretien.</p>"
+    },
+    {
+      "type": "checkbox",
+      "id": "single_open",
+      "label": "N’ouvrir qu’une question à la fois",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "structured_data",
+      "label": "Activer les données structurées FAQPage",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Arrière-plan",
+      "default": "#fffaf0"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Texte",
+      "default": "#071a39"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent",
+      "default": "#23d5e9"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "Question à personnaliser ?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Réponse",
+          "default": "<p>Réponse temporaire à remplacer par une information exacte.</p>"
+        },
+        {
+          "type": "checkbox",
+          "id": "open",
+          "label": "Ouverte au chargement",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Raccoono — FAQ",
+      "blocks": [
+        { "type": "question", "settings": { "question": "Quels sont les délais de livraison ?" } },
+        { "type": "question", "settings": { "question": "Comment choisir ma taille ?" } },
+        { "type": "question", "settings": { "question": "Comment effectuer un retour ?" } },
+        { "type": "question", "settings": { "question": "Comment entretenir mon couvre-chef ?" } },
+        { "type": "question", "settings": { "question": "Quels moyens de paiement acceptez-vous ?" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

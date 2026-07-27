@@ -1,0 +1,47 @@
+{% doc %}
+Renders a product card with image, price and optional quick add.
+@param {product} product - Product object.
+@param {boolean} [show_quick_add] - Whether to show quick add.
+@param {string} [image_ratio] - Image ratio.
+{% enddoc %}
+{% liquid
+  assign primary_alt = product.featured_image.alt | default: product.title
+  assign secondary_alt = product.images[1].alt | default: product.title
+%}
+<article class="product-card">
+  <a class="product-card__media media" href="{{ product.url }}" style="--ratio: {{ image_ratio | default: '1' }}">
+    {% if product.featured_image != blank %}
+      {% render 'responsive-image', image: product.featured_image, class: 'product-card__image product-card__image--primary', sizes: '(min-width: 990px) 25vw, 50vw', loading: 'lazy', alt: primary_alt %}
+      {% if product.images[1] != blank %}
+        {% render 'responsive-image', image: product.images[1], class: 'product-card__image product-card__image--secondary', sizes: '(min-width: 990px) 25vw, 50vw', loading: 'lazy', alt: secondary_alt %}
+      {% endif %}
+    {% else %}
+      {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+    {% endif %}
+    <span class="product-card__badges">
+      {% unless product.available %}<span class="badge">{{ 'products.product.sold_out' | t }}</span>{% endunless %}
+      {% if product.compare_at_price_max > product.price %}<span class="badge badge--sale">{{ 'products.product.on_sale' | t }}</span>{% endif %}
+    </span>
+  </a>
+  <div class="product-card__info">
+    <div>
+      <h3><a href="{{ product.url }}">{{ product.title }}</a></h3>
+      {% render 'price', product: product %}
+    </div>
+    {% if show_quick_add %}
+      {% if product.has_only_default_variant and product.available %}
+        {% form 'product', product, data-quick-add: '' %}
+          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+          <input type="hidden" name="quantity" value="1">
+          <button class="icon-button product-card__quick-add" type="submit" aria-label="{{ 'products.product.add_to_cart' | t }}">
+            {% render 'icon', name: 'cart' %}
+          </button>
+        {% endform %}
+      {% else %}
+        <a class="icon-button product-card__quick-add" href="{{ product.url }}" aria-label="{{ 'products.product.choose_options' | t }}">
+          {% render 'icon', name: 'chevron' %}
+        </a>
+      {% endif %}
+    {% endif %}
+  </div>
+</article>

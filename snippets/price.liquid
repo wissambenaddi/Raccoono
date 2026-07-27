@@ -1,0 +1,20 @@
+{% doc %}
+Renders product or variant pricing.
+@param {product} product - Product to price.
+@param {variant} [variant] - Optional selected variant.
+{% enddoc %}
+{% liquid
+  assign target = product
+  if variant != blank
+    assign target = variant
+  endif
+  assign price = target.price
+  assign compare_at_price = target.compare_at_price
+%}
+<div class="price{% if compare_at_price > price %} price--sale{% endif %}">
+  <span class="price__current">{{ price | money }}</span>
+  {% if compare_at_price > price %}
+    <s class="price__compare">{{ compare_at_price | money }}</s>
+    <span class="sr-only">{{ 'products.product.on_sale' | t }}</span>
+  {% endif %}
+</div>

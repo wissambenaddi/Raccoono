@@ -1,0 +1,85 @@
+<section class="ugc section">
+  <div class="page-width">
+    <div class="section-heading">
+      <div>
+        {% if section.settings.eyebrow != blank %}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{% endif %}
+        <h2>{{ section.settings.heading }}</h2>
+      </div>
+    </div>
+    <div class="ugc__grid">
+      {% for block in section.blocks %}
+        {% assign media_alt = block.settings.image.alt | default: block.settings.caption %}
+        <figure class="ugc-card" {{ block.shopify_attributes }}>
+          <button type="button" class="ugc-card__media media" aria-label="{{ 'sections.ugc.open' | t: title: block.settings.caption | escape }}" data-ugc-open="UgcDialog-{{ block.id }}">
+            {% render 'responsive-image', image: block.settings.image, sizes: '(min-width: 750px) 25vw, 50vw', loading: 'lazy', alt: media_alt, placeholder: 'lifestyle-1' %}
+          </button>
+          <figcaption>
+            <strong>{{ block.settings.creator }}</strong>
+            <span>{{ block.settings.caption }}</span>
+            {% if block.settings.product != blank %}<a href="{{ block.settings.product.url }}">{{ block.settings.product.title }}</a>{% endif %}
+          </figcaption>
+          <dialog id="UgcDialog-{{ block.id }}" class="ugc-dialog">
+            <button class="icon-button" type="button" data-ugc-close aria-label="{{ 'accessibility.close' | t }}">{% render 'icon', name: 'close' %}</button>
+            {% render 'responsive-image', image: block.settings.image, sizes: '90vw', loading: 'lazy', alt: media_alt, placeholder: 'lifestyle-1' %}
+            <p>{{ block.settings.caption }}</p>
+          </dialog>
+        </figure>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% javascript %}
+  document.addEventListener('click', (event) => {
+    const opener = event.target.closest('[data-ugc-open]');
+    const closer = event.target.closest('[data-ugc-close]');
+    if (opener) document.getElementById(opener.dataset.ugcOpen)?.showModal();
+    if (closer) closer.closest('dialog')?.close();
+  });
+{% endjavascript %}
+
+{% stylesheet %}
+  .ugc__grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+  .ugc-card{margin:0}
+  .ugc-card__media{width:100%;padding:0;border:0;aspect-ratio:1;background:var(--color-surface);cursor:zoom-in}
+  .ugc-card figcaption{display:grid;gap:.2rem;padding:.75rem 0;font-size:.88rem}
+  .ugc-dialog{width:min(92vw,760px);max-height:90vh;padding:1rem;border:0;border-radius:var(--radius);background:var(--color-bg)}
+  .ugc-dialog::backdrop{background:rgba(7,27,51,.7)}
+  .ugc-dialog .icon-button{margin-left:auto}
+  .ugc-dialog img{max-height:70vh;margin:auto;object-fit:contain}
+  @media(min-width:750px){.ugc__grid{grid-template-columns:repeat(4,1fr)}}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Community gallery",
+  "max_blocks": 8,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Seen in the wild" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "From the community" }
+  ],
+  "blocks": [
+    {
+      "type": "media",
+      "name": "Media",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "creator", "label": "Creator", "default": "Temporary creator" },
+        { "type": "text", "id": "caption", "label": "Caption", "default": "Temporary caption — replace before publishing" },
+        { "type": "product", "id": "product", "label": "Product" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Community gallery",
+      "blocks": [
+        { "type": "media" },
+        { "type": "media" },
+        { "type": "media" },
+        { "type": "media" }
+      ]
+    }
+  ]
+}
+{% endschema %}

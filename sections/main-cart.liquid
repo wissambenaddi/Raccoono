@@ -1,0 +1,53 @@
+<section class="main-cart section">
+  <div class="page-width">
+    <h1>{{ 'sections.cart.title' | t }}</h1>
+    {% if cart.item_count == 0 %}
+      <div class="empty-state">
+        <p>{{ 'sections.cart.empty' | t }}</p>
+        <a class="button" href="{{ routes.all_products_collection_url }}">{{ 'general.continue_shopping' | t }}</a>
+      </div>
+    {% else %}
+      {% form 'cart', cart, id: 'cart' %}
+        <div class="main-cart__items">
+          {% for item in cart.items %}
+            <article class="main-cart__item">
+              <a class="media" href="{{ item.url }}">{% if item.image %}{{ item.image | image_url: width: 240 | image_tag: width: 120, height: 120, loading: 'lazy', alt: item.product.title }}{% endif %}</a>
+              <div>
+                <h2><a href="{{ item.url }}">{{ item.product.title }}</a></h2>
+                {% unless item.product.has_only_default_variant %}<p>{{ item.variant.title }}</p>{% endunless %}
+                <p>{{ item.final_price | money }}</p>
+                <label for="CartQuantity-{{ forloop.index }}">{{ 'products.product.quantity' | t }}</label>
+                <input id="CartQuantity-{{ forloop.index }}" type="number" name="updates[]" value="{{ item.quantity }}" min="0">
+                <a href="{{ item.url_to_remove }}">{{ 'sections.cart.remove' | t }}</a>
+              </div>
+              <strong>{{ item.final_line_price | money }}</strong>
+            </article>
+          {% endfor %}
+        </div>
+        <div class="main-cart__footer">
+          <label for="CartNote">{{ 'sections.cart.note' | t }}</label>
+          <textarea id="CartNote" name="note">{{ cart.note }}</textarea>
+          <p><strong>{{ 'sections.cart.subtotal' | t }}: {{ cart.total_price | money }}</strong></p>
+          <button class="button button--secondary" type="submit" name="update">{{ 'sections.cart.update' | t }}</button>
+          <button class="button" type="submit" name="checkout">{{ 'sections.cart.checkout' | t }}</button>
+        </div>
+      {% endform %}
+    {% endif %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .main-cart h1{margin-bottom:2rem}
+  .main-cart__item{display:grid;grid-template-columns:100px 1fr;gap:1rem;padding:1.25rem 0;border-bottom:1px solid var(--color-border)}
+  .main-cart__item>.media{width:100px;height:100px}
+  .main-cart__item h2{font-size:1rem}
+  .main-cart__item input{width:72px;height:42px;margin:.5rem;padding:.25rem;border:1px solid var(--color-border)}
+  .main-cart__item>strong{grid-column:2}
+  .main-cart__footer{display:grid;max-width:480px;gap:.75rem;margin:2rem 0 0 auto}
+  .main-cart__footer textarea{min-height:100px;padding:1rem;border:1px solid var(--color-border);border-radius:var(--radius)}
+  @media(min-width:750px){.main-cart__item{grid-template-columns:120px 1fr auto}.main-cart__item>.media{width:120px;height:120px}.main-cart__item>strong{grid-column:auto}}
+{% endstylesheet %}
+
+{% schema %}
+{ "name": "Main cart", "settings": [] }
+{% endschema %}

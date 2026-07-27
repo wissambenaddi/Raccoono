@@ -1,0 +1,15 @@
+<section class="main-page section">
+  <div class="page-width main-page__inner">
+    <h1>{{ page.title }}</h1>
+    <div class="rte">{{ page.content }}</div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .main-page__inner{max-width:900px}
+  .main-page__inner h1{margin-bottom:2rem}
+{% endstylesheet %}
+
+{% schema %}
+{ "name": "Main page", "settings": [] }
+{% endschema %}

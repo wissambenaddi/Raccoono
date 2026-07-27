@@ -1,0 +1,84 @@
+<section class="faq section">
+  <div class="page-width faq__grid">
+    <div class="faq__header">
+      {% if section.settings.eyebrow != blank %}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{% endif %}
+      <h2>{{ section.settings.heading }}</h2>
+      {% if section.settings.text != blank %}<div class="rte muted">{{ section.settings.text }}</div>{% endif %}
+    </div>
+    <div class="faq__items" {% if section.settings.single_open %}data-single-open{% endif %}>
+      {% for block in section.blocks %}
+        <details {{ block.shopify_attributes }}>
+          <summary>{{ block.settings.question }}<span>+</span></summary>
+          <div class="rte">{{ block.settings.answer }}</div>
+        </details>
+      {% endfor %}
+    </div>
+  </div>
+  {% if section.settings.structured_data and section.blocks.size > 0 %}
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {% for block in section.blocks %}
+            {
+              "@type": "Question",
+              "name": {{ block.settings.question | strip_html | json }},
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": {{ block.settings.answer | strip_html | json }}
+              }
+            }{% unless forloop.last %},{% endunless %}
+          {% endfor %}
+        ]
+      }
+    </script>
+  {% endif %}
+</section>
+
+{% stylesheet %}
+  .faq__grid{display:grid;gap:2rem}
+  .faq__header{max-width:520px}
+  .faq__items details{border-bottom:1px solid var(--color-border)}
+  .faq__items summary{display:flex;min-height:64px;align-items:center;justify-content:space-between;gap:1rem;font-weight:750;cursor:pointer;list-style:none}
+  .faq__items summary::-webkit-details-marker{display:none}
+  .faq__items summary span{font-size:1.5rem;transition:transform .2s ease}
+  .faq__items details[open] summary span{transform:rotate(45deg)}
+  .faq__items details>div{padding:0 2rem 1.5rem 0}
+  @media(min-width:750px){.faq__grid{grid-template-columns:.8fr 1.2fr;gap:clamp(3rem,8vw,8rem)}}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "FAQ",
+  "max_blocks": 16,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Useful answers" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Frequently asked questions" },
+    { "type": "richtext", "id": "text", "label": "Introduction", "default": "<p>Replace all temporary answers with your actual policies before publishing.</p>" },
+    { "type": "checkbox", "id": "single_open", "label": "Open one item at a time", "default": true },
+    { "type": "checkbox", "id": "structured_data", "label": "Add FAQ structured data", "default": false }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "Temporary question?" },
+        { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>Temporary answer. Replace it with accurate information.</p>" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ",
+      "blocks": [
+        { "type": "question", "settings": { "question": "When will my order be dispatched?" } },
+        { "type": "question", "settings": { "question": "What is your returns policy?" } },
+        { "type": "question", "settings": { "question": "How should I care for the product?" } },
+        { "type": "question", "settings": { "question": "Where can I find sizing details?" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

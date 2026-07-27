@@ -1,0 +1,73 @@
+<section class="comparison section">
+  <div class="page-width">
+    <div class="comparison__header">
+      {% if section.settings.eyebrow != blank %}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{% endif %}
+      <h2>{{ section.settings.heading }}</h2>
+      {% if section.settings.text != blank %}<p>{{ section.settings.text }}</p>{% endif %}
+    </div>
+    <div class="comparison-table" role="table" aria-label="{{ section.settings.heading | escape }}">
+      <div class="comparison-table__row comparison-table__head" role="row">
+        <div role="columnheader">{{ 'sections.comparison.feature' | t }}</div>
+        <div role="columnheader">{{ section.settings.brand_label }}</div>
+        {% if section.settings.show_other %}<div role="columnheader">{{ section.settings.other_label }}</div>{% endif %}
+      </div>
+      {% for block in section.blocks %}
+        <div class="comparison-table__row" role="row" {{ block.shopify_attributes }}>
+          <div role="rowheader">{{ block.settings.feature }}</div>
+          <div role="cell">{% if block.settings.brand_value %}{% render 'icon', name: 'check' %}<span class="sr-only">{{ 'general.yes' | t }}</span>{% else %}—<span class="sr-only">{{ 'general.no' | t }}</span>{% endif %}</div>
+          {% if section.settings.show_other %}<div role="cell">{% if block.settings.other_value %}{% render 'icon', name: 'check' %}<span class="sr-only">{{ 'general.yes' | t }}</span>{% else %}—<span class="sr-only">{{ 'general.no' | t }}</span>{% endif %}</div>{% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .comparison__header{max-width:760px;margin:0 auto 2.5rem;text-align:center}
+  .comparison-table{overflow:hidden;border:1px solid var(--color-border);border-radius:var(--radius)}
+  .comparison-table__row{display:grid;grid-template-columns:minmax(0,1.5fr) repeat(2,minmax(80px,1fr));min-height:58px}
+  .comparison-table__row>div{display:flex;align-items:center;padding:.75rem 1rem;border-bottom:1px solid var(--color-border)}
+  .comparison-table__row>div:not(:first-child){justify-content:center;border-left:1px solid var(--color-border)}
+  .comparison-table__row>div:nth-child(2){background:var(--color-text);color:#fff}
+  .comparison-table__head{font-weight:800}
+  .comparison-table__row:last-child>div{border-bottom:0}
+  .comparison-table svg{width:22px;color:var(--color-accent-secondary)}
+  @media(max-width:749px){.comparison-table__row{grid-template-columns:minmax(0,1.3fr) repeat(2,minmax(64px,.7fr));font-size:.82rem}.comparison-table__row>div{padding:.65rem .5rem}}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Comparison table",
+  "max_blocks": 10,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The details" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "A clearer way to compare" },
+    { "type": "text", "id": "text", "label": "Introduction", "default": "Temporary comparison. Only publish claims you can support." },
+    { "type": "text", "id": "brand_label", "label": "Brand column", "default": "Your brand" },
+    { "type": "checkbox", "id": "show_other", "label": "Show comparison column", "default": true },
+    { "type": "text", "id": "other_label", "label": "Comparison column", "default": "Generic option" }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Feature",
+      "settings": [
+        { "type": "text", "id": "feature", "label": "Feature", "default": "Original design" },
+        { "type": "checkbox", "id": "brand_value", "label": "Brand has feature", "default": true },
+        { "type": "checkbox", "id": "other_value", "label": "Comparison has feature", "default": false }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Comparison table",
+      "blocks": [
+        { "type": "row", "settings": { "feature": "Original design" } },
+        { "type": "row", "settings": { "feature": "Clear material details" } },
+        { "type": "row", "settings": { "feature": "Thoughtful packaging" } },
+        { "type": "row", "settings": { "feature": "Human customer service" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

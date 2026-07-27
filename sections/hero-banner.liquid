@@ -1,0 +1,95 @@
+{% liquid
+  assign desktop_image = section.settings.image
+  assign mobile_image = section.settings.mobile_image | default: desktop_image
+  assign loading = 'lazy'
+  assign fetchpriority = 'auto'
+  if section.index == 1
+    assign loading = 'eager'
+    assign fetchpriority = 'high'
+  endif
+%}
+<section class="hero hero--{{ section.settings.height }} hero--{{ section.settings.content_position }}" style="--hero-overlay:{{ section.settings.overlay_color }};--hero-opacity:{{ section.settings.overlay_opacity | divided_by: 100.0 }};--hero-color:{{ section.settings.text_color }}">
+  <picture class="hero__media">
+    {% if mobile_image != blank %}
+      <source media="(max-width: 749px)" srcset="{{ mobile_image | image_url: width: 430 }} 430w, {{ mobile_image | image_url: width: 750 }} 750w">
+    {% endif %}
+    {% render 'responsive-image', image: desktop_image, class: 'hero__image', sizes: '100vw', loading: loading, fetchpriority: fetchpriority, alt: desktop_image.alt, placeholder: 'lifestyle-1' %}
+  </picture>
+  <div class="hero__overlay"></div>
+  <div class="hero__content page-width">
+    <div class="hero__copy">
+      {% if section.settings.eyebrow != blank %}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{% endif %}
+      <h1>{{ section.settings.heading }}</h1>
+      {% if section.settings.text != blank %}<div class="hero__text">{{ section.settings.text }}</div>{% endif %}
+      <div class="hero__actions">
+        {% if section.settings.button_label != blank %}<a class="button button--accent" href="{{ section.settings.button_link }}">{{ section.settings.button_label }}</a>{% endif %}
+        {% if section.settings.show_secondary and section.settings.secondary_label != blank %}<a class="button button--secondary" href="{{ section.settings.secondary_link }}">{{ section.settings.secondary_label }}</a>{% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .hero{position:relative;display:grid;min-height:520px;overflow:hidden;color:var(--hero-color);isolation:isolate}
+  .hero--small{min-height:440px}.hero--medium{min-height:620px}.hero--large{min-height:760px}.hero--screen{min-height:calc(100svh - 100px)}
+  .hero__media,.hero__overlay,.hero__content{grid-area:1/1}
+  .hero__media{position:absolute;inset:0;z-index:-2}
+  .hero__image{width:100%;height:100%;object-fit:cover}
+  .hero__overlay{z-index:-1;background:var(--hero-overlay);opacity:var(--hero-opacity)}
+  .hero__content{display:flex;align-items:center;padding-block:clamp(4rem,10vw,9rem)}
+  .hero--center .hero__content{justify-content:center;text-align:center}.hero--right .hero__content{justify-content:flex-end;text-align:right}
+  .hero__copy{max-width:780px}
+  .hero__copy h1{text-wrap:balance}
+  .hero__text{max-width:62ch;font-size:clamp(1rem,2vw,1.2rem)}
+  .hero--center .hero__text{margin-inline:auto}
+  .hero--right .hero__text{margin-left:auto}
+  .hero__actions{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.5rem}
+  .hero--center .hero__actions{justify-content:center}.hero--right .hero__actions{justify-content:flex-end}
+  .hero .button--secondary{border-color:currentColor;color:inherit}
+  @media(max-width:749px){.hero{min-height:560px}.hero__content{align-items:flex-end}.hero__copy{max-width:100%}}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Immersive hero",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Desktop image" },
+    { "type": "image_picker", "id": "mobile_image", "label": "Mobile image" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Temporary brand line" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Objects with a little more personality" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Original temporary copy. Replace it with your brand promise and product story.</p>" },
+    { "type": "text", "id": "button_label", "label": "Primary button", "default": "Explore the collection" },
+    { "type": "url", "id": "button_link", "label": "Primary link" },
+    { "type": "checkbox", "id": "show_secondary", "label": "Show second button", "default": true },
+    { "type": "text", "id": "secondary_label", "label": "Secondary button", "default": "Our story" },
+    { "type": "url", "id": "secondary_link", "label": "Secondary link" },
+    {
+      "type": "select",
+      "id": "height",
+      "label": "Height",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" },
+        { "value": "screen", "label": "Full screen" }
+      ],
+      "default": "large"
+    },
+    {
+      "type": "select",
+      "id": "content_position",
+      "label": "Content alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#FFFFFF" },
+    { "type": "color", "id": "overlay_color", "label": "Overlay", "default": "#071B33" },
+    { "type": "range", "id": "overlay_opacity", "min": 0, "max": 80, "step": 5, "unit": "%", "label": "Overlay opacity", "default": 35 }
+  ],
+  "presets": [{ "name": "Immersive hero" }]
+}
+{% endschema %}

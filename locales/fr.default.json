@@ -1,0 +1,103 @@
+{
+  "accessibility": {
+    "close": "Fermer",
+    "skip_to_content": "Aller au contenu"
+  },
+  "collections": {
+    "general": {
+      "collection": "Collection",
+      "no_matches": "Aucun produit ne correspond à votre recherche."
+    },
+    "sorting": {
+      "title": "Trier par"
+    }
+  },
+  "customer": {
+    "account": {
+      "title": "Compte"
+    }
+  },
+  "general": {
+    "404": {
+      "link": "Retour à l’accueil",
+      "subtext": "Cette page s’est éclipsée.",
+      "title": "Page introuvable"
+    },
+    "continue_shopping": "Continuer mes achats",
+    "no": "Non",
+    "pagination": {
+      "label": "Pagination",
+      "page": "Page {{ number }}"
+    },
+    "search": {
+      "no_results": "Aucun résultat. Essayez une autre recherche.",
+      "placeholder": "Rechercher",
+      "results_with_count": "{{ count }} résultat(s) pour « {{ terms }} »",
+      "search": "Rechercher",
+      "submit": "Rechercher",
+      "title": "Recherche"
+    },
+    "yes": "Oui"
+  },
+  "newsletter": {
+    "label": "Adresse e-mail",
+    "placeholder": "votre@email.fr",
+    "submit": "S’inscrire",
+    "success": "Merci, votre inscription est confirmée."
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Ajouter au panier",
+      "added": "Produit ajouté au panier.",
+      "choose_options": "Choisir les options",
+      "error": "Impossible d’ajouter ce produit.",
+      "on_sale": "Promotion",
+      "quantity": "Quantité",
+      "sold_out": "Épuisé"
+    }
+  },
+  "sections": {
+    "cart": {
+      "checkout": "Passer au paiement",
+      "decrease": "Réduire la quantité",
+      "empty": "Votre panier est vide.",
+      "error": "Impossible de mettre à jour le panier.",
+      "increase": "Augmenter la quantité",
+      "note": "Note de commande",
+      "open": "Ouvrir le panier",
+      "remove": "Supprimer",
+      "shipping_remaining": "Encore [amount] avant la livraison offerte.",
+      "shipping_unlocked": "La livraison offerte est débloquée.",
+      "subtotal": "Sous-total",
+      "taxes": "Taxes et livraison calculées au paiement.",
+      "title": "Votre panier",
+      "update": "Mettre à jour",
+      "updated": "Panier mis à jour.",
+      "view_cart": "Voir le panier"
+    },
+    "comparison": {
+      "feature": "Caractéristique"
+    },
+    "featured_collection": {
+      "empty": "Cette collection ne contient aucun produit.",
+      "placeholder_title": "Produit temporaire"
+    },
+    "header": {
+      "menu": "Menu",
+      "mobile_navigation": "Navigation mobile",
+      "open_menu": "Ouvrir le menu",
+      "primary_navigation": "Navigation principale"
+    },
+    "personality": {
+      "profile": "Profil {{ number }}"
+    },
+    "testimonials": {
+      "rating": "Note : {{ rating }} sur 5",
+      "temporary": "Contenu temporaire — à remplacer avant publication.",
+      "verified": "Acheteur vérifié"
+    },
+    "ugc": {
+      "open": "Agrandir : {{ title }}"
+    }
+  }
+}

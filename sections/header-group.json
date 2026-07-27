@@ -1,0 +1,51 @@
+{
+  "type": "header",
+  "name": "Header group",
+  "sections": {
+    "announcement": {
+      "type": "announcement-bar",
+      "blocks": {
+        "delivery": {
+          "type": "message",
+          "settings": {
+            "text": "Delivery information — replace in the editor",
+            "icon": "truck"
+          }
+        },
+        "personality": {
+          "type": "message",
+          "settings": {
+            "text": "Designed with personality — replace in the editor",
+            "icon": "heart"
+          }
+        },
+        "packaging": {
+          "type": "message",
+          "settings": {
+            "text": "Packaging details — replace in the editor",
+            "icon": "package"
+          }
+        }
+      },
+      "block_order": ["delivery", "personality", "packaging"],
+      "settings": {
+        "marquee": true,
+        "pause_hover": true,
+        "speed": 28,
+        "background": "#13221D",
+        "text_color": "#FFFFFF"
+      }
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "menu": "main-menu",
+        "sticky": true,
+        "transparent": false,
+        "show_search": true,
+        "show_account": true
+      }
+    }
+  },
+  "order": ["announcement", "header"]
+}

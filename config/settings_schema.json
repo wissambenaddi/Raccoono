@@ -1,0 +1,64 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Raccoono",
+    "theme_version": "1.0.0",
+    "theme_author": "Raccoono",
+    "theme_documentation_url": "https://github.com/wissambenaddi/Raccoono",
+    "theme_support_url": "https://github.com/wissambenaddi/Raccoono/issues"
+  },
+  {
+    "name": "Brand",
+    "settings": [
+      { "type": "image_picker", "id": "logo", "label": "Logo" },
+      { "type": "image_picker", "id": "logo_alt", "label": "Alternative logo" },
+      { "type": "image_picker", "id": "favicon", "label": "Favicon" },
+      { "type": "range", "id": "logo_width", "min": 60, "max": 260, "step": 10, "unit": "px", "label": "Logo width", "default": 140 }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      { "type": "font_picker", "id": "type_heading", "label": "Heading font", "default": "assistant_n7" },
+      { "type": "font_picker", "id": "type_body", "label": "Body font", "default": "assistant_n4" }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      { "type": "color", "id": "color_background", "label": "Background", "default": "#FFFDF7" },
+      { "type": "color", "id": "color_surface", "label": "Surface", "default": "#F1F6F4" },
+      { "type": "color", "id": "color_text", "label": "Text", "default": "#13221D" },
+      { "type": "color", "id": "color_muted", "label": "Muted text", "default": "#5F6F68" },
+      { "type": "color", "id": "color_accent", "label": "Primary accent", "default": "#FF6B4A" },
+      { "type": "color", "id": "color_accent_secondary", "label": "Secondary accent", "default": "#4ED7C8" },
+      { "type": "color", "id": "color_button", "label": "Button", "default": "#13221D" },
+      { "type": "color", "id": "color_button_text", "label": "Button text", "default": "#FFFFFF" },
+      { "type": "color", "id": "color_border", "label": "Borders", "default": "#D8E1DD" },
+      { "type": "color", "id": "color_footer", "label": "Footer", "default": "#071B33" }
+    ]
+  },
+  {
+    "name": "Layout",
+    "settings": [
+      { "type": "range", "id": "page_width", "min": 1000, "max": 1600, "step": 50, "unit": "px", "label": "Page width", "default": 1300 },
+      { "type": "range", "id": "radius", "min": 0, "max": 32, "step": 2, "unit": "px", "label": "Corner radius", "default": 14 }
+    ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      { "type": "checkbox", "id": "open_cart_drawer", "label": "Open cart drawer after add", "default": true },
+      { "type": "range", "id": "free_shipping_threshold", "min": 0, "max": 30000, "step": 500, "unit": "¢", "label": "Free shipping threshold", "default": 8000 }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      { "type": "url", "id": "social_instagram", "label": "Instagram" },
+      { "type": "url", "id": "social_tiktok", "label": "TikTok" },
+      { "type": "url", "id": "social_facebook", "label": "Facebook" },
+      { "type": "url", "id": "social_pinterest", "label": "Pinterest" }
+    ]
+  }
+]

@@ -1,0 +1,88 @@
+<script src="{{ 'personality-slider.js' | asset_url }}" defer></script>
+<section class="personality section">
+  <div class="page-width">
+    <div class="personality__header">
+      {% if section.settings.eyebrow != blank %}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{% endif %}
+      <h2>{{ section.settings.heading }}</h2>
+      <p>{{ section.settings.instruction }}</p>
+    </div>
+    {% if section.blocks.size > 0 %}
+      {% liquid
+        assign max_profile_index = section.blocks.size | minus: 1
+        assign initial_profile = section.settings.initial | at_most: max_profile_index
+      %}
+      <personality-slider class="personality__component">
+        <label class="sr-only" for="PersonalityRange-{{ section.id }}">{{ section.settings.heading }}</label>
+        <input id="PersonalityRange-{{ section.id }}" type="range" min="0" max="{{ max_profile_index }}" step="1" value="{{ initial_profile }}" aria-controls="PersonalityProfiles-{{ section.id }}">
+        <div id="PersonalityProfiles-{{ section.id }}" class="personality__profiles">
+          {% for block in section.blocks %}
+            <article class="personality__profile" data-profile data-title="{{ block.settings.heading | escape }}" {% unless forloop.index0 == initial_profile %}hidden aria-hidden="true"{% endunless %} {{ block.shopify_attributes }}>
+              <div class="personality__illustration media">
+                {% render 'responsive-image', image: block.settings.image, sizes: '320px', loading: 'lazy', alt: block.settings.image.alt, placeholder: 'collection-1' %}
+              </div>
+              <div>
+                <p class="eyebrow">{{ 'sections.personality.profile' | t: number: forloop.index }}</p>
+                <h3>{{ block.settings.heading }}</h3>
+                <p>{{ block.settings.text }}</p>
+                {% if block.settings.link_label != blank %}<a href="{{ block.settings.link }}">{{ block.settings.link_label }}</a>{% endif %}
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+        <noscript>
+          <div class="personality__fallback">
+            {% for block in section.blocks %}<h3>{{ block.settings.heading }}</h3><p>{{ block.settings.text }}</p>{% endfor %}
+          </div>
+        </noscript>
+      </personality-slider>
+    {% endif %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .personality__header{max-width:760px;margin:0 auto 2rem;text-align:center}
+  .personality__component{display:block;max-width:900px;margin:auto}
+  .personality input[type=range]{width:100%;height:44px;accent-color:var(--color-accent)}
+  .personality__profiles{margin-top:2rem}
+  .personality__profile{display:grid;gap:2rem;align-items:center;padding:clamp(1rem,4vw,3rem);border-radius:calc(var(--radius) * 1.5);background:var(--color-surface)}
+  .personality__illustration{aspect-ratio:1}
+  .personality__fallback{display:grid;gap:1rem}
+  @media(min-width:750px){.personality__profile{grid-template-columns:280px 1fr}}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Personality slider",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Find your energy" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "How much mischief today?" },
+    { "type": "text", "id": "instruction", "label": "Instruction", "default": "Move the slider to reveal a temporary personality profile." },
+    { "type": "range", "id": "initial", "min": 0, "max": 5, "step": 1, "label": "Initial profile", "default": 0 }
+  ],
+  "blocks": [
+    {
+      "type": "profile",
+      "name": "Profile",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Illustration" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Quietly curious" },
+        { "type": "textarea", "id": "text", "label": "Description", "default": "Temporary profile copy. Replace it with your own playful description." },
+        { "type": "text", "id": "link_label", "label": "Link label", "default": "See the edit" },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Personality slider",
+      "blocks": [
+        { "type": "profile", "settings": { "heading": "Quietly curious" } },
+        { "type": "profile", "settings": { "heading": "Brightly offbeat" } },
+        { "type": "profile", "settings": { "heading": "Delightfully chaotic" } },
+        { "type": "profile", "settings": { "heading": "Full-volume original" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

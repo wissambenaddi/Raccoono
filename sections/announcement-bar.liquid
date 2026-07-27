@@ -1,0 +1,82 @@
+{% if section.blocks.size > 0 %}
+  <div class="announcement" style="--announcement-bg:{{ section.settings.background }};--announcement-text:{{ section.settings.text_color }};--announcement-speed:{{ section.settings.speed }}s">
+    <div class="announcement__track" {% if section.settings.pause_hover %}data-pause-hover{% endif %}>
+      {% for block in section.blocks %}
+        <div class="announcement__item" {{ block.shopify_attributes }}>
+          {% if block.settings.link != blank %}<a href="{{ block.settings.link }}">{% endif %}
+          {% if block.settings.icon != 'none' %}{% render 'icon', name: block.settings.icon %}{% endif %}
+          <span>{{ block.settings.text }}</span>
+          {% if block.settings.link != blank %}</a>{% endif %}
+        </div>
+      {% endfor %}
+      {% if section.settings.marquee %}
+        {% for block in section.blocks %}
+          <div class="announcement__item" aria-hidden="true">
+            {% if block.settings.icon != 'none' %}{% render 'icon', name: block.settings.icon %}{% endif %}
+            <span>{{ block.settings.text }}</span>
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+{% endif %}
+
+{% stylesheet %}
+  .announcement{overflow:hidden;background:var(--announcement-bg);color:var(--announcement-text);font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+  .announcement__track{display:flex;width:max-content;min-width:100%;justify-content:space-around}
+  .announcement__item{display:flex;min-height:30px;align-items:center;gap:.45rem;padding:.35rem 3vw;white-space:nowrap}
+  .announcement__item a{display:flex;align-items:center;gap:.45rem;text-decoration:none}
+  .announcement__item svg{width:14px;height:14px}
+  .announcement__track:has(.announcement__item[aria-hidden]){animation:announcement-scroll var(--announcement-speed) linear infinite}
+  .announcement__track[data-pause-hover]:hover{animation-play-state:paused}
+  @keyframes announcement-scroll{to{transform:translateX(-50%)}}
+  @media(max-width:749px){.announcement__item{padding-inline:1.5rem}}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Announcement bar",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "checkbox", "id": "marquee", "label": "Continuous scroll", "default": true },
+    { "type": "checkbox", "id": "pause_hover", "label": "Pause on hover", "default": true },
+    { "type": "range", "id": "speed", "min": 12, "max": 60, "step": 4, "unit": "s", "label": "Scroll speed", "default": 28 },
+    { "type": "color", "id": "background", "label": "Background", "default": "#13221D" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#FFFFFF" }
+  ],
+  "blocks": [
+    {
+      "type": "message",
+      "name": "Message",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Temporary message — replace in the editor" },
+        { "type": "url", "id": "link", "label": "Link" },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "none", "label": "None" },
+            { "value": "truck", "label": "Delivery" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "package", "label": "Package" }
+          ],
+          "default": "truck"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement bar",
+      "blocks": [
+        { "type": "message", "settings": { "text": "Delivery details — replace this message", "icon": "truck" } },
+        { "type": "message", "settings": { "text": "A thoughtful detail — replace this message", "icon": "heart" } },
+        { "type": "message", "settings": { "text": "Packaging information — replace this message", "icon": "package" } }
+      ]
+    }
+  ],
+  "enabled_on": { "groups": ["header"] }
+}
+{% endschema %}

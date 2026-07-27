@@ -1,0 +1,38 @@
+<section class="brand-mission section" style="--mission-bg:{{ section.settings.background }};--mission-accent:{{ section.settings.accent }}">
+  <div class="page-width brand-mission__inner">
+    <div>
+      {% if section.settings.eyebrow != blank %}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{% endif %}
+      <h2>{{ section.settings.heading }}</h2>
+    </div>
+    <div class="brand-mission__copy">
+      <div class="rte">{{ section.settings.text }}</div>
+      {% if section.settings.highlight != blank %}<p class="brand-mission__highlight">{{ section.settings.highlight }}</p>{% endif %}
+      {% if section.settings.button_label != blank %}<a class="button" href="{{ section.settings.button_link }}">{{ section.settings.button_label }}</a>{% endif %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .brand-mission{background:var(--mission-bg)}
+  .brand-mission__inner{display:grid;gap:2rem}
+  .brand-mission__copy{max-width:720px}
+  .brand-mission__highlight{margin:2rem 0;padding:1.25rem 1.5rem;border-left:6px solid var(--mission-accent);background:#fff;font-family:var(--font-heading);font-size:clamp(1.2rem,2.5vw,2rem);line-height:1.2}
+  @media(min-width:750px){.brand-mission__inner{grid-template-columns:1fr 1.2fr;align-items:start}}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Brand mission",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Temporary mission" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "A point of view, not just a product" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>This temporary text is ready for your genuine mission, process and commitments. Keep every claim specific and verifiable.</p><p>Add a second paragraph to explain what makes the brand feel unmistakably yours.</p>" },
+    { "type": "text", "id": "highlight", "label": "Highlighted statement", "default": "Replace this with one clear, honest promise." },
+    { "type": "text", "id": "button_label", "label": "Button", "default": "Learn more" },
+    { "type": "url", "id": "button_link", "label": "Link" },
+    { "type": "color", "id": "background", "label": "Background", "default": "#F1F6F4" },
+    { "type": "color", "id": "accent", "label": "Accent", "default": "#FF6B4A" }
+  ],
+  "presets": [{ "name": "Brand mission" }]
+}
+{% endschema %}

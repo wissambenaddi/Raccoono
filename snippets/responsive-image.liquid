@@ -1,0 +1,25 @@
+{% doc %}
+Renders a responsive Shopify image or a placeholder.
+@param {image} image - Shopify image.
+@param {string} [class] - CSS class.
+@param {string} [sizes] - Responsive sizes value.
+@param {string} [loading] - Image loading mode.
+@param {string} [fetchpriority] - Fetch priority.
+@param {string} [alt] - Alternative text.
+@param {string} [placeholder] - Shopify placeholder name.
+{% enddoc %}
+{% if image != blank %}
+  {{
+    image
+    | image_url: width: 2400
+    | image_tag:
+      class: class,
+      widths: '320, 480, 640, 800, 1000, 1200, 1600, 2000, 2400',
+      sizes: sizes,
+      loading: loading,
+      fetchpriority: fetchpriority,
+      alt: alt
+  }}
+{% else %}
+  {{ placeholder | default: 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+{% endif %}

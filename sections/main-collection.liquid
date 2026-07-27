@@ -1,0 +1,60 @@
+<section class="main-collection section">
+  <div class="page-width">
+    <header class="collection-header">
+      <p class="eyebrow">{{ 'collections.general.collection' | t }}</p>
+      <h1>{{ collection.title }}</h1>
+      {% if collection.description != blank %}<div class="rte muted">{{ collection.description }}</div>{% endif %}
+    </header>
+    <form class="collection-sort" method="get">
+      <label for="SortBy">{{ 'collections.sorting.title' | t }}</label>
+      <select id="SortBy" name="sort_by" data-auto-submit>
+        {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
+        {% for option in collection.sort_options %}
+          <option value="{{ option.value }}" {% if option.value == sort_by %}selected{% endif %}>{{ option.name }}</option>
+        {% endfor %}
+      </select>
+    </form>
+    {% paginate collection.products by section.settings.products_per_page %}
+      <div class="product-grid collection-grid">
+        {% for product in collection.products %}
+          {% render 'product-card', product: product, show_quick_add: section.settings.quick_add, image_ratio: section.settings.image_ratio %}
+        {% else %}
+          <div class="empty-state"><p>{{ 'collections.general.no_matches' | t }}</p></div>
+        {% endfor %}
+      </div>
+      {% if paginate.pages > 1 %}<nav class="pagination" aria-label="{{ 'general.pagination.label' | t }}">{{ paginate | default_pagination }}</nav>{% endif %}
+    {% endpaginate %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .collection-header{max-width:800px;margin-bottom:2rem}
+  .collection-sort{display:flex;align-items:center;justify-content:flex-end;gap:.75rem;margin-bottom:1.5rem}
+  .collection-sort select{min-height:44px;padding:0 2.5rem 0 .75rem;border:1px solid var(--color-border);border-radius:999px;background:#fff}
+  .main-collection .product-grid{align-items:start}
+  .collection-grid{grid-template-columns:repeat(2,1fr)}
+  .pagination{margin-top:3rem;text-align:center}
+  .pagination .page,.pagination .next,.pagination .prev{display:inline-flex;min-width:44px;min-height:44px;align-items:center;justify-content:center}
+  @media(min-width:750px){.collection-grid{grid-template-columns:repeat(var(--collection-columns,4),1fr)}}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Main collection",
+  "settings": [
+    { "type": "range", "id": "products_per_page", "min": 8, "max": 48, "step": 4, "label": "Products per page", "default": 16 },
+    { "type": "checkbox", "id": "quick_add", "label": "Show quick add", "default": true },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Image ratio",
+      "options": [
+        { "value": "1", "label": "Square" },
+        { "value": "0.8", "label": "Portrait" },
+        { "value": "1.25", "label": "Landscape" }
+      ],
+      "default": "1"
+    }
+  ]
+}
+{% endschema %}

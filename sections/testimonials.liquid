@@ -1,0 +1,78 @@
+<section class="testimonials section" style="--testimonials-bg:{{ section.settings.background }}">
+  <div class="page-width">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+        <h2>{{ section.settings.heading }}</h2>
+      </div>
+      {% if section.settings.app_block != blank %}<div>{{ section.settings.app_block }}</div>{% endif %}
+    </div>
+    <div class="testimonial-list scroll-list">
+      {% for block in section.blocks %}
+        <article class="testimonial-card" {{ block.shopify_attributes }}>
+          {% if block.settings.image != blank %}<div class="testimonial-card__image">{{ block.settings.image | image_url: width: 400 | image_tag: widths: '160, 240, 400', loading: 'lazy', alt: block.settings.image.alt }}</div>{% endif %}
+          <div class="testimonial-card__rating" aria-label="{{ 'sections.testimonials.rating' | t: rating: block.settings.rating }}">
+            {% for i in (1..5) %}<span {% if i > block.settings.rating %}class="is-empty"{% endif %}>{% render 'icon', name: 'star' %}</span>{% endfor %}
+          </div>
+          <blockquote>{{ block.settings.text }}</blockquote>
+          <p><strong>{{ block.settings.name }}</strong>{% if block.settings.verified %} <span class="verified">{{ 'sections.testimonials.verified' | t }}</span>{% endif %}</p>
+          {% if block.settings.product != blank %}<a href="{{ block.settings.product.url }}">{{ block.settings.product.title }}</a>{% endif %}
+          <small>{{ 'sections.testimonials.temporary' | t }}</small>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .testimonials{background:var(--testimonials-bg)}
+  .testimonial-list{grid-auto-columns:min(86vw,340px);padding-bottom:1rem}
+  .testimonial-card{padding:1.5rem;border:1px solid var(--color-border);border-radius:var(--radius);background:#fff}
+  .testimonial-card__image{height:150px;margin:-1.5rem -1.5rem 1.25rem;overflow:hidden;border-radius:var(--radius) var(--radius) 0 0}
+  .testimonial-card__image img{width:100%;height:100%;object-fit:cover}
+  .testimonial-card__rating{display:flex;color:#0A8F78}
+  .testimonial-card__rating svg{width:17px;fill:currentColor}
+  .testimonial-card__rating .is-empty{opacity:.25}
+  .testimonial-card blockquote{margin:1rem 0;font-size:1.05rem}
+  .testimonial-card p{margin-bottom:.25rem}
+  .verified{color:#0A8F78;font-size:.75rem}
+  .testimonial-card small{display:block;margin-top:1rem;color:var(--color-muted)}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "max_blocks": 12,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Shared by the community" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Notes from future favourites" },
+    { "type": "liquid", "id": "app_block", "label": "Review app embed" },
+    { "type": "color", "id": "background", "label": "Background", "default": "#F1F6F4" }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "range", "id": "rating", "min": 1, "max": 5, "step": 1, "label": "Rating", "default": 5 },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Temporary example review. Replace this with a genuine customer contribution before publishing." },
+        { "type": "text", "id": "name", "label": "Name", "default": "Example customer" },
+        { "type": "checkbox", "id": "verified", "label": "Verified buyer", "default": false },
+        { "type": "product", "id": "product", "label": "Product" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials",
+      "blocks": [
+        { "type": "testimonial" },
+        { "type": "testimonial" },
+        { "type": "testimonial" },
+        { "type": "testimonial" }
+      ]
+    }
+  ]
+}
+{% endschema %}

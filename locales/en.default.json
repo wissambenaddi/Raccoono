@@ -1,0 +1,103 @@
+{
+  "accessibility": {
+    "close": "Close",
+    "skip_to_content": "Skip to content"
+  },
+  "collections": {
+    "general": {
+      "collection": "Collection",
+      "no_matches": "No products match your search."
+    },
+    "sorting": {
+      "title": "Sort by"
+    }
+  },
+  "customer": {
+    "account": {
+      "title": "Account"
+    }
+  },
+  "general": {
+    "404": {
+      "link": "Return home",
+      "subtext": "This page slipped away.",
+      "title": "Page not found"
+    },
+    "continue_shopping": "Continue shopping",
+    "no": "No",
+    "pagination": {
+      "label": "Pagination",
+      "page": "Page {{ number }}"
+    },
+    "search": {
+      "no_results": "No results. Try another search.",
+      "placeholder": "Search",
+      "results_with_count": "{{ count }} result(s) for “{{ terms }}”",
+      "search": "Search",
+      "submit": "Search",
+      "title": "Search"
+    },
+    "yes": "Yes"
+  },
+  "newsletter": {
+    "label": "Email address",
+    "placeholder": "you@example.com",
+    "submit": "Subscribe",
+    "success": "Thank you, your subscription is confirmed."
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Add to cart",
+      "added": "Product added to cart.",
+      "choose_options": "Choose options",
+      "error": "This product could not be added.",
+      "on_sale": "Sale",
+      "quantity": "Quantity",
+      "sold_out": "Sold out"
+    }
+  },
+  "sections": {
+    "cart": {
+      "checkout": "Checkout",
+      "decrease": "Decrease quantity",
+      "empty": "Your cart is empty.",
+      "error": "The cart could not be updated.",
+      "increase": "Increase quantity",
+      "note": "Order note",
+      "open": "Open cart",
+      "remove": "Remove",
+      "shipping_remaining": "[amount] away from free shipping.",
+      "shipping_unlocked": "Free shipping unlocked.",
+      "subtotal": "Subtotal",
+      "taxes": "Taxes and shipping calculated at checkout.",
+      "title": "Your cart",
+      "update": "Update",
+      "updated": "Cart updated.",
+      "view_cart": "View cart"
+    },
+    "comparison": {
+      "feature": "Feature"
+    },
+    "featured_collection": {
+      "empty": "This collection has no products.",
+      "placeholder_title": "Temporary product"
+    },
+    "header": {
+      "menu": "Menu",
+      "mobile_navigation": "Mobile navigation",
+      "open_menu": "Open menu",
+      "primary_navigation": "Primary navigation"
+    },
+    "personality": {
+      "profile": "Profile {{ number }}"
+    },
+    "testimonials": {
+      "rating": "Rating: {{ rating }} out of 5",
+      "temporary": "Temporary content — replace before publishing.",
+      "verified": "Verified buyer"
+    },
+    "ugc": {
+      "open": "Enlarge: {{ title }}"
+    }
+  }
+}

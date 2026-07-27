@@ -1,0 +1,77 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="{{ settings.color_accent }}">
+    <link rel="canonical" href="{{ canonical_url }}">
+    <title>
+      {{ page_title }}
+      {%- if current_tags %} &ndash; {{ current_tags | join: ', ' }}{% endif -%}
+      {%- if current_page != 1 %} &ndash; {{ 'general.pagination.page' | t: number: current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+    <meta property="og:site_name" content="{{ shop.name | escape }}">
+    <meta property="og:url" content="{{ canonical_url }}">
+    <meta property="og:title" content="{{ page_title | escape }}">
+    <meta property="og:type" content="{% if request.page_type == 'product' %}product{% else %}website{% endif %}">
+    {% if page_description %}<meta property="og:description" content="{{ page_description | escape }}">{% endif %}
+    {% if settings.favicon != blank %}
+      <link rel="icon" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {% endif %}
+    {% unless settings.type_body.system? %}
+      {{ settings.type_body | font_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: 'anonymous' }}
+    {% endunless %}
+    {% unless settings.type_heading.system? %}
+      {{ settings.type_heading | font_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: 'anonymous' }}
+    {% endunless %}
+    {{ 'base.css' | asset_url | stylesheet_tag: preload: true }}
+    <script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
+    <script src="{{ 'theme.js' | asset_url }}" defer></script>
+    <script src="{{ 'cart-drawer.js' | asset_url }}" defer></script>
+    <script src="{{ 'product-form.js' | asset_url }}" defer></script>
+    <style>
+      {{ settings.type_body | font_face: font_display: 'swap' }}
+      {{ settings.type_heading | font_face: font_display: 'swap' }}
+      :root {
+        --font-body: {{ settings.type_body.family }}, {{ settings.type_body.fallback_families }};
+        --font-heading: {{ settings.type_heading.family }}, {{ settings.type_heading.fallback_families }};
+        --color-bg: {{ settings.color_background }};
+        --color-surface: {{ settings.color_surface }};
+        --color-text: {{ settings.color_text }};
+        --color-muted: {{ settings.color_muted }};
+        --color-accent: {{ settings.color_accent }};
+        --color-accent-2: {{ settings.color_accent_secondary }};
+        --color-button: {{ settings.color_button }};
+        --color-button-text: {{ settings.color_button_text }};
+        --color-border: {{ settings.color_border }};
+        --color-footer: {{ settings.color_footer }};
+        --radius: {{ settings.radius }}px;
+        --page-width: {{ settings.page_width }}px;
+      }
+    </style>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": {{ shop.name | json }},
+        "url": {{ shop.url | append: request.path | json }}
+        {% if settings.logo != blank %},"logo": {{ settings.logo | image_url: width: 600 | prepend: 'https:' | json }}{% endif %}
+      }
+    </script>
+    {{ content_for_header }}
+  </head>
+  <body>
+    <a class="skip-link" href="#MainContent">{{ 'accessibility.skip_to_content' | t }}</a>
+    {% sections 'header-group' %}
+    <main id="MainContent" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+    {% sections 'footer-group' %}
+    {% section 'cart-drawer' %}
+    <div class="sr-only" aria-live="polite" aria-atomic="true" data-live-region></div>
+  </body>
+</html>

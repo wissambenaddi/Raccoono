@@ -1,0 +1,22 @@
+{% doc %}
+Renders a theme SVG icon.
+@param {string} name - Icon name.
+@param {string} [class] - Optional CSS class.
+{% enddoc %}
+<svg class="{{ class }}" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  {% case name %}
+    {% when 'menu' %}<path d="M4 7h16M4 12h16M4 17h16"/>
+    {% when 'close' %}<path d="m6 6 12 12M18 6 6 18"/>
+    {% when 'search' %}<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>
+    {% when 'account' %}<circle cx="12" cy="8" r="4"/><path d="M4 21c1.2-4.2 3.9-6 8-6s6.8 1.8 8 6"/>
+    {% when 'cart' %}<path d="M3 4h2l2 12h10l3-8H6"/><circle cx="9" cy="20" r="1"/><circle cx="17" cy="20" r="1"/>
+    {% when 'chevron' %}<path d="m9 6 6 6-6 6"/>
+    {% when 'check' %}<path d="m5 12 4 4L19 6"/>
+    {% when 'star' %}<path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9L12 3Z"/>
+    {% when 'truck' %}<path d="M3 6h11v10H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/>
+    {% when 'leaf' %}<path d="M20 4C11 4 5 8 5 15c0 3 2 5 5 5 7 0 10-7 10-16Z"/><path d="M4 21c3-6 7-9 12-12"/>
+    {% when 'heart' %}<path d="M20.8 5.8a5.5 5.5 0 0 0-7.8 0L12 6.9l-1.1-1.1a5.5 5.5 0 1 0-7.8 7.8L12 22l8.8-8.4a5.5 5.5 0 0 0 0-7.8Z"/>
+    {% when 'package' %}<path d="m4 7 8-4 8 4v10l-8 4-8-4V7Z"/><path d="m4 7 8 4 8-4M12 11v10"/>
+    {% else %}<circle cx="12" cy="12" r="9"/>
+  {% endcase %}
+</svg>

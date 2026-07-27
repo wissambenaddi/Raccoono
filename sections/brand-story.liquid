@@ -1,0 +1,50 @@
+<section class="brand-story section" style="--story-bg:{{ section.settings.background }}">
+  <div class="page-width brand-story__grid brand-story__grid--{{ section.settings.image_position }}">
+    <div class="brand-story__media media">
+      {% render 'responsive-image', image: section.settings.image, sizes: '(min-width: 750px) 50vw, 100vw', loading: 'lazy', alt: section.settings.image.alt, placeholder: 'lifestyle-2' %}
+    </div>
+    <div class="brand-story__content">
+      {% if section.settings.eyebrow != blank %}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{% endif %}
+      <h2>{{ section.settings.heading }}</h2>
+      <div class="rte">{{ section.settings.text }}</div>
+      {% if section.settings.quote != blank %}<blockquote>“{{ section.settings.quote }}”</blockquote>{% endif %}
+      {% if section.settings.button_label != blank %}<a class="button button--secondary" href="{{ section.settings.button_link }}">{{ section.settings.button_label }}</a>{% endif %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .brand-story{background:var(--story-bg)}
+  .brand-story__grid{display:grid;gap:2rem;align-items:center}
+  .brand-story__media{aspect-ratio:4/3}
+  .brand-story__content{padding:clamp(1rem,4vw,4rem)}
+  .brand-story blockquote{margin:2rem 0;padding-left:1.25rem;border-left:3px solid var(--color-accent);font-family:var(--font-heading);font-size:1.35rem}
+  @media(min-width:750px){.brand-story__grid{grid-template-columns:1fr 1fr}.brand-story__grid--right .brand-story__media{order:2}}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Brand story",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Behind the objects" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Made by people with ideas" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Temporary founder story. Replace it with the real origin of the brand, the people involved and the details that matter.</p>" },
+    { "type": "text", "id": "quote", "label": "Quote", "default": "Personality belongs in everyday things." },
+    { "type": "text", "id": "button_label", "label": "Button", "default": "Discover our story" },
+    { "type": "url", "id": "button_link", "label": "Link" },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    { "type": "color", "id": "background", "label": "Background", "default": "#FFFDF7" }
+  ],
+  "presets": [{ "name": "Brand story" }]
+}
+{% endschema %}

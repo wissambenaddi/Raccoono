@@ -1,0 +1,109 @@
+<footer class="site-footer" style="--footer-text:{{ section.settings.text_color }}">
+  <div class="page-width">
+    <div class="site-footer__grid">
+      <div class="site-footer__brand">
+        {% if settings.logo_alt != blank %}
+          {{ settings.logo_alt | image_url: width: 500 | image_tag: widths: '160, 240, 320, 500', loading: 'lazy', alt: shop.name }}
+        {% else %}
+          <h2>{{ shop.name }}</h2>
+        {% endif %}
+        <div class="rte">{{ section.settings.description }}</div>
+      </div>
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {% when 'menu' %}
+            <div {{ block.shopify_attributes }}>
+              <h3>{{ block.settings.heading }}</h3>
+              <ul>
+                {% for link in block.settings.menu.links %}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{% endfor %}
+              </ul>
+            </div>
+          {% when 'newsletter' %}
+            <div {{ block.shopify_attributes }}>
+              <h3>{{ block.settings.heading }}</h3>
+              {% form 'customer', class: 'footer-newsletter' %}
+                <input type="hidden" name="contact[tags]" value="newsletter">
+                <label class="sr-only" for="FooterEmail-{{ section.id }}">{{ 'newsletter.label' | t }}</label>
+                <input id="FooterEmail-{{ section.id }}" type="email" name="contact[email]" value="{{ form.email }}" placeholder="{{ 'newsletter.placeholder' | t }}" autocorrect="off" autocapitalize="off" autocomplete="email" required>
+                <button type="submit" aria-label="{{ 'newsletter.submit' | t }}">{% render 'icon', name: 'chevron' %}</button>
+                {% if form.posted_successfully? %}<p role="status">{{ 'newsletter.success' | t }}</p>{% endif %}
+                {% if form.errors %}<div role="alert">{{ form.errors | default_errors }}</div>{% endif %}
+              {% endform %}
+            </div>
+        {% endcase %}
+      {% endfor %}
+    </div>
+    <div class="site-footer__bottom">
+      <small>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}</small>
+      <div class="site-footer__socials">
+        {% if settings.social_instagram != blank %}<a href="{{ settings.social_instagram }}" rel="noopener" target="_blank">Instagram</a>{% endif %}
+        {% if settings.social_tiktok != blank %}<a href="{{ settings.social_tiktok }}" rel="noopener" target="_blank">TikTok</a>{% endif %}
+        {% if settings.social_facebook != blank %}<a href="{{ settings.social_facebook }}" rel="noopener" target="_blank">Facebook</a>{% endif %}
+      </div>
+      {% if section.settings.show_payment_icons %}<div class="site-footer__payments">{{ shop.enabled_payment_types | payment_type_svg_tag }}</div>{% endif %}
+    </div>
+  </div>
+</footer>
+
+{% stylesheet %}
+  .site-footer{padding:clamp(3.5rem,7vw,6rem) 0 1.5rem;background:var(--color-footer);color:var(--footer-text)}
+  .site-footer__grid{display:grid;gap:2.5rem}
+  .site-footer__brand{max-width:420px}
+  .site-footer__brand img{width:min(240px,100%);margin-bottom:1rem}
+  .site-footer h2,.site-footer h3{color:inherit}
+  .site-footer h3{font-size:1rem}
+  .site-footer ul{margin:0;padding:0;list-style:none}
+  .site-footer li{margin:.5rem 0}
+  .site-footer a{text-decoration:none}
+  .site-footer a:hover{text-decoration:underline}
+  .footer-newsletter{display:grid;grid-template-columns:1fr 48px;max-width:420px}
+  .footer-newsletter input{min-width:0;height:48px;padding:0 1rem;border:0;border-radius:999px 0 0 999px}
+  .footer-newsletter button{display:grid;border:0;border-radius:0 999px 999px 0;background:var(--color-accent-secondary);color:#071b33;place-items:center;cursor:pointer}
+  .footer-newsletter svg{width:20px}
+  .footer-newsletter p,.footer-newsletter div{grid-column:1/-1;margin-top:.5rem}
+  .site-footer__bottom{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.2)}
+  .site-footer__socials{display:flex;gap:1rem}
+  .site-footer__payments{display:flex;flex-wrap:wrap;gap:.35rem}
+  .site-footer__payments svg{width:38px}
+  @media(min-width:750px){.site-footer__grid{grid-template-columns:2fr repeat(3,1fr)}}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    { "type": "richtext", "id": "description", "label": "Description", "default": "<p>Temporary brand description. Replace it with your own story and contact promise.</p>" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#FFFFFF" },
+    { "type": "checkbox", "id": "show_payment_icons", "label": "Show payment icons", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "Menu",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Explore" },
+        { "type": "link_list", "id": "menu", "label": "Menu" }
+      ]
+    },
+    {
+      "type": "newsletter",
+      "name": "Newsletter",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Good things, occasionally" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Footer",
+      "blocks": [
+        { "type": "menu", "settings": { "heading": "Shop" } },
+        { "type": "menu", "settings": { "heading": "Help" } },
+        { "type": "newsletter" }
+      ]
+    }
+  ],
+  "enabled_on": { "groups": ["footer"] }
+}
+{% endschema %}

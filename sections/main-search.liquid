@@ -1,0 +1,48 @@
+<section class="main-search section">
+  <div class="page-width">
+    <header class="search-header">
+      <h1>{{ 'general.search.title' | t }}</h1>
+      <form action="{{ routes.search_url }}" method="get" role="search">
+        <label class="sr-only" for="SearchInput">{{ 'general.search.search' | t }}</label>
+        <input id="SearchInput" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'general.search.placeholder' | t }}">
+        <button class="button" type="submit">{{ 'general.search.submit' | t }}</button>
+      </form>
+    </header>
+    {% if search.performed %}
+      <p>{{ 'general.search.results_with_count' | t: terms: search.terms, count: search.results_count }}</p>
+      {% paginate search.results by 24 %}
+        <div class="search-results">
+          {% for item in search.results %}
+            {% if item.object_type == 'product' %}
+              {% render 'product-card', product: item, show_quick_add: true, image_ratio: '1' %}
+            {% else %}
+              <article class="search-result card">
+                <p class="eyebrow">{{ item.object_type }}</p>
+                <h2><a href="{{ item.url }}">{{ item.title }}</a></h2>
+                <p>{{ item.content | strip_html | truncate: 160 }}</p>
+              </article>
+            {% endif %}
+          {% else %}
+            <div class="empty-state"><p>{{ 'general.search.no_results' | t }}</p></div>
+          {% endfor %}
+        </div>
+        {% if paginate.pages > 1 %}<nav class="pagination">{{ paginate | default_pagination }}</nav>{% endif %}
+      {% endpaginate %}
+    {% endif %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .search-header{max-width:800px;margin-bottom:3rem}
+  .search-header form{display:flex;gap:.75rem}
+  .search-header input{min-width:0;min-height:50px;flex:1;padding:0 1rem;border:1px solid var(--color-border);border-radius:999px}
+  .search-results{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+  .search-result{padding:1.5rem}
+  .search-result h2{font-size:1.4rem}
+  .main-search .pagination{margin-top:3rem;text-align:center}
+  @media(min-width:750px){.search-results{grid-template-columns:repeat(4,1fr)}}
+{% endstylesheet %}
+
+{% schema %}
+{ "name": "Main search", "settings": [] }
+{% endschema %}

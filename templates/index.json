@@ -1,0 +1,163 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero-banner",
+      "settings": {
+        "eyebrow": "Temporary brand line",
+        "heading": "Objects with a little more personality",
+        "text": "<p>Original temporary copy. Replace it with your brand promise and product story.</p>",
+        "button_label": "Explore the collection",
+        "show_secondary": true,
+        "secondary_label": "Our story",
+        "height": "large",
+        "content_position": "center",
+        "text_color": "#FFFFFF",
+        "overlay_color": "#071B33",
+        "overlay_opacity": 35
+      }
+    },
+    "trust": {
+      "type": "trust-features",
+      "blocks": {
+        "one": { "type": "feature", "settings": { "icon": "truck", "heading": "Fast dispatch", "text": "Replace with verified details" } },
+        "two": { "type": "feature", "settings": { "icon": "heart", "heading": "Made with personality", "text": "Replace with verified details" } },
+        "three": { "type": "feature", "settings": { "icon": "package", "heading": "Careful packaging", "text": "Replace with verified details" } },
+        "four": { "type": "feature", "settings": { "icon": "leaf", "heading": "Clear materials", "text": "Replace with verified details" } }
+      },
+      "block_order": ["one", "two", "three", "four"],
+      "settings": {
+        "heading": "Why shop with us",
+        "background": "#FFFDF7",
+        "mobile_scroll": true
+      }
+    },
+    "featured": {
+      "type": "featured-collection",
+      "settings": {
+        "eyebrow": "Selected for now",
+        "heading": "Meet the current favourites",
+        "text": "<p>Temporary introduction — connect a collection and replace this copy.</p>",
+        "link_label": "View all",
+        "products_to_show": 8,
+        "image_ratio": "1",
+        "quick_add": true,
+        "mobile_scroll": true
+      }
+    },
+    "mission": {
+      "type": "brand-mission",
+      "settings": {
+        "eyebrow": "Temporary mission",
+        "heading": "A point of view, not just a product",
+        "text": "<p>This temporary text is ready for your genuine mission, process and commitments. Keep every claim specific and verifiable.</p><p>Add a second paragraph to explain what makes the brand feel unmistakably yours.</p>",
+        "highlight": "Replace this with one clear, honest promise.",
+        "button_label": "Learn more",
+        "background": "#F1F6F4",
+        "accent": "#FF6B4A"
+      }
+    },
+    "story": {
+      "type": "brand-story",
+      "settings": {
+        "eyebrow": "Behind the objects",
+        "heading": "Made by people with ideas",
+        "text": "<p>Temporary founder story. Replace it with the real origin of the brand, the people involved and the details that matter.</p>",
+        "quote": "Personality belongs in everyday things.",
+        "button_label": "Discover our story",
+        "image_position": "left",
+        "background": "#FFFDF7"
+      }
+    },
+    "personality": {
+      "type": "personality-slider",
+      "blocks": {
+        "quiet": { "type": "profile", "settings": { "heading": "Quietly curious", "text": "Temporary profile copy. Replace it with your own playful description.", "link_label": "See the edit" } },
+        "bright": { "type": "profile", "settings": { "heading": "Brightly offbeat", "text": "Temporary profile copy. Replace it with your own playful description.", "link_label": "See the edit" } },
+        "chaotic": { "type": "profile", "settings": { "heading": "Delightfully chaotic", "text": "Temporary profile copy. Replace it with your own playful description.", "link_label": "See the edit" } },
+        "original": { "type": "profile", "settings": { "heading": "Full-volume original", "text": "Temporary profile copy. Replace it with your own playful description.", "link_label": "See the edit" } }
+      },
+      "block_order": ["quiet", "bright", "chaotic", "original"],
+      "settings": {
+        "eyebrow": "Find your energy",
+        "heading": "How much mischief today?",
+        "instruction": "Move the slider to reveal a temporary personality profile.",
+        "initial": 0
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "blocks": {
+        "one": { "type": "testimonial", "settings": { "rating": 5, "text": "Temporary example review. Replace this with a genuine customer contribution before publishing.", "name": "Example customer", "verified": false } },
+        "two": { "type": "testimonial", "settings": { "rating": 5, "text": "Temporary example review. Replace this with a genuine customer contribution before publishing.", "name": "Example customer", "verified": false } },
+        "three": { "type": "testimonial", "settings": { "rating": 5, "text": "Temporary example review. Replace this with a genuine customer contribution before publishing.", "name": "Example customer", "verified": false } }
+      },
+      "block_order": ["one", "two", "three"],
+      "settings": {
+        "eyebrow": "Shared by the community",
+        "heading": "Notes from future favourites",
+        "background": "#F1F6F4"
+      }
+    },
+    "collections": {
+      "type": "collection-showcase",
+      "blocks": {
+        "one": { "type": "collection", "settings": { "subtitle": "Temporary collection note" } },
+        "two": { "type": "collection", "settings": { "subtitle": "Temporary collection note" } },
+        "three": { "type": "collection", "settings": { "subtitle": "Temporary collection note" } }
+      },
+      "block_order": ["one", "two", "three"],
+      "settings": {
+        "eyebrow": "Browse by mood",
+        "heading": "Collections with their own energy",
+        "layout": "standard"
+      }
+    },
+    "comparison": {
+      "type": "comparison-table",
+      "blocks": {
+        "one": { "type": "row", "settings": { "feature": "Original design", "brand_value": true, "other_value": false } },
+        "two": { "type": "row", "settings": { "feature": "Clear material details", "brand_value": true, "other_value": false } },
+        "three": { "type": "row", "settings": { "feature": "Thoughtful packaging", "brand_value": true, "other_value": false } },
+        "four": { "type": "row", "settings": { "feature": "Human customer service", "brand_value": true, "other_value": false } }
+      },
+      "block_order": ["one", "two", "three", "four"],
+      "settings": {
+        "eyebrow": "The details",
+        "heading": "A clearer way to compare",
+        "text": "Temporary comparison. Only publish claims you can support.",
+        "brand_label": "Your brand",
+        "show_other": true,
+        "other_label": "Generic option"
+      }
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "shipping": { "type": "question", "settings": { "question": "When will my order be dispatched?", "answer": "<p>Temporary answer. Replace it with accurate information.</p>" } },
+        "returns": { "type": "question", "settings": { "question": "What is your returns policy?", "answer": "<p>Temporary answer. Replace it with accurate information.</p>" } },
+        "care": { "type": "question", "settings": { "question": "How should I care for the product?", "answer": "<p>Temporary answer. Replace it with accurate information.</p>" } }
+      },
+      "block_order": ["shipping", "returns", "care"],
+      "settings": {
+        "eyebrow": "Useful answers",
+        "heading": "Frequently asked questions",
+        "text": "<p>Replace all temporary answers with your actual policies before publishing.</p>",
+        "single_open": true,
+        "structured_data": false
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "eyebrow": "Worth opening",
+        "heading": "New ideas, quiet launches, zero noise",
+        "text": "<p>Temporary newsletter invitation. Explain what subscribers will actually receive.</p>",
+        "button_label": "Join the list",
+        "legal": "Replace with your consent and privacy wording.",
+        "background": "#4ED7C8",
+        "text_color": "#071B33"
+      }
+    }
+  },
+  "order": ["hero", "trust", "featured", "mission", "story", "personality", "testimonials", "collections", "comparison", "faq", "newsletter"]
+}

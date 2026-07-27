@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-collection",
+      "settings": {
+        "products_per_page": 16,
+        "quick_add": true,
+        "image_ratio": "1"
+      }
+    }
+  },
+  "order": ["main"]
+}

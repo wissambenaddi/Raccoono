@@ -1,0 +1,17 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "details": { "type": "accordion", "settings": { "heading": "Product details", "content": "<p>Replace with accurate product information.</p>" } },
+        "delivery": { "type": "accordion", "settings": { "heading": "Delivery & returns", "content": "<p>Replace with your actual delivery and returns policy.</p>" } },
+        "care": { "type": "accordion", "settings": { "heading": "Care", "content": "<p>Replace with accurate care instructions.</p>" } }
+      },
+      "block_order": ["details", "delivery", "care"],
+      "settings": {
+        "show_dynamic_checkout": false
+      }
+    }
+  },
+  "order": ["main"]
+}

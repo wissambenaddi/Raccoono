@@ -1,0 +1,36 @@
+{
+  "type": "footer",
+  "name": "Footer group",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "shop": {
+          "type": "menu",
+          "settings": {
+            "heading": "Shop"
+          }
+        },
+        "help": {
+          "type": "menu",
+          "settings": {
+            "heading": "Help"
+          }
+        },
+        "newsletter": {
+          "type": "newsletter",
+          "settings": {
+            "heading": "Good things, occasionally"
+          }
+        }
+      },
+      "block_order": ["shop", "help", "newsletter"],
+      "settings": {
+        "description": "<p>Temporary brand description. Replace it with your story, contact details and promises.</p>",
+        "text_color": "#FFFFFF",
+        "show_payment_icons": true
+      }
+    }
+  },
+  "order": ["footer"]
+}

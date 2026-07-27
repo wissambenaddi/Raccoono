@@ -273,6 +273,18 @@
               },
               "block_order": []
             },
+            "raccoono_impact": {
+              "type": "raccoono-impact-message",
+              "name": "Raccoono — Impact produit",
+              "settings": {
+                "heading": "Contribution liée à ce produit",
+                "amount_prefix": "Montant reversé :",
+                "pending_text": "Les modalités de contribution de ce produit sont en cours de configuration. Consultez la page Impact avant toute décision.",
+                "link_label": "Voir les modalités et justificatifs",
+                "link": "/pages/impact"
+              },
+              "blocks": {}
+            },
             "text_aEtTtq": {
               "type": "text",
               "name": "t:names.product_description",
@@ -305,6 +317,7 @@
             "divider_VJhene",
             "variant_picker_R3rGDr",
             "buy_buttons_eYQEYi",
+            "raccoono_impact",
             "text_aEtTtq"
           ]
         }

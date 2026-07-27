@@ -1,110 +1,103 @@
-# Raccoono — Horizon v1.0.1
+# Raccoono — Horizon v1.0.2
 
 ## Résumé
 
-Cette version conserve le thème Shopify Horizon 4.1.3 et ajoute une page d’accueil originale, éditoriale, ludique et orientée conversion. Les fonctions natives Horizon restent responsables du header, de la recherche prédictive, des cartes produit, de l’ajout rapide, du panier Ajax, des variantes, de la fiche produit et du footer.
+Cette version conserve Shopify Horizon 4.1.3 et transforme la direction artistique en boutique éditoriale dédiée au soutien d’actions de restauration et de réhabilitation de forêts touchées par les incendies en France.
 
-Tous les textes signalés comme temporaires doivent être remplacés par les informations réelles de la marque. Les avis, engagements, délais, comparaisons et politiques ne doivent jamais rester fictifs en production.
-
-## Analyse de la référence
-
-La référence utilise une hiérarchie très verticale : barre d’annonce compacte, navigation blanche, hero panoramique, bande de réassurance, grande grille produit, récit de marque, interaction de personnalité, avis, collections visuelles, comparatif, FAQ et footer sombre.
-
-Son efficacité vient de quatre choix :
-
-- alternance entre grands visuels et respirations blanches ;
-- titres expressifs très courts ;
-- modules de preuve placés avant et après les produits ;
-- plusieurs chemins de conversion sans rendre la page agressive.
-
-La version Raccoono reprend ce rythme et cette architecture, mais pas les logos, textes, personnages, produits, photos, slogans ni illustrations de la référence.
+Les fonctions transactionnelles natives Horizon restent responsables du header, de la recherche, des cartes produit, de l’ajout rapide, du panier Ajax, des variantes, de la fiche produit et du footer. Les nouvelles sections ajoutent le récit de marque, les informations d’impact et une mascotte originale cohérente.
 
 ## Direction artistique
 
-Concept : « Raccoono Club », un studio de couvre-chefs pour personnalités difficiles à classer.
-
-Palette :
+Le concept associe 80 % de calme, de lisibilité et d’espace négatif à 20 % d’illustration et d’humour. Un seul raton laveur revient dans les visuels : curieux, légèrement maladroit et optimiste, mais jamais infantilisant. Il accompagne le parcours sans réduire la gravité des incendies ni remplacer les informations factuelles.
 
 | Rôle | Couleur |
 | --- | --- |
-| Crème principal | `#fffaf0` |
-| Crème secondaire | `#f4eddf` |
-| Bleu nuit | `#071a39` |
-| Cyan électrique | `#23d5e9` |
-| Cyan profond | `#0aaec3` |
-| Corail | `#f06c56` |
+| Crème | `#F7F1E6` |
+| Blanc cassé | `#FCFAF6` |
+| Bleu nuit | `#09203F` |
+| Turquoise doux | `#25C7D9` |
+| Vert forêt | `#2F5B43` |
+| Corail | `#EF725F` |
+| Jaune doux | `#F2C65D` |
+| Gris brun | `#5C5A55` |
 
-Le système associe la police de titre configurée dans Horizon à la police de corps Shopify. Les titres utilisent des tailles fluides, un interlettrage resserré et des lignes courtes. Les boutons sont en pilule, les cartes ont un angle volontairement plus court et les animations respectent `prefers-reduced-motion`.
+Les titres utilisent la police de titre configurée dans Horizon avec des tailles fluides. La police de corps Shopify reste prioritaire pour les prix, politiques, formulaires et informations d’impact.
 
-## Visuels originaux fournis
+## Visuels originaux
 
 | Fichier | Usage | Dimensions |
 | --- | --- | --- |
-| `assets/raccoono-hero-v1.webp` | Hero panoramique | 1983 × 793 |
-| `assets/raccoono-studio-v1.webp` | Histoire de marque | 1400 × 933 |
-| `assets/raccoono-personalities-v1.webp` | Planche de personnalité | 1983 × 793 |
-| `assets/raccoono-profile-calm-v1.webp` | Profil calme | 700 × 700 |
-| `assets/raccoono-profile-curious-v1.webp` | Profil curieux | 700 × 700 |
-| `assets/raccoono-profile-bold-v1.webp` | Profil audacieux | 700 × 700 |
-| `assets/raccoono-profile-chaos-v1.webp` | Profil chaotique | 700 × 700 |
+| `assets/raccoono-forest-hero-v2.webp` | Hero forestier | 1672 × 941 |
+| `assets/raccoono-forest-mission-v2.webp` | Mission et page Impact | 1448 × 1086 |
+| `assets/raccoono-forest-personalities-v2.webp` | Planche des quatre profils | 1774 × 887 |
+| `assets/raccoono-profile-discreet-v2.webp` | Profil discret | 720 × 720 |
+| `assets/raccoono-profile-curious-v2.webp` | Profil curieux | 720 × 720 |
+| `assets/raccoono-profile-motivated-v2.webp` | Profil motivé | 720 × 720 |
+| `assets/raccoono-profile-chaotic-v2.webp` | Profil chaotique | 720 × 720 |
+| `assets/raccoono-forest-newsletter-v2.webp` | Newsletter | 1536 × 1024 |
+| `assets/raccoono-forest-404-v2.webp` | Page 404 | 1448 × 1086 |
 
-Ces images ont été créées pour ce projet, sans texte, logo ou marque tierce. Elles servent de contenus de démonstration et peuvent être remplacées dans l’éditeur Shopify.
+Les images ne contiennent ni texte, ni logo, ni marque tierce. Tous les textes restent en HTML afin d’être modifiables, accessibles et traduisibles.
 
-## Architecture de la page
+## Architecture
 
-1. Annonces Horizon avec trois messages temporaires.
+1. Annonces Horizon factuelles.
 2. Header Horizon sticky et transparent sur l’accueil.
-3. Hero Raccoono avec image mobile, overlay et deux appels à l’action.
-4. Réassurance en blocs.
-5. Produits vedettes natifs Horizon.
+3. Hero illustré avec deux appels à l’action.
+4. Trois avantages : livraison, contribution, emballage.
+5. Produits vedettes Horizon.
 6. Mission de marque.
-7. Histoire de marque et visuel d’atelier.
-8. Curseur de personnalité accessible.
-9. Témoignages manuels ou emplacement d’application.
-10. Collections en mosaïque.
-11. Tableau comparatif responsive.
-12. Galerie UGC manuelle avec modale native.
-13. FAQ avec `details`, `summary` et JSON-LD optionnel.
-14. Newsletter Shopify avec consentement.
+7. Quatre étapes du panier aux preuves.
+8. Curseur accessible des quatre personnalités.
+9. Avis de démonstration explicitement signalés.
+10. Collections mises en avant.
+11. Tableau comparatif prudent.
+12. Galerie communautaire avec contenus autorisés.
+13. FAQ native.
+14. Newsletter Shopify illustrée.
 15. Footer Horizon sombre.
 
-## Fichiers personnalisés
+Les pages complémentaires comprennent une fiche produit avec bloc d’impact, un panier latéral sans estimation fictive, un template `page.impact.json` et une page 404 illustrée.
 
-- `snippets/raccoono-icon.liquid`
-- `sections/raccoono-hero.liquid`
-- `sections/raccoono-trust.liquid`
-- `sections/raccoono-editorial.liquid`
-- `sections/raccoono-personality.liquid`
-- `sections/raccoono-testimonials.liquid`
-- `sections/raccoono-collection-showcase.liquid`
-- `sections/raccoono-comparison.liquid`
-- `sections/raccoono-ugc.liquid`
-- `sections/raccoono-faq.liquid`
-- `sections/raccoono-newsletter.liquid`
-- `templates/index.json`
-- `sections/header-group.json`
-- `sections/footer-group.json`
+## Transparence et données
 
-Les données éditoriales sont gérées par les réglages et blocs du thème. Aucun metafield ou metaobject n’est nécessaire pour cette première version ; cela évite de créer une dépendance de données inutile.
+La page Impact ne publie aucun montant, partenaire ou versement par défaut. Les réglages `contribution_verified`, `contribution_mode`, la base de calcul, la période et les produits éligibles doivent être complétés avant activation.
 
-## Personnalisation dans Shopify
+Les montants saisis dans les réglages sont exprimés en unité mineure puis rendus avec `money_with_currency`. Le bloc produit peut lire :
+
+- `custom.impact_eligible`
+- `custom.contribution_amount`
+- `custom.contribution_rate`
+- `custom.contribution_basis`
+
+Le modèle conseillé pour les partenaires, projets, versements, documents et mises à jour se trouve dans `docs/impact-data-model.md`. Les définitions app-owned doivent être créées par l’application qui gère les données, pas par le thème.
+
+## Greenwashing : règles de publication
+
+- Ne jamais écrire qu’un achat sauve une forêt.
+- Ne jamais associer automatiquement une commande à un arbre.
+- Publier le montant ou pourcentage, la base de calcul, la période et les produits éligibles.
+- Nommer le bénéficiaire complet et lier sa source officielle.
+- Archiver dates, montants et justificatifs de versement.
+- Expliquer les limites et distinguer plantation, régénération naturelle et restauration.
+- Laisser les étiquettes « à confirmer » tant que les preuves ne sont pas disponibles.
+
+## Personnalisation
 
 Dans **Boutique en ligne → Thèmes → Personnaliser** :
 
-1. remplacez le logo et vérifiez sa version inversée ;
-2. sélectionnez le menu principal ;
-3. remplacez les trois annonces temporaires ;
-4. connectez la collection des produits vedettes ;
-5. sélectionnez les collections de la mosaïque ;
-6. remplacez la mission, l’histoire et tous les engagements temporaires ;
-7. configurez les quatre profils et leurs liens ;
-8. remplacez les témoignages uniquement par de vrais avis ou branchez l’application d’avis ;
-9. remplacez la galerie par des médias clients autorisés ;
-10. corrigez les délais, retours, tailles et réponses FAQ ;
-11. adaptez le consentement newsletter et les politiques ;
-12. ajoutez les vraies URL sociales.
+1. créez une page Shopify nommée `Impact` avec le handle `impact` ;
+2. assignez-lui le modèle `page.impact` ;
+3. complétez le mécanisme, la période, les produits, le partenaire et les limites ;
+4. n’activez `Les données publiées sont vérifiées` qu’après contrôle ;
+5. remplacez les projets, versements, justificatifs et mises à jour temporaires ;
+6. ajoutez la page Impact aux menus du header et du footer ;
+7. connectez la collection des produits vedettes et les collections éditoriales ;
+8. remplacez les avis uniquement par de vrais avis ou branchez une application ;
+9. remplacez la galerie par des contenus clients autorisés ;
+10. complétez les politiques de livraison, retour, fabrication et confidentialité.
 
-## Prévisualisation et installation
+## Validation
 
 Depuis le dossier du thème :
 
@@ -113,28 +106,4 @@ shopify theme check
 shopify theme dev --store votre-boutique.myshopify.com --open
 ```
 
-Pour créer une copie non publiée :
-
-```bash
-shopify theme push --store votre-boutique.myshopify.com --unpublished --strict
-```
-
-Vérifiez toujours le lien de prévisualisation avant de publier. Pour revenir en arrière, gardez le thème précédent non publié ou utilisez l’historique Git de la branche.
-
-## Checklist
-
-- Tester 320, 375, 430, 768, 1024, 1280 et 1440 px.
-- Vérifier navigation clavier, focus visible, Échap, tiroirs et modales.
-- Tester le curseur avec les flèches du clavier.
-- Tester l’ajout rapide, le compteur, les quantités et le panier vide.
-- Tester produits sans image, épuisés et à variantes multiples.
-- Remplacer tous les contenus marqués « temporaire », « démonstration », « à confirmer » ou entre crochets.
-- Vérifier les contrastes après chaque changement de couleur.
-- Vérifier les alt des images marchandes.
-- Tester la newsletter et ses messages d’erreur/succès.
-- Désactiver les données structurées FAQ si la FAQ n’est pas réellement affichée.
-- Lancer `shopify theme check` avant chaque push.
-
-## Audit final
-
-La personnalisation utilise HTML sémantique, images responsives, chargement différé sous la ligne de flottaison, JavaScript natif isolé dans des Custom Elements, contrôles tactiles de 44 px minimum et repli sans JavaScript pour les contenus essentiels. Les visuels WebP fournis pèsent environ 45 à 110 Ko chacun. Le thème conserve les composants Horizon éprouvés pour les parcours transactionnels.
+Tester au minimum 320, 375, 430, 768, 1024, 1280 et 1440 px, la navigation clavier, les focus, le panier vide, les variantes, les produits sans image, les montants multidevises et les états temporaires de la page Impact.

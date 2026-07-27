@@ -71,20 +71,20 @@
               {% liquid
                 case forloop.index
                   when 1
-                    assign default_profile = 'raccoono-profile-calm-v1.webp'
+                    assign default_profile = 'raccoono-profile-discreet-v2.webp'
                   when 2
-                    assign default_profile = 'raccoono-profile-curious-v1.webp'
+                    assign default_profile = 'raccoono-profile-curious-v2.webp'
                   when 3
-                    assign default_profile = 'raccoono-profile-bold-v1.webp'
+                    assign default_profile = 'raccoono-profile-motivated-v2.webp'
                   else
-                    assign default_profile = 'raccoono-profile-chaos-v1.webp'
+                    assign default_profile = 'raccoono-profile-chaotic-v2.webp'
                 endcase
               %}
               <img
                 class="raccoono-personality__image"
                 src="{{ default_profile | asset_url }}"
-                width="700"
-                height="700"
+                width="720"
+                height="720"
                 loading="lazy"
                 alt=""
               >
@@ -203,7 +203,7 @@
   .raccoono-personality__visual {
     overflow: hidden;
     border-radius: 2.2rem 2.2rem 2.2rem 0.6rem;
-    background: #fff3d9;
+    background: #F7F1E6;
   }
 
   .raccoono-personality__image {
@@ -323,7 +323,7 @@
       "type": "text",
       "id": "eyebrow",
       "label": "Sur-titre",
-      "default": "Le curseur très scientifique"
+      "default": "Un raton, quatre humeurs"
     },
     {
       "type": "text",
@@ -335,13 +335,13 @@
       "type": "inline_richtext",
       "id": "heading",
       "label": "Titre",
-      "default": "Quel est votre niveau de chaos ?"
+      "default": "Quel profil vous ressemble aujourd’hui ?"
     },
     {
       "type": "text",
       "id": "instruction",
       "label": "Instruction",
-      "default": "Déplacez le curseur pour révéler votre profil. Contenu de démonstration à personnaliser."
+      "default": "Déplacez le curseur pour rencontrer le discret, le curieux, le motivé ou le chaotique."
     },
     {
       "type": "text",

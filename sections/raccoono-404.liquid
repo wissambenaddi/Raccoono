@@ -1,0 +1,174 @@
+<section
+  class="raccoono-404"
+  style="
+    --raccoono-404-bg: {{ section.settings.background }};
+    --raccoono-404-color: {{ section.settings.text_color }};
+    --raccoono-404-accent: {{ section.settings.accent_color }};
+  "
+  aria-labelledby="Raccoono404Title-{{ section.id }}"
+>
+  <div class="raccoono-404__inner">
+    <div class="raccoono-404__copy">
+      <p class="raccoono-404__code">404</p>
+      <h1 id="Raccoono404Title-{{ section.id }}">{{ section.settings.heading }}</h1>
+      {% if section.settings.text != blank %}
+        <div class="rte">{{ section.settings.text }}</div>
+      {% endif %}
+      {% if section.settings.note != blank %}
+        <p class="raccoono-404__note">{{ section.settings.note | escape }}</p>
+      {% endif %}
+      <div class="raccoono-404__actions">
+        <a class="button raccoono-404__primary" href="{{ routes.root_url }}">{{ section.settings.home_label | escape }}</a>
+        <a class="button raccoono-404__secondary" href="{{ section.settings.products_link }}">{{ section.settings.products_label | escape }}</a>
+      </div>
+    </div>
+    <div class="raccoono-404__visual">
+      {% if section.settings.image != blank %}
+        {{
+          section.settings.image
+          | image_url: width: 1400
+          | image_tag:
+            widths: '500, 750, 1000, 1400',
+            sizes: '(min-width: 900px) 52vw, 100vw',
+            loading: 'eager',
+            class: 'raccoono-404__image'
+        }}
+      {% else %}
+        <img
+          class="raccoono-404__image"
+          src="{{ 'raccoono-forest-404-v2.webp' | asset_url }}"
+          width="1448"
+          height="1086"
+          loading="eager"
+          alt=""
+        >
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .raccoono-404 {
+    min-height: 70svh;
+    background: var(--raccoono-404-bg);
+    color: var(--raccoono-404-color);
+  }
+
+  .raccoono-404__inner {
+    display: grid;
+    grid-template-columns: minmax(28rem, 0.75fr) minmax(0, 1.2fr);
+    align-items: center;
+    gap: clamp(2rem, 6vw, 8rem);
+    min-height: 70svh;
+    padding: clamp(4rem, 7vw, 8rem) max(2rem, calc((100vw - 140rem) / 2));
+  }
+
+  .raccoono-404__copy {
+    display: grid;
+    justify-items: start;
+    gap: 1.6rem;
+  }
+
+  .raccoono-404__code,
+  .raccoono-404__copy h1,
+  .raccoono-404__note {
+    margin: 0;
+  }
+
+  .raccoono-404__code {
+    color: var(--raccoono-404-accent);
+    font-size: 1.3rem;
+    font-weight: 850;
+    letter-spacing: 0.2em;
+  }
+
+  .raccoono-404__copy h1 {
+    max-width: 10ch;
+    font-family: var(--font-heading--family);
+    font-size: clamp(5rem, 8vw, 9rem);
+    line-height: 0.9;
+    letter-spacing: -0.05em;
+  }
+
+  .raccoono-404__copy .rte {
+    max-width: 50ch;
+    font-size: 1.7rem;
+  }
+
+  .raccoono-404__note {
+    color: color-mix(in srgb, currentColor 65%, transparent);
+    font-size: 1.4rem;
+  }
+
+  .raccoono-404__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .raccoono-404__actions .button {
+    min-height: 4.8rem;
+    padding-inline: 2.4rem;
+    border-radius: 999px;
+  }
+
+  .raccoono-404__primary {
+    background: var(--raccoono-404-color);
+    color: var(--raccoono-404-bg);
+  }
+
+  .raccoono-404__secondary {
+    border-color: currentColor;
+    background: transparent;
+    color: currentColor;
+  }
+
+  .raccoono-404__visual {
+    overflow: hidden;
+    border-radius: 3rem 3rem 3rem 0.7rem;
+  }
+
+  .raccoono-404__image {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  @media (max-width: 849px) {
+    .raccoono-404__inner {
+      grid-template-columns: 1fr;
+    }
+
+    .raccoono-404__visual {
+      order: -1;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Raccoono — Page 404",
+  "tag": "section",
+  "class": "raccoono-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Illustration" },
+    { "type": "inline_richtext", "id": "heading", "label": "Titre", "default": "Cette page a pris un autre sentier." },
+    { "type": "richtext", "id": "text", "label": "Texte", "default": "<p>Le lien est peut-être incorrect ou la page a été déplacée. Vous pouvez revenir à l’accueil ou continuer vers les produits.</p>" },
+    { "type": "text", "id": "note", "label": "Micro-texte", "default": "Le raton s’est encore perdu. La page aussi." },
+    { "type": "text", "id": "home_label", "label": "Bouton accueil", "default": "Retour à l’accueil" },
+    { "type": "text", "id": "products_label", "label": "Bouton produits", "default": "Découvrir les produits" },
+    { "type": "url", "id": "products_link", "label": "Lien produits" },
+    { "type": "color", "id": "background", "label": "Arrière-plan", "default": "#FCFAF6" },
+    { "type": "color", "id": "text_color", "label": "Texte", "default": "#09203F" },
+    { "type": "color", "id": "accent_color", "label": "Accent", "default": "#EF725F" }
+  ],
+  "presets": [
+    { "name": "Raccoono — Page 404" }
+  ]
+}
+{% endschema %}

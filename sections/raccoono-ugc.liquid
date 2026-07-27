@@ -23,17 +23,17 @@
       {% for block in section.blocks %}
         {% liquid
           if forloop.index == 1
-            assign fallback_asset = 'raccoono-hero-v1.webp'
-            assign fallback_width = 1983
-            assign fallback_height = 793
+            assign fallback_asset = 'raccoono-forest-hero-v2.webp'
+            assign fallback_width = 1672
+            assign fallback_height = 941
           elsif forloop.index == 2
-            assign fallback_asset = 'raccoono-studio-v1.webp'
-            assign fallback_width = 1400
-            assign fallback_height = 933
+            assign fallback_asset = 'raccoono-forest-mission-v2.webp'
+            assign fallback_width = 1448
+            assign fallback_height = 1086
           else
-            assign fallback_asset = 'raccoono-personalities-v1.webp'
-            assign fallback_width = 1983
-            assign fallback_height = 793
+            assign fallback_asset = 'raccoono-forest-personalities-v2.webp'
+            assign fallback_width = 1774
+            assign fallback_height = 887
           endif
         %}
         <article class="raccoono-gallery__item" {{ block.shopify_attributes }}>

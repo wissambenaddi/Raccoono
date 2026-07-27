@@ -1,0 +1,159 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */{
+  "sections": {
+    "impact_main": {
+      "type": "raccoono-impact-dashboard",
+      "settings": {
+        "eyebrow": "Notre impact",
+        "heading": "Des preuves, pas de grandes promesses.",
+        "introduction": "<p>Cette page présente le mécanisme de contribution, les bénéficiaires, les versements et les limites de l’opération. Le raton aime les histoires. Ici, nous préférons surtout les preuves.</p>",
+        "contribution_verified": false,
+        "temporary_notice": "Configuration en cours : aucun montant ni partenaire n’est affirmé tant que ces informations ne sont pas validées.",
+        "facts_label": "Informations de contribution",
+        "contribution_label": "Contribution par produit éligible",
+        "contribution_mode": "none",
+        "contribution_amount_minor": 0,
+        "contribution_rate": 0,
+        "calculation_basis": "Base de calcul à confirmer",
+        "period_label": "Période",
+        "period": "Dates à confirmer",
+        "eligible_products": "Produits éligibles à préciser",
+        "partner_label": "Partenaire bénéficiaire",
+        "partner_name": "Partenaire à confirmer",
+        "partner_link_label": "Consulter le site du partenaire",
+        "partner_pending": "Lien à ajouter après validation",
+        "cumulative_label": "Montant cumulé versé",
+        "cumulative_amount_minor": 0,
+        "last_payment_date": "Aucun versement publié à ce jour",
+        "pending_label": "À confirmer",
+        "mechanism_eyebrow": "Mécanisme",
+        "mechanism_heading": "Comment la contribution est calculée.",
+        "mechanism_text": "<p>Indiquez ici le montant ou le pourcentage, la base de calcul, la période, les produits éligibles, le calendrier de versement et le type d’action soutenue.</p>",
+        "limitations_label": "Limites et périmètre",
+        "limitations": "<p>Précisez ce que la contribution finance réellement et ce qu’elle ne permet pas d’affirmer. Aucun achat ne doit être présenté comme réparant à lui seul les dégâts d’un incendie.</p>",
+        "definitions_eyebrow": "Comprendre les actions",
+        "definitions_heading": "Planter, régénérer, restaurer : trois réalités.",
+        "planting_title": "Plantation",
+        "planting_text": "Mise en terre de jeunes plants selon un protocole et un suivi définis.",
+        "regeneration_title": "Régénération naturelle",
+        "regeneration_text": "Retour de la végétation à partir des graines, rejets et dynamiques déjà présentes.",
+        "restoration_title": "Restauration forestière",
+        "restoration_text": "Ensemble d’actions adaptées au site pour retrouver des fonctions écologiques durables.",
+        "background": "#FCFAF6",
+        "panel_color": "#F7F1E6",
+        "text_color": "#09203F",
+        "accent_color": "#2F5B43"
+      },
+      "blocks": {
+        "project_pending": {
+          "type": "project",
+          "settings": {
+            "title": "Projet à documenter",
+            "date": "Période à confirmer",
+            "text": "<p>Ajoutez le lieu, le type d’action, le partenaire opérationnel et les objectifs mesurables.</p>",
+            "link_label": "Voir le projet",
+            "is_temporary": true
+          }
+        },
+        "payment_pending": {
+          "type": "payment",
+          "settings": {
+            "title": "Bénéficiaire à confirmer",
+            "date": "Date à confirmer",
+            "amount_minor": 0,
+            "text": "<p>Ajoutez la période couverte et la référence du justificatif.</p>",
+            "link_label": "Consulter le justificatif",
+            "is_temporary": true
+          }
+        },
+        "document_pending": {
+          "type": "document",
+          "settings": {
+            "title": "Document à publier",
+            "date": "Date à confirmer",
+            "text": "<p>Ajoutez la nature du document, son émetteur et la période couverte.</p>",
+            "link_label": "Ouvrir le document",
+            "is_temporary": true
+          }
+        },
+        "update_pending": {
+          "type": "update",
+          "settings": {
+            "title": "Mise à jour à publier",
+            "date": "Date à confirmer",
+            "text": "<p>Publiez ici une information factuelle sur l’avancement du projet.</p>",
+            "link_label": "Lire la mise à jour",
+            "is_temporary": true
+          }
+        }
+      },
+      "block_order": [
+        "project_pending",
+        "payment_pending",
+        "document_pending",
+        "update_pending"
+      ]
+    },
+    "impact_faq": {
+      "type": "raccoono-faq",
+      "settings": {
+        "eyebrow": "Questions d’impact",
+        "heading": "Ce que nous publions, et pourquoi.",
+        "text": "<p>Les réponses ci-dessous sont temporaires tant que le mécanisme, le partenaire et la période ne sont pas validés.</p>",
+        "single_open": true,
+        "structured_data": false,
+        "background": "#F7F1E6",
+        "text_color": "#09203F",
+        "accent_color": "#2F5B43"
+      },
+      "blocks": {
+        "faq_destination": {
+          "type": "question",
+          "settings": {
+            "question": "Où va la contribution liée à mon achat ?",
+            "answer": "<p>Le bénéficiaire, le projet et le type d’action seront publiés ici après validation. Aucun partenaire n’est affirmé dans cette version temporaire.</p>",
+            "open": true
+          }
+        },
+        "faq_amount": {
+          "type": "question",
+          "settings": {
+            "question": "Quel montant est reversé ?",
+            "answer": "<p>Le montant fixe ou le pourcentage, sa base de calcul et les produits éligibles seront indiqués avant activation de l’opération.</p>"
+          }
+        },
+        "faq_follow": {
+          "type": "question",
+          "settings": {
+            "question": "Comment suivre les versements ?",
+            "answer": "<p>Les dates, montants au format de la boutique et justificatifs seront archivés dans cette page.</p>"
+          }
+        },
+        "faq_projects": {
+          "type": "question",
+          "settings": {
+            "question": "Comment les projets sont-ils choisis ?",
+            "answer": "<p>Les critères de sélection, les limites et le rôle du partenaire doivent être documentés pour chaque projet publié.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_destination",
+        "faq_amount",
+        "faq_follow",
+        "faq_projects"
+      ]
+    }
+  },
+  "order": [
+    "impact_main",
+    "impact_faq"
+  ]
+}

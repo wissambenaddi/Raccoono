@@ -17,7 +17,7 @@
         "announcement_BxgCk9": {
           "type": "_announcement",
           "settings": {
-            "text": "Livraison offerte à partir de [montant à définir]",
+            "text": "Une partie de votre achat peut soutenir des actions forestières — modalités sur la page Impact",
             "font": "var(--font-subheading--family)",
             "font_size": "0.75rem",
             "letter_spacing": "normal",
@@ -28,7 +28,7 @@
         "announcement_cause": {
           "type": "_announcement",
           "settings": {
-            "text": "Engagement de marque à confirmer",
+            "text": "Contribution, période et bénéficiaire publiés sans promesse vague",
             "font": "var(--font-subheading--family)",
             "font_size": "0.75rem",
             "letter_spacing": "normal",
@@ -39,7 +39,7 @@
         "announcement_returns": {
           "type": "_announcement",
           "settings": {
-            "text": "Retours sous [nombre de jours à définir]",
+            "text": "Livraison suivie — délais à préciser dans vos politiques",
             "font": "var(--font-subheading--family)",
             "font_size": "0.75rem",
             "letter_spacing": "normal",
@@ -57,9 +57,9 @@
       "settings": {
         "speed": 5,
         "section_width": "page-width",
-        "background_color": "#071a39",
+        "background_color": "#09203F",
         "divider_width": 1,
-        "divider_color": "#23d5e9",
+        "divider_color": "#25C7D9",
         "padding-block-start": 10,
         "padding-block-end": 10
       }
@@ -118,8 +118,8 @@
         "divider_width": 0,
         "divider_size": "page-width",
         "border_width": 0,
-        "background_color_top": "#fffaf0",
-        "enable_transparent_header_home": true,
+        "background_color_top": "#FCFAF6",
+        "enable_transparent_header_home": false,
         "enable_transparent_header_product": false,
         "enable_transparent_header_collection": false
       }

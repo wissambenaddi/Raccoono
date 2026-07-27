@@ -33,7 +33,7 @@
 
   .raccoono-trust__grid {
     display: grid;
-    grid-template-columns: repeat(var(--raccoono-trust-count, 4), minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: clamp(1.6rem, 3vw, 4rem);
   }
 
@@ -109,7 +109,7 @@
   "name": "Raccoono — Réassurance",
   "tag": "section",
   "class": "raccoono-section",
-  "max_blocks": 4,
+  "max_blocks": 3,
   "disabled_on": {
     "groups": ["header", "footer"]
   },
@@ -150,6 +150,7 @@
           "label": "Icône",
           "options": [
             { "value": "shipping", "label": "Expédition" },
+            { "value": "impact", "label": "Impact" },
             { "value": "craft", "label": "Fabrication" },
             { "value": "packaging", "label": "Emballage" },
             { "value": "returns", "label": "Retours" },
@@ -176,10 +177,9 @@
     {
       "name": "Raccoono — Réassurance",
       "blocks": [
-        { "type": "feature", "settings": { "icon": "shipping", "title": "Expédition suivie", "text": "Délais à confirmer dans vos politiques." } },
-        { "type": "feature", "settings": { "icon": "craft", "title": "Détails soignés", "text": "Présentez ici votre méthode réelle." } },
-        { "type": "feature", "settings": { "icon": "packaging", "title": "Emballage choisi", "text": "Ajoutez uniquement vos engagements vérifiés." } },
-        { "type": "feature", "settings": { "icon": "returns", "title": "Retours simplifiés", "text": "Indiquez ici vos conditions réelles." } }
+        { "type": "feature", "settings": { "icon": "shipping", "title": "Livraison suivie", "text": "Suivez votre commande depuis son départ jusqu’à votre porte." } },
+        { "type": "feature", "settings": { "icon": "impact", "title": "Contribution transparente", "text": "Le montant, la base de calcul et la période sont clairement indiqués." } },
+        { "type": "feature", "settings": { "icon": "packaging", "title": "Emballage raisonné", "text": "Nous documentons les choix réels et évitons les promesses vagues." } }
       ]
     }
   ]

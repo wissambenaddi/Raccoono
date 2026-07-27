@@ -29,6 +29,26 @@ Renders a Raccoono interface icon.
     <svg class="{{ icon_class }}" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
       <path d="M15 15h18a10 10 0 0 1 0 20H18M15 15l6-6M15 15l6 6M18 35l-6-6M18 35l-6 6" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/>
     </svg>
+  {% when 'impact' %}
+    <svg class="{{ icon_class }}" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+      <path d="M24 40V22m0 7c-8 0-13-5-13-13 8 0 13 5 13 13Zm0-5c8 0 13-5 13-13-8 0-13 5-13 13ZM14 40h20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/>
+    </svg>
+  {% when 'cart' %}
+    <svg class="{{ icon_class }}" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+      <path d="M7 10h5l4 22h21l4-15H15M20 39a2.5 2.5 0 1 0 0 .1M34 39a2.5 2.5 0 1 0 0 .1" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/>
+    </svg>
+  {% when 'ledger' %}
+    <svg class="{{ icon_class }}" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+      <path d="M10 8h28v32H10zM17 16h14M17 23h5M28 23h3M17 30h5M28 30h3" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/>
+    </svg>
+  {% when 'partner' %}
+    <svg class="{{ icon_class }}" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+      <path d="m8 20 9-8 7 5 7-5 9 8-10 11-6-4-6 4L8 20Zm16-3v10M18 31l6 7 6-7" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/>
+    </svg>
+  {% when 'proof' %}
+    <svg class="{{ icon_class }}" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+      <path d="M12 7h19l7 7v27H12zM31 7v8h7M18 23h14M18 30h9m-9 7h5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/>
+    </svg>
   {% when 'check' %}
     <svg class="{{ icon_class }}" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
       <path d="m5 12 4 4L19 6" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/>

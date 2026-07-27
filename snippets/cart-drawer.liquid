@@ -33,6 +33,15 @@
       >
         {{ 'content.your_cart_is_empty' | t }}
       </h2>
+      <img
+        class="cart-drawer__empty-raccoon"
+        src="{{ 'raccoono-profile-curious-v2.webp' | asset_url }}"
+        width="720"
+        height="720"
+        loading="lazy"
+        alt=""
+      >
+      <p class="cart-drawer__empty-note">Ça résonne un peu ici.</p>
 
       <div class="cart-drawer__items">
         {% render 'cart-products', force_empty: true, context: 'drawer' %}
@@ -116,6 +125,10 @@
                 </scroll-hint>
 
                 <div class="cart-drawer__summary">
+                  <p class="cart-drawer__impact-note">
+                    Les contributions applicables sont détaillées sans estimation automatique.
+                    <a href="/pages/impact">Voir la page Impact</a>
+                  </p>
                   {% render 'cart-summary', section_id: 'cart-drawer-section' %}
                 </div>
               </scroll-hint>
@@ -215,6 +228,23 @@
     }
   }
 
+  .cart-drawer__impact-note {
+    width: 100%;
+    margin: 0;
+    padding: var(--padding-md);
+    border: var(--style-border-width) solid rgb(var(--color-foreground-rgb) / var(--opacity-10-25));
+    border-radius: var(--style-border-radius-inputs);
+    background: color-mix(in srgb, #2F5B43 9%, transparent);
+    font-size: 1.3rem;
+    line-height: 1.45;
+  }
+
+  .cart-drawer__impact-note a {
+    display: inline-block;
+    font-weight: 700;
+    text-underline-offset: 0.3rem;
+  }
+
   .theme-drawer__dialog[cart-summary-sticky='false'] .cart-drawer__summary {
     position: static;
     mask-image: none;
@@ -251,6 +281,19 @@
 
   .cart-drawer--empty .cart-drawer__items {
     padding-inline: 0;
+  }
+
+  .cart-drawer__empty-raccoon {
+    width: min(58vw, 24rem);
+    height: auto;
+    margin-inline: auto;
+    border-radius: 2rem 2rem 2rem 0.6rem;
+  }
+
+  .cart-drawer__empty-note {
+    margin: 0;
+    color: rgb(var(--color-foreground-rgb) / 0.68);
+    font-size: 1.4rem;
   }
 
   cart-drawer-component:not(:has(.cart-form)) .cart-drawer__content {

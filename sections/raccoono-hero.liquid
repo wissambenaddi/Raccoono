@@ -41,9 +41,9 @@
     {% else %}
       <img
         class="raccoono-hero__image"
-        src="{{ 'raccoono-hero-v1.webp' | asset_url }}"
-        width="1983"
-        height="793"
+        src="{{ 'raccoono-forest-hero-v2.webp' | asset_url }}"
+        width="1672"
+        height="941"
         alt=""
         loading="eager"
         fetchpriority="high"
@@ -99,7 +99,7 @@
     min-height: 38rem;
     overflow: clip;
     isolation: isolate;
-    background: #f6edda;
+    background: #F7F1E6;
     color: var(--raccoono-hero-color);
   }
 
@@ -145,7 +145,7 @@
   .raccoono-hero__inner {
     z-index: 2;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     width: min(100%, 150rem);
     margin-inline: auto;
     padding: clamp(6rem, 12vw, 14rem) max(2rem, calc((100vw - 140rem) / 2));
@@ -164,13 +164,13 @@
   .raccoono-hero__content {
     display: grid;
     gap: 1.8rem;
-    width: min(100%, 72rem);
+    width: min(100%, 66rem);
     padding: clamp(2rem, 4vw, 4rem);
     border: 1px solid color-mix(in srgb, currentColor 20%, transparent);
-    border-radius: 3rem;
-    background: color-mix(in srgb, #071a39 58%, transparent);
-    box-shadow: 0 2rem 6rem rgb(7 26 57 / 18%);
-    backdrop-filter: blur(0.8rem);
+    border-radius: 2.4rem 2.4rem 2.4rem 0.6rem;
+    background: color-mix(in srgb, #FCFAF6 88%, transparent);
+    box-shadow: 0 2rem 6rem rgb(9 32 63 / 10%);
+    backdrop-filter: blur(0.5rem);
   }
 
   .raccoono-hero__eyebrow {
@@ -237,7 +237,7 @@
   .raccoono-hero__button--primary {
     border-color: var(--raccoono-hero-accent);
     background: var(--raccoono-hero-accent);
-    color: #071a39;
+    color: #09203F;
   }
 
   .raccoono-hero__button--secondary {
@@ -273,7 +273,7 @@
     .raccoono-hero__content {
       gap: 1.3rem;
       padding: 2.2rem;
-      border-radius: 2.2rem;
+      border-radius: 2.2rem 2.2rem 2.2rem 0.6rem;
     }
 
     .raccoono-hero__title {

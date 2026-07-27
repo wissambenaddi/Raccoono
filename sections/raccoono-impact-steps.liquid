@@ -1,0 +1,300 @@
+<section
+  class="raccoono-impact-steps"
+  style="
+    --impact-steps-bg: {{ section.settings.background }};
+    --impact-steps-color: {{ section.settings.text_color }};
+    --impact-steps-accent: {{ section.settings.accent_color }};
+  "
+  aria-labelledby="ImpactStepsTitle-{{ section.id }}"
+>
+  <div class="raccoono-impact-steps__inner">
+    <header class="raccoono-impact-steps__header">
+      {% if section.settings.eyebrow != blank %}
+        <p>{{ section.settings.eyebrow | escape }}</p>
+      {% endif %}
+      <h2 id="ImpactStepsTitle-{{ section.id }}">{{ section.settings.heading }}</h2>
+      {% if section.settings.text != blank %}
+        <div class="rte">{{ section.settings.text }}</div>
+      {% endif %}
+    </header>
+
+    <ol class="raccoono-impact-steps__list">
+      {% for block in section.blocks %}
+        <li class="raccoono-impact-steps__item" {{ block.shopify_attributes }}>
+          <span class="raccoono-impact-steps__number" aria-hidden="true">{{ forloop.index }}</span>
+          <span class="raccoono-impact-steps__icon">
+            {% render 'raccoono-icon', name: block.settings.icon, class: 'raccoono-impact-steps__svg' %}
+          </span>
+          <h3>{{ block.settings.title | escape }}</h3>
+          <p>{{ block.settings.text | escape }}</p>
+        </li>
+      {% endfor %}
+    </ol>
+
+    {% if section.settings.button_label != blank %}
+      <a class="button raccoono-impact-steps__button" href="{{ section.settings.button_link }}">
+        {{ section.settings.button_label | escape }}
+      </a>
+    {% endif %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .raccoono-impact-steps {
+    background: var(--impact-steps-bg);
+    color: var(--impact-steps-color);
+  }
+
+  .raccoono-impact-steps__inner {
+    padding: clamp(6rem, 9vw, 11rem) max(2rem, calc((100vw - 130rem) / 2));
+  }
+
+  .raccoono-impact-steps__header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(28rem, 0.75fr);
+    align-items: end;
+    gap: 2rem 5rem;
+    margin-bottom: clamp(3.5rem, 6vw, 6rem);
+  }
+
+  .raccoono-impact-steps__header > p,
+  .raccoono-impact-steps__header h2 {
+    margin: 0;
+  }
+
+  .raccoono-impact-steps__header > p {
+    grid-column: 1 / -1;
+    font-size: 1.2rem;
+    font-weight: 750;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .raccoono-impact-steps__header h2 {
+    max-width: 13ch;
+    font-family: var(--font-heading--family);
+    font-size: clamp(4rem, 6vw, 7rem);
+    line-height: 0.96;
+    letter-spacing: -0.045em;
+    text-wrap: balance;
+  }
+
+  .raccoono-impact-steps__header .rte {
+    max-width: 52ch;
+    font-size: 1.6rem;
+  }
+
+  .raccoono-impact-steps__list {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+    border-radius: 2.4rem;
+    background: color-mix(in srgb, currentColor 16%, transparent);
+    list-style: none;
+  }
+
+  .raccoono-impact-steps__item {
+    position: relative;
+    display: grid;
+    align-content: start;
+    gap: 1.2rem;
+    min-height: 28rem;
+    padding: clamp(2rem, 3vw, 3rem);
+    background: var(--impact-steps-bg);
+  }
+
+  .raccoono-impact-steps__number {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    color: color-mix(in srgb, currentColor 42%, transparent);
+    font-size: 1.2rem;
+    font-weight: 800;
+  }
+
+  .raccoono-impact-steps__icon {
+    display: grid;
+    width: 5.6rem;
+    height: 5.6rem;
+    place-items: center;
+    border-radius: 1.8rem 1.8rem 1.8rem 0.5rem;
+    background: color-mix(in srgb, var(--impact-steps-accent) 18%, white);
+    color: var(--impact-steps-accent);
+  }
+
+  .raccoono-impact-steps__svg {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .raccoono-impact-steps__item h3,
+  .raccoono-impact-steps__item p {
+    margin: 0;
+  }
+
+  .raccoono-impact-steps__item h3 {
+    font-family: var(--font-heading--family);
+    font-size: clamp(2.4rem, 3vw, 3.2rem);
+    line-height: 1;
+  }
+
+  .raccoono-impact-steps__item p {
+    color: color-mix(in srgb, currentColor 72%, transparent);
+    font-size: 1.5rem;
+    line-height: 1.55;
+  }
+
+  .raccoono-impact-steps__button {
+    min-height: 4.8rem;
+    margin-top: 3rem;
+    padding-inline: 2.4rem;
+    border-radius: 999px;
+    background: var(--impact-steps-color);
+    color: var(--impact-steps-bg);
+  }
+
+  @media (max-width: 989px) {
+    .raccoono-impact-steps__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 749px) {
+    .raccoono-impact-steps__header {
+      grid-template-columns: 1fr;
+    }
+
+    .raccoono-impact-steps__header > p {
+      grid-column: auto;
+    }
+  }
+
+  @media (max-width: 539px) {
+    .raccoono-impact-steps__list {
+      display: flex;
+      margin-right: -2rem;
+      padding-right: 2rem;
+      overflow-x: auto;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      scroll-snap-type: x mandatory;
+    }
+
+    .raccoono-impact-steps__item {
+      flex: 0 0 82vw;
+      min-height: 24rem;
+      border: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+      border-radius: 2rem;
+      scroll-snap-align: start;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Raccoono — Étapes impact",
+  "tag": "section",
+  "class": "raccoono-section",
+  "max_blocks": 4,
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Sur-titre",
+      "default": "Du panier aux preuves"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Titre",
+      "default": "Comment votre achat peut contribuer."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Introduction",
+      "default": "<p>Le processus est plus organisé que le bureau du raton. Les modalités exactes restent détaillées sur la page Impact.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Libellé du bouton",
+      "default": "Consulter les modalités"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Lien du bouton"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Arrière-plan",
+      "default": "#FCFAF6"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Texte",
+      "default": "#09203F"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent",
+      "default": "#2F5B43"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Étape",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icône",
+          "options": [
+            { "value": "cart", "label": "Panier" },
+            { "value": "ledger", "label": "Calcul" },
+            { "value": "partner", "label": "Partenaire" },
+            { "value": "proof", "label": "Preuve" }
+          ],
+          "default": "cart"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Titre",
+          "default": "Étape à personnaliser"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Texte",
+          "default": "Ajoutez une explication factuelle et vérifiable."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Raccoono — Étapes impact",
+      "blocks": [
+        { "type": "step", "settings": { "icon": "cart", "title": "Vous choisissez un produit.", "text": "Les produits éligibles sont identifiés dans leur fiche." } },
+        { "type": "step", "settings": { "icon": "ledger", "title": "La contribution est enregistrée.", "text": "Le calcul suit la base et la période publiées." } },
+        { "type": "step", "settings": { "icon": "partner", "title": "Les fonds sont transmis.", "text": "Le bénéficiaire et la date sont documentés." } },
+        { "type": "step", "settings": { "icon": "proof", "title": "Les résultats sont publiés.", "text": "Bilans, justificatifs et limites restent accessibles." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

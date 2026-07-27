@@ -52,7 +52,7 @@
             "text_LWt8Pz": {
               "type": "text",
               "settings": {
-                "text": "<h2>Rejoignez le club</h2>",
+                "text": "<h2>Des nouvelles, pas du bruit.</h2>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "left",
@@ -76,7 +76,7 @@
             "text_f9CFLH": {
               "type": "text",
               "settings": {
-                "text": "<p>Contenu temporaire : annoncez ici la fréquence réelle de vos e-mails et les avantages proposés.</p>",
+                "text": "<p>Recevez les nouveautés et les bilans publiés. Ajoutez la page Impact et le partenaire validé à votre menu de pied de page.</p>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "left",
@@ -138,7 +138,7 @@
       "settings": {
         "section_width": "page-width",
         "gap": 20,
-        "background_color": "#071a39",
+        "background_color": "#09203F",
         "padding-block-start": 56,
         "padding-block-end": 48
       }
@@ -186,7 +186,7 @@
         "gap": 24,
         "divider_thickness": 1,
         "divider_color": "#ffffff33",
-        "background_color": "#071a39",
+        "background_color": "#09203F",
         "padding-block-start": 20,
         "padding-block-end": 48
       }

@@ -19,6 +19,30 @@
       {% if section.settings.text != blank %}
         <div class="rte">{{ section.settings.text }}</div>
       {% endif %}
+      {% if section.settings.show_visual %}
+        <div class="raccoono-newsletter__visual">
+          {% if section.settings.image != blank %}
+            {{
+              section.settings.image
+              | image_url: width: 900
+              | image_tag:
+                widths: '360, 540, 720, 900',
+                sizes: '(min-width: 800px) 42vw, 100vw',
+                loading: 'lazy',
+                class: 'raccoono-newsletter__image'
+            }}
+          {% else %}
+            <img
+              class="raccoono-newsletter__image"
+              src="{{ 'raccoono-forest-newsletter-v2.webp' | asset_url }}"
+              width="1536"
+              height="1024"
+              loading="lazy"
+              alt=""
+            >
+          {% endif %}
+        </div>
+      {% endif %}
     </div>
 
     <div class="raccoono-newsletter__form">
@@ -125,6 +149,22 @@
     max-width: 52ch;
     margin-top: 1.6rem;
     font-size: 1.6rem;
+  }
+
+  .raccoono-newsletter__visual {
+    max-width: 44rem;
+    margin-top: 2.2rem;
+    overflow: hidden;
+    border-radius: 2rem 2rem 2rem 0.6rem;
+    background: #FCFAF6;
+  }
+
+  .raccoono-newsletter__image {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
   }
 
   .raccoono-newsletter__form form {
@@ -263,10 +303,21 @@
   },
   "settings": [
     {
+      "type": "checkbox",
+      "id": "show_visual",
+      "label": "Afficher l’illustration",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Illustration"
+    },
+    {
       "type": "text",
       "id": "eyebrow",
       "label": "Sur-titre",
-      "default": "Le courrier du terrier"
+      "default": "Le courrier de la clairière"
     },
     {
       "type": "inline_richtext",
@@ -278,7 +329,7 @@
       "type": "richtext",
       "id": "text",
       "label": "Texte",
-      "default": "<p>Présentez ici la fréquence réelle de vos e-mails et la valeur offerte à vos abonnés.</p>"
+      "default": "<p>Recevez les nouveautés, les avancées des projets soutenus et quelques nouvelles du raton. Pas de spam : il n’écrit pas assez vite.</p>"
     },
     {
       "type": "text",
@@ -314,19 +365,19 @@
       "type": "color",
       "id": "background",
       "label": "Arrière-plan",
-      "default": "#23d5e9"
+      "default": "#25C7D9"
     },
     {
       "type": "color",
       "id": "text_color",
       "label": "Texte",
-      "default": "#071a39"
+      "default": "#09203F"
     },
     {
       "type": "color",
       "id": "accent_color",
       "label": "Accent",
-      "default": "#f06c56"
+      "default": "#2F5B43"
     }
   ],
   "presets": [

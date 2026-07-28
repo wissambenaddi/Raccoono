@@ -43,19 +43,30 @@
       }
     },
     "hero": {
-      "type": "hero-banner",
+      "type": "scroll-sequence-hero",
       "settings": {
-        "image_alt": "",
         "eyebrow": "Raccoono",
-        "heading": "Des produits qui ont du caractère.",
-        "text": "Une identité chaleureuse et une mission concrète pour les forêts françaises.",
+        "heading": "Un petit geste aujourd’hui. Une forêt qui reprend racine demain.",
+        "text": "Découvrez des produits qui donnent le sourire et contribuent à des actions concrètes de restauration forestière.",
         "button_label": "Découvrir les produits",
         "button_link": "/collections/all",
-        "secondary_button_label": "",
-        "secondary_button_link": "",
-        "height": "standard",
-        "content_position": "center",
-        "overlay_opacity": 25
+        "secondary_button_label": "Comprendre notre engagement",
+        "secondary_button_link": "/pages/impact",
+        "sequence_alt": "Raccoono arrose une jeune pousse dans une forêt française en reconstruction.",
+        "enable_animation": true,
+        "desktop_sequence_prefix": "raccoon-watering-desktop-",
+        "mobile_sequence_prefix": "raccoon-watering-mobile-",
+        "desktop_first_frame_url": "",
+        "mobile_first_frame_url": "",
+        "sequence_extension": "webp",
+        "desktop_frame_count": 32,
+        "mobile_frame_count": 24,
+        "scroll_height": 260,
+        "start_offset": 5,
+        "end_offset": 5,
+        "overlay_opacity": 20,
+        "content_position": "left",
+        "reduced_motion_frame": "fallback"
       }
     },
     "trust": {

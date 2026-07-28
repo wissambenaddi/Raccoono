@@ -1,0 +1,371 @@
+{% liquid
+  assign heading = section.settings.heading
+  assign text = section.settings.text
+  assign button_label = section.settings.button_label
+  assign secondary_button_label = section.settings.secondary_button_label
+  assign sequence_alt = section.settings.sequence_alt
+  assign overlay_opacity = section.settings.overlay_opacity | divided_by: 100.0
+
+  assign desktop_first_filename = section.settings.desktop_sequence_prefix | append: '001.' | append: section.settings.sequence_extension
+  assign mobile_first_filename = section.settings.mobile_sequence_prefix | append: '001.' | append: section.settings.sequence_extension
+  assign desktop_first_url = desktop_first_filename | asset_url
+  assign mobile_first_url = mobile_first_filename | asset_url
+
+  if section.settings.desktop_first_frame_url != blank
+    assign desktop_first_url = section.settings.desktop_first_frame_url
+  endif
+
+  if section.settings.mobile_first_frame_url != blank
+    assign mobile_first_url = section.settings.mobile_first_frame_url
+  endif
+%}
+
+<section
+  class="scroll-sequence-hero scroll-sequence-hero--{{ section.settings.content_position }}"
+  style="
+    --sequence-scroll-height: {{ section.settings.scroll_height }}vh;
+    --sequence-overlay-opacity: {{ overlay_opacity }};
+  "
+  data-scroll-sequence-hero
+  data-section-id="{{ section.id }}"
+  data-enabled="{{ section.settings.enable_animation }}"
+  data-desktop-first-url="{{ desktop_first_url | escape }}"
+  data-mobile-first-url="{{ mobile_first_url | escape }}"
+  data-desktop-frames="{{ section.settings.desktop_frame_count }}"
+  data-mobile-frames="{{ section.settings.mobile_frame_count }}"
+  data-start-offset="{{ section.settings.start_offset }}"
+  data-end-offset="{{ section.settings.end_offset }}"
+  data-reduced-frame="{{ section.settings.reduced_motion_frame }}"
+>
+  <div class="scroll-sequence-hero__sticky" data-sequence-sticky>
+    <div class="scroll-sequence-hero__media">
+      <picture class="scroll-sequence-hero__fallback" data-sequence-fallback>
+        {% if section.settings.mobile_fallback_image != blank %}
+          <source
+            media="(max-width: 46.8125rem)"
+            srcset="
+              {{ section.settings.mobile_fallback_image | image_url: width: 640 }} 640w,
+              {{ section.settings.mobile_fallback_image | image_url: width: 960 }} 960w,
+              {{ section.settings.mobile_fallback_image | image_url: width: 1280 }} 1280w
+            "
+            sizes="100vw"
+          >
+        {% else %}
+          <source
+            media="(max-width: 46.8125rem)"
+            srcset="{{ mobile_first_url }}"
+          >
+        {% endif %}
+
+        {% if section.settings.fallback_image != blank %}
+          {{
+            section.settings.fallback_image
+            | image_url: width: 2400
+            | image_tag:
+              widths: '750, 990, 1200, 1500, 1800, 2100, 2400',
+              sizes: '100vw',
+              loading: 'eager',
+              fetchpriority: 'high',
+              class: 'scroll-sequence-hero__fallback-image',
+              alt: sequence_alt
+          }}
+        {% else %}
+          <img
+            class="scroll-sequence-hero__fallback-image"
+            src="{{ desktop_first_url }}"
+            alt="{{ sequence_alt | escape }}"
+            width="1672"
+            height="941"
+            loading="eager"
+            fetchpriority="high"
+          >
+        {% endif %}
+      </picture>
+
+      <canvas
+        class="scroll-sequence-hero__canvas"
+        width="1672"
+        height="941"
+        role="img"
+        aria-label="{{ sequence_alt | escape }}"
+        aria-hidden="true"
+        data-sequence-canvas
+      ></canvas>
+
+      <div class="scroll-sequence-hero__overlay" aria-hidden="true"></div>
+    </div>
+
+    <div class="scroll-sequence-hero__content container">
+      <div class="scroll-sequence-hero__content-inner">
+        {% if section.settings.eyebrow != blank %}
+          <p class="scroll-sequence-hero__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        {% endif %}
+
+        {% if heading != blank %}
+          <h1>{{ heading | escape }}</h1>
+        {% endif %}
+
+        {% if text != blank %}
+          <p class="scroll-sequence-hero__text">{{ text | escape }}</p>
+        {% endif %}
+
+        {% if section.settings.button_link != blank or section.settings.secondary_button_link != blank %}
+          <div class="scroll-sequence-hero__actions">
+            {% if section.settings.button_link != blank and button_label != blank %}
+              {% render 'button',
+                label: button_label,
+                href: section.settings.button_link,
+                variant: 'primary',
+                size: 'compact'
+              %}
+            {% endif %}
+
+            {% if section.settings.secondary_button_link != blank and secondary_button_label != blank %}
+              {% render 'button',
+                label: secondary_button_label,
+                href: section.settings.secondary_button_link,
+                variant: 'secondary',
+                size: 'compact'
+              %}
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero séquence scroll",
+  "tag": "section",
+  "class": "section-scroll-sequence-hero",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Contenu"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Surtitre",
+      "default": "Raccoono"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titre",
+      "default": "Un petit geste aujourd’hui. Une forêt qui reprend racine demain."
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Texte",
+      "default": "Découvrez des produits qui donnent le sourire et contribuent à des actions concrètes de restauration forestière."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Bouton principal",
+      "default": "Découvrir les produits"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Lien principal"
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_label",
+      "label": "Lien secondaire",
+      "default": "Comprendre notre engagement"
+    },
+    {
+      "type": "url",
+      "id": "secondary_button_link",
+      "label": "Destination secondaire"
+    },
+    {
+      "type": "header",
+      "content": "Image statique"
+    },
+    {
+      "type": "image_picker",
+      "id": "fallback_image",
+      "label": "Image de remplacement desktop"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_fallback_image",
+      "label": "Image de remplacement mobile"
+    },
+    {
+      "type": "text",
+      "id": "sequence_alt",
+      "label": "Description accessible",
+      "default": "Raccoono arrose une jeune pousse dans une forêt française en reconstruction."
+    },
+    {
+      "type": "header",
+      "content": "Séquence"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_animation",
+      "label": "Activer l’animation au défilement",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "desktop_sequence_prefix",
+      "label": "Préfixe des images desktop",
+      "default": "raccoon-watering-desktop-"
+    },
+    {
+      "type": "text",
+      "id": "mobile_sequence_prefix",
+      "label": "Préfixe des images mobile",
+      "default": "raccoon-watering-mobile-"
+    },
+    {
+      "type": "text",
+      "id": "desktop_first_frame_url",
+      "label": "URL de la première image desktop",
+      "info": "Facultatif. Utilisez une URL se terminant par 001.webp ou 001.avif."
+    },
+    {
+      "type": "text",
+      "id": "mobile_first_frame_url",
+      "label": "URL de la première image mobile",
+      "info": "Facultatif. Utilisez une URL se terminant par 001.webp ou 001.avif."
+    },
+    {
+      "type": "select",
+      "id": "sequence_extension",
+      "label": "Format de la séquence",
+      "options": [
+        {
+          "value": "webp",
+          "label": "WebP"
+        },
+        {
+          "value": "avif",
+          "label": "AVIF"
+        }
+      ],
+      "default": "webp"
+    },
+    {
+      "type": "range",
+      "id": "desktop_frame_count",
+      "label": "Nombre d’images desktop",
+      "min": 24,
+      "max": 40,
+      "step": 1,
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "mobile_frame_count",
+      "label": "Nombre d’images mobile",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Défilement"
+    },
+    {
+      "type": "range",
+      "id": "scroll_height",
+      "label": "Hauteur de la zone de défilement",
+      "min": 160,
+      "max": 400,
+      "step": 20,
+      "unit": "vh",
+      "default": 260
+    },
+    {
+      "type": "range",
+      "id": "start_offset",
+      "label": "Pause au début",
+      "min": 0,
+      "max": 25,
+      "step": 1,
+      "unit": "%",
+      "default": 5
+    },
+    {
+      "type": "range",
+      "id": "end_offset",
+      "label": "Pause à la fin",
+      "min": 0,
+      "max": 25,
+      "step": 1,
+      "unit": "%",
+      "default": 5
+    },
+    {
+      "type": "header",
+      "content": "Présentation"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Intensité de l’overlay",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "%",
+      "default": 20
+    },
+    {
+      "type": "select",
+      "id": "content_position",
+      "label": "Position du contenu",
+      "options": [
+        {
+          "value": "left",
+          "label": "Gauche"
+        },
+        {
+          "value": "center",
+          "label": "Centre"
+        },
+        {
+          "value": "right",
+          "label": "Droite"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "reduced_motion_frame",
+      "label": "Image en mode animations réduites",
+      "options": [
+        {
+          "value": "fallback",
+          "label": "Image de remplacement"
+        },
+        {
+          "value": "middle",
+          "label": "Image du milieu"
+        },
+        {
+          "value": "last",
+          "label": "Dernière image"
+        }
+      ],
+      "default": "fallback"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero séquence scroll"
+    }
+  ]
+}
+{% endschema %}

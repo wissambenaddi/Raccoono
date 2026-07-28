@@ -23,6 +23,7 @@
     {{ 'base.css' | asset_url | stylesheet_tag: preload: true }}
     {% if request.page_type == 'index' %}
       {{ 'homepage.css' | asset_url | stylesheet_tag }}
+      {{ 'scroll-sequence-hero.css' | asset_url | stylesheet_tag }}
     {% endif %}
 
     <script>
@@ -33,6 +34,7 @@
     {% if request.page_type == 'index' %}
       <script src="{{ 'header.js' | asset_url }}" defer></script>
       <script src="{{ 'raccoon-personalities.js' | asset_url }}" defer></script>
+      <script src="{{ 'scroll-sequence-hero.js' | asset_url }}" defer></script>
     {% endif %}
 
     {{ content_for_header }}

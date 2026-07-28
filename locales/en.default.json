@@ -45,7 +45,8 @@
       "heading": "Products with character.",
       "text": "A light, warm and committed store with products front and centre.",
       "primary_action": "Discover the products",
-      "secondary_action": "Discover our mission"
+      "secondary_action": "Discover our mission",
+      "fallback_alt": "The Raccoono raccoon helps restore a forest"
     },
     "trust": {
       "heading": "Raccoono commitments"
@@ -63,7 +64,8 @@
     "image_text": {
       "heading": "A simple and engaging identity.",
       "text": "The raccoon quietly supports the experience and the brand story without taking attention away from the products.",
-      "action": "Discover the selection"
+      "action": "Discover the selection",
+      "fallback_alt": "The Raccoono raccoon observes young trees growing back"
     },
     "personalities": {
       "heading": "Which profile feels like you today?",

@@ -65,11 +65,11 @@
       </picture>
     {% else %}
       <img
-        class="hero-banner__image hero-banner__placeholder"
-        src="{{ 'raccoono-placeholder.svg' | asset_url }}"
-        alt=""
-        width="1600"
-        height="900"
+        class="hero-banner__image"
+        src="{{ 'raccoono-forest-hero-v2.webp' | asset_url }}"
+        alt="{{ 'sections.hero.fallback_alt' | t | escape }}"
+        width="1672"
+        height="941"
         loading="eager"
         fetchpriority="high"
       >

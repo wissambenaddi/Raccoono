@@ -603,6 +603,13 @@
   block-size: 100%;
 }
 
+.image-with-text__fallback {
+  inline-size: 100%;
+  block-size: auto;
+  object-fit: cover;
+  aspect-ratio: 4 / 3;
+}
+
 .image-with-text__content {
   max-inline-size: var(--container-marketing);
 }

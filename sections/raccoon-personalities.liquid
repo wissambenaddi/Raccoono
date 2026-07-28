@@ -39,6 +39,17 @@
           if profile_description == blank
             assign profile_description = 'sections.personalities.placeholder_description' | t
           endif
+
+          case forloop.index
+            when 1
+              assign fallback_image = 'raccoono-profile-curious-v2.webp'
+            when 2
+              assign fallback_image = 'raccoono-profile-discreet-v2.webp'
+            when 3
+              assign fallback_image = 'raccoono-profile-motivated-v2.webp'
+            else
+              assign fallback_image = 'raccoono-profile-chaotic-v2.webp'
+          endcase
         %}
         <div
           class="personality-option{% if forloop.first %} is-active{% endif %}"
@@ -71,10 +82,10 @@
                 }}
               {% else %}
                 <img
-                  src="{{ 'raccoono-placeholder.svg' | asset_url }}"
-                  alt=""
-                  width="480"
-                  height="480"
+                  src="{{ fallback_image | asset_url }}"
+                  alt="{{ profile_name | escape }}"
+                  width="720"
+                  height="720"
                   loading="lazy"
                 >
               {% endif %}

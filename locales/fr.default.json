@@ -45,7 +45,8 @@
       "heading": "Des produits qui ont du caractère.",
       "text": "Une boutique légère, chaleureuse et engagée, avec les produits au premier plan.",
       "primary_action": "Découvrir les produits",
-      "secondary_action": "Découvrir notre mission"
+      "secondary_action": "Découvrir notre mission",
+      "fallback_alt": "Le raton Raccoono participe à la restauration d’une forêt"
     },
     "trust": {
       "heading": "Les engagements Raccoono"
@@ -63,7 +64,8 @@
     "image_text": {
       "heading": "Une identité simple et attachante.",
       "text": "Le raton laveur accompagne l’expérience avec discrétion. Il soutient le récit de la marque sans prendre la place des produits.",
-      "action": "Découvrir la sélection"
+      "action": "Découvrir la sélection",
+      "fallback_alt": "Le raton Raccoono observe la reprise de jeunes arbres"
     },
     "personalities": {
       "heading": "Quel profil vous ressemble aujourd’hui ?",

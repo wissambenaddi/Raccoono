@@ -27,9 +27,14 @@
           aspect_ratio: '4 / 3'
         %}
       {% else %}
-        <div class="image-with-text__placeholder" aria-hidden="true">
-          {{ 'lifestyle-1' | placeholder_svg_tag }}
-        </div>
+        <img
+          class="image-with-text__fallback"
+          src="{{ 'raccoono-forest-mission-v2.webp' | asset_url }}"
+          alt="{{ 'sections.image_text.fallback_alt' | t | escape }}"
+          width="1448"
+          height="1086"
+          loading="lazy"
+        >
       {% endif %}
     </div>
 

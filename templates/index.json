@@ -132,33 +132,41 @@
         "profile_1": {
           "type": "personality",
           "settings": {
-            "image_alt": "Le raton curieux",
-            "name": "Le curieux",
-            "description": "Toujours prêt à regarder les détails et à découvrir quelque chose de nouveau."
+            "image_alt": "Raton discret qui observe derrière une ligne",
+            "name": "Le discret",
+            "quote": "« Je vais réfléchir. »",
+            "description": "La phrase préférée de quelqu’un qui reviendra dans 10 minutes.",
+            "link_label": ""
           }
         },
         "profile_2": {
           "type": "personality",
           "settings": {
-            "image_alt": "Le raton discret",
-            "name": "Le discret",
-            "description": "Calme, attentif et à l’aise avec les choix simples."
+            "image_alt": "Raton fouineur avec une loupe",
+            "name": "Le fouineur",
+            "quote": "« Je regarde juste. »",
+            "description": "C’est exactement comme ça que tout commence.",
+            "link_label": ""
           }
         },
         "profile_3": {
           "type": "personality",
           "settings": {
-            "image_alt": "Le raton enthousiaste",
-            "name": "L’enthousiaste",
-            "description": "Partant pour les idées spontanées et les couleurs qui donnent le sourire."
+            "image_alt": "Raton généreux aux pattes ouvertes",
+            "name": "Le généreux",
+            "quote": "« Quitte à craquer, autant donner un coup de pouce aux forêts. »",
+            "description": "",
+            "link_label": ""
           }
         },
         "profile_4": {
           "type": "personality",
           "settings": {
-            "image_alt": "Le raton rêveur",
-            "name": "Le rêveur",
-            "description": "Un esprit libre qui laisse toujours une place à l’imagination."
+            "image_alt": "Raton au profil chaotique et enthousiaste",
+            "name": "Le chaos",
+            "quote": "« J’étais venu pour un seul produit. »",
+            "description": "Mon panier avait visiblement d’autres projets.",
+            "link_label": ""
           }
         }
       },
@@ -169,8 +177,16 @@
         "profile_4"
       ],
       "settings": {
-        "heading": "Quel profil vous ressemble aujourd’hui ?",
-        "instruction": "Choisissez un raton pour découvrir son humeur."
+        "heading": "Quel raton êtes-vous aujourd’hui ?",
+        "subtitle": "Soyez honnête… votre panier connaît déjà la réponse.",
+        "bar_start_color": "#4F82FF",
+        "bar_end_color": "#EF4E55",
+        "active_text_color": "#071C3F",
+        "inactive_opacity": 42,
+        "inactive_blur": 2,
+        "enable_scale": true,
+        "padding_top": 64,
+        "padding_bottom": 64
       }
     },
     "reviews": {

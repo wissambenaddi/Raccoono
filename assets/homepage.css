@@ -619,103 +619,231 @@
   color: var(--color-text-muted);
 }
 
-.raccoon-personalities__grid {
+.raccoon-personalities {
+  padding-block: var(--personality-padding-top) var(--personality-padding-bottom);
+  overflow: clip;
+  background: var(--color-white);
+}
+
+.raccoon-personalities__selector {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-24) var(--space-12);
+  max-inline-size: 60rem;
+  gap: var(--space-8);
+  margin: 0 auto var(--space-32);
 }
 
-.personality-option {
-  min-inline-size: 0;
-  text-align: center;
-}
-
-.personality-option__trigger {
-  inline-size: 100%;
-  min-block-size: 2.75rem;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: var(--color-navy);
-}
-
-.personality-option__image {
-  display: block;
-  inline-size: 100%;
-  overflow: hidden;
-  opacity: 0.68;
-  transition: opacity var(--motion-fast) var(--ease-standard);
-  aspect-ratio: 1;
-}
-
-.personality-option__image img {
-  inline-size: 100%;
-  block-size: 100%;
-  object-fit: contain;
-}
-
-.personality-option__name {
-  display: block;
-  margin-block-start: var(--space-8);
-  font-family: var(--font-display-family);
-  font-size: 0.9375rem;
-  font-weight: 700;
-}
-
-.personality-option__static-description {
-  margin: var(--space-8) auto 0;
-  color: var(--color-text-muted);
-  font-size: 0.75rem;
-  line-height: 1.45;
-}
-
-.personality-option.is-active .personality-option__image,
-.personality-option__trigger:hover .personality-option__image {
-  opacity: 1;
-}
-
-.raccoon-personalities__track {
-  position: relative;
+.no-js .raccoon-personalities__selector {
   display: none;
-  block-size: 0.125rem;
-  margin-block: var(--space-24) var(--space-16);
-  overflow: hidden;
-  background: var(--color-border-subtle);
 }
 
-.raccoon-personalities__track span {
-  display: block;
-  inline-size: 25%;
-  block-size: 100%;
-  background: linear-gradient(90deg, var(--color-cyan), var(--color-coral));
-  transform: translateX(calc(var(--active-index, 0) * 100%));
-  transition: transform var(--motion-standard) var(--ease-standard);
+.raccoon-personalities__range {
+  --range-track-size: 0.25rem;
+  --range-thumb-size: 2.75rem;
+  inline-size: 100%;
+  block-size: var(--range-thumb-size);
+  padding: 0;
+  margin: 0;
+  appearance: none;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: transparent;
+  color: var(--personality-active-color);
+  cursor: pointer;
+  touch-action: pan-y;
+}
+
+.raccoon-personalities__range:focus {
+  outline: none;
+}
+
+.raccoon-personalities__range:focus-visible {
+  outline: 0.1875rem solid var(--personality-active-color);
+  outline-offset: 0.25rem;
+}
+
+.raccoon-personalities__range::-webkit-slider-runnable-track {
+  inline-size: 100%;
+  block-size: var(--range-track-size);
+  border: 0;
+  border-radius: var(--radius-full);
+  background: linear-gradient(
+    90deg,
+    var(--personality-bar-start),
+    var(--personality-bar-end)
+  );
+}
+
+.raccoon-personalities__range::-webkit-slider-thumb {
+  inline-size: var(--range-thumb-size);
+  block-size: var(--range-thumb-size);
+  margin-block-start: calc((var(--range-track-size) - var(--range-thumb-size)) / 2);
+  appearance: none;
+  border: 0.125rem solid var(--personality-active-color);
+  border-radius: 50%;
+  background: var(--color-white);
+  box-shadow: 0 0.125rem 0.5rem rgb(7 28 63 / 18%);
+}
+
+.raccoon-personalities__range::-moz-range-track {
+  inline-size: 100%;
+  block-size: var(--range-track-size);
+  border: 0;
+  border-radius: var(--radius-full);
+  background: linear-gradient(
+    90deg,
+    var(--personality-bar-start),
+    var(--personality-bar-end)
+  );
+}
+
+.raccoon-personalities__range::-moz-range-progress {
+  block-size: var(--range-track-size);
+  border-radius: var(--radius-full);
+  background: transparent;
+}
+
+.raccoon-personalities__range::-moz-range-thumb {
+  inline-size: var(--range-thumb-size);
+  block-size: var(--range-thumb-size);
+  border: 0.125rem solid var(--personality-active-color);
+  border-radius: 50%;
+  background: var(--color-white);
+  box-shadow: 0 0.125rem 0.5rem rgb(7 28 63 / 18%);
 }
 
 .raccoon-personalities__active {
-  display: none;
-  max-inline-size: var(--container-marketing);
-  margin-inline: auto;
+  min-block-size: 1.75rem;
+  color: var(--personality-active-color);
   text-align: center;
 }
 
 .raccoon-personalities__active strong {
   font-family: var(--font-display-family);
-  font-size: 1.125rem;
+  font-size: clamp(1.125rem, 4vw, 1.375rem);
+  line-height: 1.25;
 }
 
-.raccoon-personalities__active p {
-  margin: var(--space-8) 0 0;
+.raccoon-personalities__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-32) var(--space-12);
+}
+
+.personality-option {
+  min-inline-size: 0;
   color: var(--color-text-muted);
+  text-align: center;
+  transition: color 200ms var(--ease-standard);
 }
 
-.raccoon-personalities.is-enhanced .personality-option__static-description {
-  display: none;
+.personality-option__image {
+  display: grid;
+  inline-size: 100%;
+  min-block-size: 0;
+  place-items: end center;
+  aspect-ratio: 1;
 }
 
-.raccoon-personalities.is-enhanced .raccoon-personalities__track,
-.raccoon-personalities.is-enhanced .raccoon-personalities__active {
+.personality-option__illustration {
   display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain;
+  opacity: var(--personality-inactive-opacity);
+  filter: blur(var(--personality-inactive-blur));
+  transform: scale(1);
+  transform-origin: center bottom;
+  transition:
+    opacity 200ms var(--ease-standard),
+    filter 200ms var(--ease-standard),
+    transform 200ms var(--ease-standard);
+}
+
+.personality-option__content {
+  max-inline-size: 17rem;
+  margin-inline: auto;
+}
+
+.personality-option__name {
+  position: relative;
+  margin: var(--space-12) 0 0;
+  color: inherit;
+  font-family: var(--font-display-family);
+  font-size: clamp(0.9375rem, 3.5vw, 1.125rem);
+  font-weight: 700;
+  line-height: 1.25;
+  transition: color 200ms var(--ease-standard);
+}
+
+.personality-option__name::after {
+  display: block;
+  inline-size: 0;
+  block-size: 0.125rem;
+  margin: var(--space-4) auto 0;
+  border-radius: var(--radius-full);
+  background: var(--personality-active-color);
+  content: "";
+  transition: inline-size 200ms var(--ease-standard);
+}
+
+.personality-option__quote,
+.personality-option__description {
+  margin: var(--space-8) 0 0;
+  color: inherit;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  transition: color 200ms var(--ease-standard);
+}
+
+.personality-option__quote {
+  font-weight: 700;
+}
+
+.personality-option__link {
+  display: inline-flex;
+  min-block-size: 2.75rem;
+  align-items: center;
+  margin-block-start: var(--space-8);
+  color: inherit;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-underline-offset: 0.2em;
+}
+
+.personality-option[data-active="true"] {
+  color: var(--personality-active-color);
+}
+
+.personality-option[data-active="true"] .personality-option__illustration {
+  opacity: 1;
+  filter: blur(0);
+}
+
+.raccoon-personalities[data-enable-scale="true"]
+  .personality-option[data-active="true"]
+  .personality-option__illustration {
+  transform: scale(1.04);
+}
+
+.personality-option[data-active="true"] .personality-option__name::after {
+  inline-size: 1.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .personality-option,
+  .personality-option__illustration,
+  .personality-option__name,
+  .personality-option__name::after,
+  .personality-option__quote,
+  .personality-option__description {
+    transition-duration: 0.01ms;
+  }
+
+  .raccoon-personalities[data-enable-scale="true"]
+    .personality-option[data-active="true"]
+    .personality-option__illustration {
+    transform: none;
+  }
 }
 
 .testimonials__list,
@@ -1188,7 +1316,8 @@
     border: 1px solid CanvasText;
   }
 
-  .personality-option__image {
+  .personality-option__illustration {
     opacity: 1;
+    filter: none;
   }
 }

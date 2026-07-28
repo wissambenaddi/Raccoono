@@ -1,89 +1,102 @@
 (() => {
   const mountedSections = new WeakMap();
 
+  const normalizeText = (value) => (typeof value === 'string' ? value.replace(/\s+/g, ' ').trim() : '');
+
+  const getProfileContent = (profile) => {
+    if (!(profile instanceof HTMLElement)) {
+      return { name: '', quote: '', description: '' };
+    }
+
+    return {
+      name: normalizeText(profile.querySelector('[data-profile-name]')?.textContent),
+      quote: normalizeText(profile.querySelector('[data-profile-quote]')?.textContent),
+      description: normalizeText(profile.querySelector('[data-profile-description]')?.textContent)
+    };
+  };
+
   const mountPersonalities = (section) => {
     if (!(section instanceof HTMLElement) || mountedSections.has(section)) return;
 
-    const triggers = Array.from(section.querySelectorAll('[data-personality-trigger]'));
-    const options = Array.from(section.querySelectorAll('[data-personality-option]'));
-    const panel = section.querySelector('[data-personality-panel]');
-    const name = section.querySelector('[data-personality-name]');
-    const description = section.querySelector('[data-personality-description]');
-    const progress = section.querySelector('[data-personality-progress]');
+    const range = section.querySelector('[data-personality-range]');
+    const profiles = Array.from(section.querySelectorAll('[data-personality-profile]'));
+    const activeName = section.querySelector('[data-personality-active-name]');
+    const liveRegion = section.querySelector('[data-personality-live]');
 
-    if (
-      triggers.length === 0 ||
-      !(panel instanceof HTMLElement) ||
-      !(name instanceof HTMLElement) ||
-      !(description instanceof HTMLElement)
-    ) {
-      return;
-    }
+    if (!(range instanceof HTMLInputElement) || profiles.length === 0) return;
 
     const controller = new AbortController();
     const signal = controller.signal;
 
-    const selectPersonality = (selectedIndex, moveFocus = false) => {
-      const normalizedIndex = (selectedIndex + triggers.length) % triggers.length;
+    const selectProfile = (requestedIndex, announce = true) => {
+      const numericIndex = Number.parseInt(String(requestedIndex), 10);
+      const safeIndex = Number.isFinite(numericIndex)
+        ? Math.min(Math.max(numericIndex, 0), profiles.length - 1)
+        : 0;
+      const selectedProfile = profiles[safeIndex];
+      const content = getProfileContent(selectedProfile);
 
-      triggers.forEach((trigger, index) => {
-        const active = index === normalizedIndex;
-        trigger.setAttribute('aria-selected', active ? 'true' : 'false');
-        trigger.setAttribute('tabindex', active ? '0' : '-1');
-        options[index]?.classList.toggle('is-active', active);
+      range.value = String(safeIndex);
+      range.setAttribute('aria-valuetext', content.name);
+
+      profiles.forEach((profile, index) => {
+        const active = index === safeIndex;
+        profile.dataset.active = active ? 'true' : 'false';
+
+        if (active) {
+          profile.setAttribute('aria-current', 'true');
+        } else {
+          profile.removeAttribute('aria-current');
+        }
       });
 
-      const activeTrigger = triggers[normalizedIndex];
-      name.textContent = activeTrigger.dataset.profileName || '';
-      description.textContent = activeTrigger.dataset.profileDescription || '';
-      panel.setAttribute('aria-labelledby', activeTrigger.id);
-
-      if (progress instanceof HTMLElement) {
-        progress.style.setProperty('--active-index', String(normalizedIndex));
+      if (activeName instanceof HTMLElement) {
+        activeName.textContent = content.name;
       }
 
-      if (moveFocus) activeTrigger.focus();
+      if (announce && liveRegion instanceof HTMLElement) {
+        liveRegion.textContent = [content.name, content.quote, content.description].filter(Boolean).join('. ');
+      }
     };
 
-    triggers.forEach((trigger, index) => {
-      trigger.addEventListener('click', () => selectPersonality(index), { signal });
-      trigger.addEventListener(
-        'keydown',
-        (event) => {
-          if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
-            event.preventDefault();
-            selectPersonality(index + 1, true);
-          } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
-            event.preventDefault();
-            selectPersonality(index - 1, true);
-          } else if (event.key === 'Home') {
-            event.preventDefault();
-            selectPersonality(0, true);
-          } else if (event.key === 'End') {
-            event.preventDefault();
-            selectPersonality(triggers.length - 1, true);
-          }
-        },
-        { signal }
-      );
-    });
+    const handleInput = () => {
+      selectProfile(range.value);
+    };
+
+    const handleKeydown = (event) => {
+      if (event.key === 'Home') {
+        event.preventDefault();
+        selectProfile(0);
+      } else if (event.key === 'End') {
+        event.preventDefault();
+        selectProfile(profiles.length - 1);
+      }
+    };
+
+    range.addEventListener('input', handleInput, { signal });
+    range.addEventListener('change', handleInput, { signal });
+    range.addEventListener('keydown', handleKeydown, { signal });
 
     section.classList.add('is-enhanced');
-    selectPersonality(0);
-    mountedSections.set(section, controller);
+    selectProfile(0, false);
+    mountedSections.set(section, { controller, selectProfile });
   };
 
   const unmountPersonalities = (section) => {
-    const controller = mountedSections.get(section);
-    if (!controller) return;
+    const mounted = mountedSections.get(section);
+    if (!mounted) return;
 
-    controller.abort();
+    mounted.controller.abort();
     section.classList.remove('is-enhanced');
     mountedSections.delete(section);
   };
 
   const mountAll = (root = document) => {
-    root.querySelectorAll('[data-personalities-section]').forEach(mountPersonalities);
+    if (root instanceof HTMLElement && root.matches('[data-personalities-section]')) {
+      mountPersonalities(root);
+    }
+
+    root.querySelectorAll?.('[data-personalities-section]').forEach(mountPersonalities);
   };
 
   if (document.readyState === 'loading') {
@@ -104,5 +117,21 @@
       : event.target.querySelector('[data-personalities-section]');
 
     if (section instanceof HTMLElement) unmountPersonalities(section);
+  });
+
+  document.addEventListener('shopify:block:select', (event) => {
+    if (!(event.target instanceof HTMLElement)) return;
+
+    const profile = event.target.matches('[data-personality-profile]')
+      ? event.target
+      : event.target.querySelector('[data-personality-profile]');
+    const section = profile?.closest('[data-personalities-section]');
+
+    if (!(profile instanceof HTMLElement) || !(section instanceof HTMLElement)) return;
+
+    const mounted = mountedSections.get(section);
+    if (!mounted) return;
+
+    mounted.selectProfile(profile.dataset.profileIndex);
   });
 })();

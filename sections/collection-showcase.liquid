@@ -1,0 +1,102 @@
+{% liquid
+  assign heading = section.settings.heading
+  if heading == blank
+    assign heading = 'sections.collections.heading' | t
+  endif
+%}
+
+<section
+  class="collection-showcase section-spacing"
+  data-section-id="{{ section.id }}"
+  data-section-type="collection-showcase"
+>
+  <div class="container">
+    <div class="section-heading section-heading--inline">
+      <div>
+        {% if section.settings.eyebrow != blank %}
+          <p class="section-eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        {% endif %}
+        <h2>{{ heading | escape }}</h2>
+      </div>
+    </div>
+
+    <div class="collection-showcase__grid">
+      {% for block in section.blocks %}
+        {% assign placeholder_index = forloop.index0 | modulo: 6 | plus: 1 %}
+        {% render 'collection-card',
+          collection: block.settings.collection,
+          image: block.settings.image,
+          title: block.settings.title,
+          url: block.settings.link,
+          placeholder_index: placeholder_index,
+          attributes: block.shopify_attributes
+        %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collections en vedette",
+  "tag": "section",
+  "class": "section-collection-showcase",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Surtitre"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titre"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection Shopify"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image de remplacement"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Titre de remplacement"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Lien de remplacement"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 3,
+  "presets": [
+    {
+      "name": "Collections en vedette",
+      "blocks": [
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

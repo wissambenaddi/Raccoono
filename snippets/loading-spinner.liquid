@@ -1,0 +1,19 @@
+{% doc %}
+Renders a decorative loading spinner. Pair it with a textual status when used alone.
+
+@param {string} [class] - Additional CSS class.
+{% enddoc %}
+
+{% liquid
+  assign spinner_class = 'loading-spinner'
+  if class != blank
+    assign spinner_class = spinner_class | append: ' ' | append: class
+  endif
+%}
+
+<span class="{{ spinner_class }}" aria-hidden="true">
+  <svg class="loading-spinner__svg" viewBox="0 0 24 24" fill="none" focusable="false">
+    <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-opacity="0.24" stroke-width="2"/>
+    <path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </svg>
+</span>

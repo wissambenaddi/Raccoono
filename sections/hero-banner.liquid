@@ -1,0 +1,219 @@
+{% liquid
+  assign heading = section.settings.heading
+  if heading == blank
+    assign heading = 'sections.hero.heading' | t
+  endif
+
+  assign text = section.settings.text
+  if text == blank
+    assign text = 'sections.hero.text' | t
+  endif
+
+  assign first_button_label = section.settings.button_label
+  if first_button_label == blank
+    assign first_button_label = 'sections.hero.primary_action' | t
+  endif
+
+  assign second_button_label = section.settings.secondary_button_label
+  if second_button_label == blank
+    assign second_button_label = 'sections.hero.secondary_action' | t
+  endif
+
+  case section.settings.height
+    when 'compact'
+      assign hero_height = 440
+    when 'tall'
+      assign hero_height = 560
+    else
+      assign hero_height = 500
+  endcase
+
+  assign overlay_opacity = section.settings.overlay_opacity | divided_by: 100.0
+%}
+
+<section
+  class="hero-banner hero-banner--{{ section.settings.content_position }}"
+  style="--hero-height: {{ hero_height }}px; --hero-overlay: {{ overlay_opacity }};"
+  data-section-id="{{ section.id }}"
+  data-section-type="hero-banner"
+>
+  <div class="hero-banner__media">
+    {% if section.settings.image != blank %}
+      <picture>
+        {% if section.settings.mobile_image != blank %}
+          <source
+            media="(max-width: 46.8125rem)"
+            srcset="
+              {{ section.settings.mobile_image | image_url: width: 480 }} 480w,
+              {{ section.settings.mobile_image | image_url: width: 750 }} 750w,
+              {{ section.settings.mobile_image | image_url: width: 960 }} 960w
+            "
+            sizes="100vw"
+          >
+        {% endif %}
+        {{
+          section.settings.image
+          | image_url: width: 2400
+          | image_tag:
+            widths: '750, 990, 1200, 1500, 1800, 2100, 2400',
+            sizes: '100vw',
+            loading: 'eager',
+            fetchpriority: 'high',
+            class: 'hero-banner__image',
+            alt: section.settings.image_alt
+        }}
+      </picture>
+    {% else %}
+      <img
+        class="hero-banner__image"
+        src="{{ 'raccoono-forest-hero-v2.webp' | asset_url }}"
+        alt="{{ 'sections.hero.fallback_alt' | t | escape }}"
+        width="1672"
+        height="941"
+        loading="eager"
+        fetchpriority="high"
+      >
+    {% endif %}
+  </div>
+
+  <div class="hero-banner__overlay" aria-hidden="true"></div>
+
+  <div class="hero-banner__content container">
+    {% if section.settings.eyebrow != blank %}
+      <p class="hero-banner__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+    {% endif %}
+    <h1>{{ heading | escape }}</h1>
+    <p class="hero-banner__text">{{ text | escape }}</p>
+    {% if section.settings.button_link != blank or section.settings.secondary_button_link != blank %}
+      <div class="hero-banner__actions">
+        {% if section.settings.button_link != blank %}
+          {% render 'button',
+            label: first_button_label,
+            href: section.settings.button_link,
+            variant: 'primary',
+            size: 'compact'
+          %}
+        {% endif %}
+        {% if section.settings.secondary_button_link != blank %}
+          {% render 'button',
+            label: second_button_label,
+            href: section.settings.secondary_button_link,
+            variant: 'secondary',
+            size: 'compact'
+          %}
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero panoramique",
+  "tag": "section",
+  "class": "section-hero-banner",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image desktop"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Image mobile"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Texte alternatif de l’image"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Surtitre"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titre"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Texte"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Libellé du bouton principal"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Lien du bouton principal"
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_label",
+      "label": "Libellé du second bouton"
+    },
+    {
+      "type": "url",
+      "id": "secondary_button_link",
+      "label": "Lien du second bouton"
+    },
+    {
+      "type": "select",
+      "id": "height",
+      "label": "Hauteur desktop",
+      "options": [
+        {
+          "value": "compact",
+          "label": "Compacte — 440 px"
+        },
+        {
+          "value": "standard",
+          "label": "Standard — 500 px"
+        },
+        {
+          "value": "tall",
+          "label": "Haute — 560 px"
+        }
+      ],
+      "default": "standard"
+    },
+    {
+      "type": "select",
+      "id": "content_position",
+      "label": "Position du contenu",
+      "options": [
+        {
+          "value": "center",
+          "label": "Centre"
+        },
+        {
+          "value": "left",
+          "label": "Gauche"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Opacité de l’overlay",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "%",
+      "default": 25
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero panoramique"
+    }
+  ]
+}
+{% endschema %}

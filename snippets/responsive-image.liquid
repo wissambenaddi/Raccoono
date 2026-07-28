@@ -1,0 +1,64 @@
+{% doc %}
+Renders a Shopify responsive image with intrinsic dimensions and a stable placeholder.
+
+@param {image} image - Shopify image object.
+@param {string} [alt] - Alternative text. Falls back to the image alt text.
+@param {string} [widths] - Comma-separated candidate widths.
+@param {string} [sizes] - Responsive sizes attribute.
+@param {string} [loading] - lazy or eager.
+@param {string} [fetchpriority] - auto, high or low.
+@param {string} [class] - Additional image class.
+@param {string} [wrapper_class] - Additional wrapper class.
+@param {string} [aspect_ratio] - CSS aspect-ratio value.
+{% enddoc %}
+
+{% liquid
+  assign resolved_alt = alt | default: image.alt | default: ''
+  assign resolved_widths = widths | default: '320, 480, 640, 800, 960, 1200, 1600, 2000'
+  assign resolved_sizes = sizes | default: '100vw'
+  assign resolved_loading = loading | default: 'lazy'
+  assign resolved_priority = fetchpriority | default: 'auto'
+  assign image_class = 'responsive-media__image'
+
+  if class != blank
+    assign image_class = image_class | append: ' ' | append: class
+  endif
+
+  assign media_class = 'responsive-media'
+  if wrapper_class != blank
+    assign media_class = media_class | append: ' ' | append: wrapper_class
+  endif
+%}
+
+<div
+  class="{{ media_class }}"
+  {% if aspect_ratio != blank %}
+    style="--media-ratio: {{ aspect_ratio }};"
+  {% endif %}
+>
+  {% if image != blank %}
+    {{
+      image
+      | image_url: width: 2400
+      | image_tag:
+        widths: resolved_widths,
+        sizes: resolved_sizes,
+        loading: resolved_loading,
+        fetchpriority: resolved_priority,
+        class: image_class,
+        alt: resolved_alt
+    }}
+  {% else %}
+    <img
+      class="responsive-media__image responsive-media__placeholder"
+      src="{{ 'raccoono-placeholder.svg' | asset_url }}"
+      alt="{{ resolved_alt | escape }}"
+      width="640"
+      height="640"
+      loading="{{ resolved_loading }}"
+      {% if resolved_alt == blank %}
+        aria-hidden="true"
+      {% endif %}
+    >
+  {% endif %}
+</div>

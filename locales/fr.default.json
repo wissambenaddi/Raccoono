@@ -1,0 +1,110 @@
+{
+  "accessibility": {
+    "skip_to_content": "Aller au contenu",
+    "loading": "Chargement en cours",
+    "no_javascript": "La boutique reste accessible sans JavaScript. Certaines améliorations interactives sont simplement désactivées.",
+    "raccoon_illustration": "Illustration de la mascotte raton laveur"
+  },
+  "products": {
+    "price": {
+      "regular": "Prix habituel",
+      "sale": "Prix réduit",
+      "from": "À partir de {{ price }}",
+      "placeholder": "Prix à renseigner"
+    },
+    "product": {
+      "sale": "Promotion",
+      "sold_out": "Épuisé",
+      "placeholder": "Produit à sélectionner"
+    }
+  },
+  "sections": {
+    "placeholder": {
+      "eyebrow": "Fondation Raccoono",
+      "heading": "Le socle du thème est installé.",
+      "text": "Cette page temporaire confirme que les styles, les traductions, l’accessibilité et le Theme Editor fonctionnent avant l’ajout des composants métier.",
+      "status": "Lot 3A — Fondation technique"
+    },
+    "announcement": {
+      "label": "Informations de la boutique",
+      "default": "Bienvenue chez Raccoono"
+    },
+    "header": {
+      "primary_navigation": "Navigation principale",
+      "mobile_navigation": "Navigation mobile",
+      "actions": "Actions de la boutique",
+      "open_menu": "Ouvrir le menu",
+      "close_menu": "Fermer le menu",
+      "menu": "Menu",
+      "search": "Rechercher",
+      "account": "Compte",
+      "cart": "Panier",
+      "cart_count": "{{ count }} articles dans le panier"
+    },
+    "hero": {
+      "heading": "Des produits qui ont du caractère.",
+      "text": "Une boutique légère, chaleureuse et engagée, avec les produits au premier plan.",
+      "primary_action": "Découvrir les produits",
+      "secondary_action": "Découvrir notre mission",
+      "fallback_alt": "Le raton Raccoono participe à la restauration d’une forêt"
+    },
+    "trust": {
+      "heading": "Les engagements Raccoono"
+    },
+    "featured_collection": {
+      "heading": "Découvrir les produits",
+      "view_all": "Voir tous les produits"
+    },
+    "mission": {
+      "heading": "Des produits, une mission concrète.",
+      "text_one": "Raccoono place les produits au centre de la boutique, avec une identité chaleureuse portée par des illustrations originales.",
+      "text_two": "Le projet participe au financement d’actions de restauration des forêts touchées par les incendies en France.",
+      "action": "En savoir plus"
+    },
+    "image_text": {
+      "heading": "Une identité simple et attachante.",
+      "text": "Le raton laveur accompagne l’expérience avec discrétion. Il soutient le récit de la marque sans prendre la place des produits.",
+      "action": "Découvrir la sélection",
+      "fallback_alt": "Le raton Raccoono observe la reprise de jeunes arbres"
+    },
+    "personalities": {
+      "heading": "Quel profil vous ressemble aujourd’hui ?",
+      "instruction": "Choisissez un raton pour découvrir son humeur.",
+      "profile": "Profil {{ index }}",
+      "placeholder_description": "Ajoutez une description courte dans l’éditeur de thème."
+    },
+    "testimonials": {
+      "heading": "Ce que disent les clients",
+      "rating": "Note : {{ rating }} sur {{ total }}",
+      "placeholder_text": "Ajoutez ici un avis client authentique et vérifié.",
+      "placeholder_author": "Avis à renseigner"
+    },
+    "collections": {
+      "heading": "Explorer les collections",
+      "placeholder_title": "Collection à sélectionner",
+      "discover": "Découvrir"
+    },
+    "comparison": {
+      "heading": "Pourquoi choisir Raccoono ?",
+      "feature_column": "Critères",
+      "other_column": "Autres options",
+      "yes": "Oui",
+      "no": "Non"
+    },
+    "faq": {
+      "heading": "Questions fréquentes",
+      "placeholder_question": "Question à renseigner",
+      "placeholder_answer": "Ajoutez ici une réponse validée dans l’éditeur de thème."
+    },
+    "footer": {
+      "newsletter_heading": "Recevoir les nouvelles",
+      "impact_link": "Découvrir notre impact",
+      "email_label": "Adresse e-mail",
+      "email_placeholder": "Votre adresse e-mail",
+      "subscribe": "S’inscrire",
+      "success": "Merci pour votre inscription.",
+      "social": "Réseaux sociaux",
+      "payment_methods": "Moyens de paiement acceptés"
+    }
+  }
+}

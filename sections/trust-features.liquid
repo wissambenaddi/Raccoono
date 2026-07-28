@@ -1,0 +1,96 @@
+{% liquid
+  assign accessible_heading = section.settings.heading
+  if accessible_heading == blank
+    assign accessible_heading = 'sections.trust.heading' | t
+  endif
+%}
+
+<section
+  class="trust-features"
+  aria-label="{{ accessible_heading | escape }}"
+  data-section-id="{{ section.id }}"
+  data-section-type="trust-features"
+>
+  <div class="trust-features__grid container">
+    {% for block in section.blocks %}
+      <article class="trust-feature" {{ block.shopify_attributes }}>
+        <div class="trust-feature__icon" aria-hidden="true">
+          {% if block.settings.icon != blank %}
+            {{
+              block.settings.icon
+              | image_url: width: 120
+              | image_tag:
+                widths: '48, 72, 96, 120',
+                sizes: '40px',
+                loading: 'lazy',
+                alt: ''
+            }}
+          {% else %}
+            {% render 'icon', name: 'check', size: 22 %}
+          {% endif %}
+        </div>
+        {% if block.settings.title != blank %}
+          <h2>{{ block.settings.title | escape }}</h2>
+        {% endif %}
+        {% if block.settings.text != blank %}
+          <p>{{ block.settings.text | escape }}</p>
+        {% endif %}
+      </article>
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Trois avantages",
+  "tag": "section",
+  "class": "section-trust-features",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Nom accessible de la section"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Avantage",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Petite illustration"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Titre"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Texte court"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 3,
+  "presets": [
+    {
+      "name": "Trois avantages",
+      "blocks": [
+        {
+          "type": "feature"
+        },
+        {
+          "type": "feature"
+        },
+        {
+          "type": "feature"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

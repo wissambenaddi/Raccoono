@@ -1,0 +1,252 @@
+{% liquid
+  assign newsletter_heading = section.settings.newsletter_heading
+  if newsletter_heading == blank
+    assign newsletter_heading = 'sections.footer.newsletter_heading' | t
+  endif
+
+  assign impact_label = section.settings.impact_label
+  if impact_label == blank
+    assign impact_label = 'sections.footer.impact_link' | t
+  endif
+%}
+
+<footer
+  class="site-footer color-scheme--inverse"
+  data-section-id="{{ section.id }}"
+  data-section-type="footer"
+>
+  <div class="site-footer__inner container">
+    <div class="site-footer__brand">
+      <a class="site-footer__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
+        {% if section.settings.logo != blank %}
+          {{
+            section.settings.logo
+            | image_url: width: 360
+            | image_tag:
+              widths: '120, 180, 240, 300, 360',
+              sizes: '150px',
+              loading: 'lazy',
+              class: 'site-footer__logo-image',
+              alt: shop.name
+          }}
+        {% else %}
+          <span>{{ shop.name | escape }}</span>
+        {% endif %}
+      </a>
+      {% if section.settings.tagline != blank %}
+        <p>{{ section.settings.tagline | escape }}</p>
+      {% endif %}
+      {% if section.settings.impact_link != blank %}
+        <a class="site-footer__impact-link" href="{{ section.settings.impact_link }}">
+          {{ impact_label | escape }}
+        </a>
+      {% endif %}
+    </div>
+
+    {% for menu_index in (1..3) %}
+      {% liquid
+        assign menu_key = 'menu_' | append: menu_index
+        assign heading_key = 'menu_' | append: menu_index | append: '_heading'
+        assign footer_menu = section.settings[menu_key]
+        assign footer_menu_heading = section.settings[heading_key]
+        if footer_menu_heading == blank and footer_menu != blank
+          assign footer_menu_heading = footer_menu.title
+        endif
+      %}
+      {% if footer_menu != blank %}
+        <nav class="site-footer__menu" aria-label="{{ footer_menu_heading | escape }}">
+          <h2>{{ footer_menu_heading | escape }}</h2>
+          <ul role="list">
+            {% for link in footer_menu.links %}
+              <li>
+                <a href="{{ link.url }}" {% if link.current %}aria-current="page"{% endif %}>
+                  {{ link.title | escape }}
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </nav>
+      {% endif %}
+    {% endfor %}
+
+    {% if section.settings.show_newsletter %}
+      <div class="site-footer__newsletter">
+        <h2>{{ newsletter_heading | escape }}</h2>
+        {% form 'customer', class: 'footer-newsletter-form' %}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <label class="visually-hidden" for="FooterEmail-{{ section.id }}">
+            {{ 'sections.footer.email_label' | t }}
+          </label>
+          <div class="footer-newsletter-form__field">
+            <input
+              id="FooterEmail-{{ section.id }}"
+              type="email"
+              name="contact[email]"
+              value="{{ form.email }}"
+              autocomplete="email"
+              autocapitalize="off"
+              spellcheck="false"
+              placeholder="{{ 'sections.footer.email_placeholder' | t }}"
+              required
+            >
+            <button type="submit">
+              {% render 'icon', name: 'arrow-right', size: 18 %}
+              <span class="visually-hidden">{{ 'sections.footer.subscribe' | t }}</span>
+            </button>
+          </div>
+          {% if form.posted_successfully? %}
+            <p role="status">{{ 'sections.footer.success' | t }}</p>
+          {% endif %}
+          {% if form.errors %}
+            <div role="alert">{{ form.errors | default_errors }}</div>
+          {% endif %}
+        {% endform %}
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="site-footer__bottom container">
+    <p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name | escape }}</p>
+
+    {% if section.settings.show_social %}
+      <ul class="site-footer__social" role="list" aria-label="{{ 'sections.footer.social' | t }}">
+        {% if section.settings.instagram_url != blank %}
+          <li>
+            <a href="{{ section.settings.instagram_url }}">
+              {% render 'icon', name: 'instagram', size: 18 %}
+              <span class="visually-hidden">Instagram</span>
+            </a>
+          </li>
+        {% endif %}
+        {% if section.settings.facebook_url != blank %}
+          <li>
+            <a href="{{ section.settings.facebook_url }}">
+              {% render 'icon', name: 'facebook', size: 18 %}
+              <span class="visually-hidden">Facebook</span>
+            </a>
+          </li>
+        {% endif %}
+        {% if section.settings.tiktok_url != blank %}
+          <li>
+            <a href="{{ section.settings.tiktok_url }}">
+              {% render 'icon', name: 'tiktok', size: 18 %}
+              <span class="visually-hidden">TikTok</span>
+            </a>
+          </li>
+        {% endif %}
+      </ul>
+    {% endif %}
+
+    {% if section.settings.show_payment_icons and shop.enabled_payment_types != blank %}
+      <ul class="site-footer__payments" role="list" aria-label="{{ 'sections.footer.payment_methods' | t }}">
+        {% for type in shop.enabled_payment_types %}
+          <li>{{ type | payment_type_svg_tag }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "tag": "section",
+  "class": "section-footer",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo clair"
+    },
+    {
+      "type": "textarea",
+      "id": "tagline",
+      "label": "Phrase courte"
+    },
+    {
+      "type": "text",
+      "id": "impact_label",
+      "label": "Libellé du lien Impact"
+    },
+    {
+      "type": "url",
+      "id": "impact_link",
+      "label": "Lien Impact"
+    },
+    {
+      "type": "text",
+      "id": "menu_1_heading",
+      "label": "Titre du menu 1"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_1",
+      "label": "Menu 1",
+      "default": "footer"
+    },
+    {
+      "type": "text",
+      "id": "menu_2_heading",
+      "label": "Titre du menu 2"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_2",
+      "label": "Menu 2"
+    },
+    {
+      "type": "text",
+      "id": "menu_3_heading",
+      "label": "Titre du menu 3"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_3",
+      "label": "Menu 3"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_newsletter",
+      "label": "Afficher la newsletter compacte",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "newsletter_heading",
+      "label": "Titre de la newsletter"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social",
+      "label": "Afficher les réseaux sociaux",
+      "default": true
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "URL Instagram"
+    },
+    {
+      "type": "url",
+      "id": "facebook_url",
+      "label": "URL Facebook"
+    },
+    {
+      "type": "url",
+      "id": "tiktok_url",
+      "label": "URL TikTok"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "Afficher les moyens de paiement",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Footer"
+    }
+  ]
+}
+{% endschema %}

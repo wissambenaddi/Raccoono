@@ -1,0 +1,19 @@
+{% doc %}
+Renders a compact product or content badge.
+
+@param {string} label - Badge label.
+@param {string} [variant] - neutral, sale, sold-out or impact.
+@param {string} [class] - Additional CSS class.
+{% enddoc %}
+
+{% liquid
+  assign badge_variant = variant | default: 'neutral'
+  assign badge_class = 'badge badge--' | append: badge_variant
+  if class != blank
+    assign badge_class = badge_class | append: ' ' | append: class
+  endif
+%}
+
+{% if label != blank %}
+  <span class="{{ badge_class }}">{{ label | escape }}</span>
+{% endif %}

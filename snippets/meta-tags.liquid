@@ -1,0 +1,67 @@
+{% doc %}
+Renders canonical, search, Open Graph, Twitter and favicon metadata.
+{% enddoc %}
+
+{% liquid
+  assign seo_title = page_title | default: shop.name
+  unless seo_title contains shop.name
+    assign seo_title = seo_title | append: ' — ' | append: shop.name
+  endunless
+
+  assign seo_description = page_description | default: shop.description | default: shop.name
+  assign seo_description = seo_description | strip_html | strip_newlines
+
+  assign social_image = page_image | default: settings.social_share_image
+  assign open_graph_type = 'website'
+
+  if request.page_type == 'product'
+    assign open_graph_type = 'product'
+  elsif request.page_type == 'article'
+    assign open_graph_type = 'article'
+  endif
+%}
+
+<title>{{ seo_title | escape }}</title>
+<link rel="canonical" href="{{ canonical_url }}">
+<meta name="description" content="{{ seo_description | escape }}">
+
+{% if settings.favicon != blank %}
+  <link
+    rel="icon"
+    type="image/png"
+    href="{{ settings.favicon | image_url: width: 32, height: 32 }}"
+  >
+{% endif %}
+
+<meta property="og:site_name" content="{{ shop.name | escape }}">
+<meta property="og:url" content="{{ canonical_url }}">
+<meta property="og:title" content="{{ seo_title | escape }}">
+<meta property="og:type" content="{{ open_graph_type }}">
+<meta property="og:description" content="{{ seo_description | escape }}">
+<meta property="og:locale" content="{{ request.locale.iso_code | replace: '-', '_' }}">
+
+{% if social_image != blank %}
+  <meta
+    property="og:image"
+    content="https:{{ social_image | image_url: width: 1200 }}"
+  >
+  <meta
+    property="og:image:secure_url"
+    content="https:{{ social_image | image_url: width: 1200 }}"
+  >
+  <meta property="og:image:width" content="{{ social_image.width }}">
+  <meta property="og:image:height" content="{{ social_image.height }}">
+  {% if social_image.alt != blank %}
+    <meta property="og:image:alt" content="{{ social_image.alt | escape }}">
+  {% endif %}
+{% endif %}
+
+<meta name="twitter:card" content="{% if social_image != blank %}summary_large_image{% else %}summary{% endif %}">
+<meta name="twitter:title" content="{{ seo_title | escape }}">
+<meta name="twitter:description" content="{{ seo_description | escape }}">
+{% if social_image != blank %}
+  <meta name="twitter:image" content="https:{{ social_image | image_url: width: 1200 }}">
+  {% if social_image.alt != blank %}
+    <meta name="twitter:image:alt" content="{{ social_image.alt | escape }}">
+  {% endif %}
+{% endif %}

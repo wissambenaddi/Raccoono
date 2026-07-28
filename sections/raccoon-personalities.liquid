@@ -1,131 +1,173 @@
 {% liquid
   assign heading = section.settings.heading
-  if heading == blank
-    assign heading = 'sections.personalities.heading' | t
-  endif
-
-  assign instruction = section.settings.instruction
-  if instruction == blank
-    assign instruction = 'sections.personalities.instruction' | t
-  endif
+  assign subtitle = section.settings.subtitle
+  assign profile_count = section.blocks.size
 %}
 
 <section
-  class="raccoon-personalities section-spacing"
+  class="raccoon-personalities"
+  style="
+    --personality-bar-start: {{ section.settings.bar_start_color }};
+    --personality-bar-end: {{ section.settings.bar_end_color }};
+    --personality-active-color: {{ section.settings.active_text_color }};
+    --personality-inactive-opacity: {{ section.settings.inactive_opacity | divided_by: 100.0 }};
+    --personality-inactive-blur: {{ section.settings.inactive_blur }}px;
+    --personality-padding-top: {{ section.settings.padding_top }}px;
+    --personality-padding-bottom: {{ section.settings.padding_bottom }}px;
+  "
   data-personalities-section
   data-section-id="{{ section.id }}"
   data-section-type="raccoon-personalities"
+  data-enable-scale="{{ section.settings.enable_scale }}"
 >
   <div class="container container--standard">
-    <div class="section-heading section-heading--center">
-      <h2>{{ heading | escape }}</h2>
-      <p>{{ instruction | escape }}</p>
-    </div>
+    <header class="section-heading section-heading--center">
+      {% if heading != blank %}
+        <h2>{{ heading | escape }}</h2>
+      {% endif %}
+      {% if subtitle != blank %}
+        <p>{{ subtitle | escape }}</p>
+      {% endif %}
+    </header>
+
+    {% if profile_count > 0 %}
+      {% assign first_profile = section.blocks.first %}
+      {% assign first_profile_name = first_profile.settings.name | default: 'Le discret' %}
+
+      <div class="raccoon-personalities__selector" data-personality-selector>
+        <label
+          class="visually-hidden"
+          for="PersonalityRange-{{ section.id }}"
+        >
+          Choisissez votre profil Raccoono
+        </label>
+        <input
+          class="raccoon-personalities__range"
+          id="PersonalityRange-{{ section.id }}"
+          type="range"
+          min="0"
+          max="3"
+          step="1"
+          value="0"
+          aria-controls="PersonalityProfiles-{{ section.id }}"
+          aria-describedby="PersonalityRangeHelp-{{ section.id }}"
+          aria-valuetext="{{ first_profile_name | escape }}"
+          data-personality-range
+        >
+        <span
+          class="visually-hidden"
+          id="PersonalityRangeHelp-{{ section.id }}"
+        >
+          Utilisez les flèches, Début ou Fin pour choisir l’un des quatre profils.
+        </span>
+        <div
+          class="raccoon-personalities__active"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          <strong data-personality-active-name>{{ first_profile_name | escape }}</strong>
+          <span class="visually-hidden" data-personality-live>
+            {{- first_profile_name | escape -}}
+            {%- if first_profile.settings.quote != blank -%}
+              . {{ first_profile.settings.quote | escape }}
+            {%- endif -%}
+            {%- if first_profile.settings.description != blank -%}
+              . {{ first_profile.settings.description | escape }}
+            {%- endif -%}
+          </span>
+        </div>
+      </div>
+    {% endif %}
 
     <div
       class="raccoon-personalities__grid"
-      role="tablist"
-      aria-label="{{ heading | escape }}"
-      data-personality-tabs
+      id="PersonalityProfiles-{{ section.id }}"
+      data-personality-profiles
     >
       {% for block in section.blocks %}
         {% liquid
           assign profile_name = block.settings.name
           if profile_name == blank
-            assign profile_name = 'sections.personalities.profile' | t: index: forloop.index
+            assign profile_name = 'Profil ' | append: forloop.index
           endif
 
-          assign profile_description = block.settings.description
-          if profile_description == blank
-            assign profile_description = 'sections.personalities.placeholder_description' | t
+          assign profile_alt = block.settings.image_alt
+          if profile_alt == blank
+            assign profile_alt = 'Illustration du profil ' | append: profile_name
           endif
 
-          case forloop.index
+          case forloop.index0
+            when 0
+              assign fallback_image = 'discret.png'
             when 1
-              assign fallback_image = 'raccoono-profile-curious-v2.webp'
+              assign fallback_image = 'Le fouineur.png'
             when 2
-              assign fallback_image = 'raccoono-profile-discreet-v2.webp'
-            when 3
-              assign fallback_image = 'raccoono-profile-motivated-v2.webp'
+              assign fallback_image = 'Le généreux.png'
             else
-              assign fallback_image = 'raccoono-profile-chaotic-v2.webp'
+              assign fallback_image = 'Le chaos.png'
           endcase
         %}
-        <div
-          class="personality-option{% if forloop.first %} is-active{% endif %}"
-          data-personality-option
+
+        <article
+          class="personality-option"
+          data-personality-profile
+          data-profile-index="{{ forloop.index0 }}"
+          data-active="{% if forloop.first %}true{% else %}false{% endif %}"
+          {% if forloop.first %}
+            aria-current="true"
+          {% endif %}
           {{ block.shopify_attributes }}
         >
-          <button
-            class="personality-option__trigger"
-            type="button"
-            role="tab"
-            id="PersonalityTab-{{ section.id }}-{{ block.id }}"
-            aria-controls="PersonalityPanel-{{ section.id }}"
-            aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
-            tabindex="{% if forloop.first %}0{% else %}-1{% endif %}"
-            data-personality-trigger
-            data-profile-name="{{ profile_name | escape }}"
-            data-profile-description="{{ profile_description | escape }}"
-            data-profile-index="{{ forloop.index0 }}"
-          >
-            <span class="personality-option__image">
-              {% if block.settings.image != blank %}
-                {{
-                  block.settings.image
-                  | image_url: width: 480
-                  | image_tag:
-                    widths: '160, 240, 320, 400, 480',
-                    sizes: '(min-width: 750px) 180px, 36vw',
-                    loading: 'lazy',
-                    alt: block.settings.image_alt
-                }}
-              {% else %}
-                <img
-                  src="{{ fallback_image | asset_url }}"
-                  alt="{{ profile_name | escape }}"
-                  width="720"
-                  height="720"
-                  loading="lazy"
-                >
-              {% endif %}
-            </span>
-            <span class="personality-option__name">{{ profile_name | escape }}</span>
-          </button>
-          <p class="personality-option__static-description">{{ profile_description | escape }}</p>
-        </div>
+          <div class="personality-option__image">
+            {% if block.settings.image != blank %}
+              {{
+                block.settings.image
+                | image_url: width: 720
+                | image_tag:
+                  widths: '240, 360, 480, 600, 720',
+                  sizes: '(min-width: 750px) 22vw, 44vw',
+                  loading: 'lazy',
+                  alt: profile_alt,
+                  class: 'personality-option__illustration'
+              }}
+            {% else %}
+              <img
+                class="personality-option__illustration"
+                src="{{ fallback_image | asset_url }}"
+                alt="{{ profile_alt | escape }}"
+                width="720"
+                height="720"
+                loading="lazy"
+              >
+            {% endif %}
+          </div>
+
+          <div class="personality-option__content">
+            <h3 class="personality-option__name" data-profile-name>
+              {{ profile_name | escape }}
+            </h3>
+
+            {% if block.settings.quote != blank %}
+              <p class="personality-option__quote" data-profile-quote>
+                {{ block.settings.quote | escape | newline_to_br }}
+              </p>
+            {% endif %}
+
+            {% if block.settings.description != blank %}
+              <p class="personality-option__description" data-profile-description>
+                {{ block.settings.description | escape | newline_to_br }}
+              </p>
+            {% endif %}
+
+            {% if block.settings.link != blank and block.settings.link_label != blank %}
+              <a class="personality-option__link" href="{{ block.settings.link }}">
+                {{ block.settings.link_label | escape }}
+              </a>
+            {% endif %}
+          </div>
+        </article>
       {% endfor %}
     </div>
-
-    {% if section.blocks.size > 0 %}
-      <div class="raccoon-personalities__track" aria-hidden="true">
-        <span data-personality-progress></span>
-      </div>
-
-      {% assign first_block = section.blocks.first %}
-      {% liquid
-        assign first_name = first_block.settings.name
-        if first_name == blank
-          assign first_name = 'sections.personalities.profile' | t: index: 1
-        endif
-
-        assign first_description = first_block.settings.description
-        if first_description == blank
-          assign first_description = 'sections.personalities.placeholder_description' | t
-        endif
-      %}
-      <div
-        class="raccoon-personalities__active"
-        id="PersonalityPanel-{{ section.id }}"
-        role="tabpanel"
-        aria-live="polite"
-        aria-labelledby="PersonalityTab-{{ section.id }}-{{ first_block.id }}"
-        data-personality-panel
-      >
-        <strong data-personality-name>{{ first_name | escape }}</strong>
-        <p data-personality-description>{{ first_description | escape }}</p>
-      </div>
-    {% endif %}
   </div>
 </section>
 
@@ -138,12 +180,86 @@
     {
       "type": "text",
       "id": "heading",
-      "label": "Titre"
+      "label": "Titre",
+      "default": "Quel raton êtes-vous aujourd’hui ?"
     },
     {
       "type": "textarea",
-      "id": "instruction",
-      "label": "Instruction courte"
+      "id": "subtitle",
+      "label": "Sous-titre",
+      "default": "Soyez honnête… votre panier connaît déjà la réponse."
+    },
+    {
+      "type": "header",
+      "content": "Barre de sélection"
+    },
+    {
+      "type": "color",
+      "id": "bar_start_color",
+      "label": "Couleur de début",
+      "default": "#4F82FF"
+    },
+    {
+      "type": "color",
+      "id": "bar_end_color",
+      "label": "Couleur de fin",
+      "default": "#EF4E55"
+    },
+    {
+      "type": "color",
+      "id": "active_text_color",
+      "label": "Couleur du texte actif",
+      "default": "#071C3F"
+    },
+    {
+      "type": "range",
+      "id": "inactive_opacity",
+      "min": 35,
+      "max": 50,
+      "step": 1,
+      "unit": "%",
+      "label": "Opacité des profils inactifs",
+      "default": 42
+    },
+    {
+      "type": "range",
+      "id": "inactive_blur",
+      "min": 1.5,
+      "max": 3,
+      "step": 0.1,
+      "unit": "px",
+      "label": "Flou des profils inactifs",
+      "default": 2
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_scale",
+      "label": "Agrandir légèrement le profil actif",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Espacement"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 24,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Espacement supérieur",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 24,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Espacement inférieur",
+      "default": 64
     }
   ],
   "blocks": [
@@ -158,18 +274,34 @@
         },
         {
           "type": "text",
-          "id": "image_alt",
-          "label": "Texte alternatif"
+          "id": "name",
+          "label": "Nom du profil",
+          "default": "Nom du profil"
         },
         {
-          "type": "text",
-          "id": "name",
-          "label": "Nom du profil"
+          "type": "textarea",
+          "id": "quote",
+          "label": "Citation principale"
         },
         {
           "type": "textarea",
           "id": "description",
-          "label": "Description courte"
+          "label": "Texte complémentaire"
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Texte alternatif"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Lien vers une collection"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Libellé du lien"
         }
       ]
     }
@@ -180,16 +312,39 @@
       "name": "Personnalités du raton",
       "blocks": [
         {
-          "type": "personality"
+          "type": "personality",
+          "settings": {
+            "name": "Le discret",
+            "quote": "« Je vais réfléchir. »",
+            "description": "La phrase préférée de quelqu’un qui reviendra dans 10 minutes.",
+            "image_alt": "Raton discret qui observe derrière une ligne"
+          }
         },
         {
-          "type": "personality"
+          "type": "personality",
+          "settings": {
+            "name": "Le fouineur",
+            "quote": "« Je regarde juste. »",
+            "description": "C’est exactement comme ça que tout commence.",
+            "image_alt": "Raton fouineur avec une loupe"
+          }
         },
         {
-          "type": "personality"
+          "type": "personality",
+          "settings": {
+            "name": "Le généreux",
+            "quote": "« Quitte à craquer, autant donner un coup de pouce aux forêts. »",
+            "image_alt": "Raton généreux aux pattes ouvertes"
+          }
         },
         {
-          "type": "personality"
+          "type": "personality",
+          "settings": {
+            "name": "Le chaos",
+            "quote": "« J’étais venu pour un seul produit. »",
+            "description": "Mon panier avait visiblement d’autres projets.",
+            "image_alt": "Raton au profil chaotique et enthousiaste"
+          }
         }
       ]
     }

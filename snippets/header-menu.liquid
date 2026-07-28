@@ -1,0 +1,37 @@
+{% doc %}
+Renders the compact desktop navigation with one level of native submenus.
+
+@param {linklist} menu - Shopify navigation menu.
+{% enddoc %}
+
+{% if menu != blank %}
+  <nav class="header-menu" aria-label="{{ 'sections.header.primary_navigation' | t }}">
+    <ul class="header-menu__list" role="list">
+      {% for link in menu.links %}
+        <li class="header-menu__item">
+          {% if link.links != blank %}
+            <details class="header-menu__details">
+              <summary class="header-menu__summary">
+                <span>{{ link.title | escape }}</span>
+                {% render 'icon', name: 'chevron-down', size: 14 %}
+              </summary>
+              <ul class="header-menu__submenu" role="list">
+                {% for child_link in link.links %}
+                  <li>
+                    <a href="{{ child_link.url }}" {% if child_link.current %}aria-current="page"{% endif %}>
+                      {{ child_link.title | escape }}
+                    </a>
+                  </li>
+                {% endfor %}
+              </ul>
+            </details>
+          {% else %}
+            <a href="{{ link.url }}" {% if link.current %}aria-current="page"{% endif %}>
+              {{ link.title | escape }}
+            </a>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  </nav>
+{% endif %}

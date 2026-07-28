@@ -1,0 +1,9 @@
+{% doc %}
+Renders a concise message when JavaScript is unavailable.
+{% enddoc %}
+
+<noscript>
+  <div class="no-js-message" role="status">
+    {{ 'accessibility.no_javascript' | t }}
+  </div>
+</noscript>

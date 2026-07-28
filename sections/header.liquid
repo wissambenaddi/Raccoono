@@ -1,0 +1,105 @@
+{% liquid
+  assign header_class = 'site-header color-scheme--light'
+  if section.settings.sticky
+    assign header_class = header_class | append: ' site-header--sticky'
+  endif
+%}
+
+<header
+  class="{{ header_class }}"
+  data-header-section
+  data-section-id="{{ section.id }}"
+  data-section-type="header"
+>
+  <div class="site-header__inner container">
+    <div class="site-header__mobile-toggle">
+      {% render 'mobile-menu-drawer', menu: section.settings.menu, section_id: section.id %}
+    </div>
+
+    <a class="site-header__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
+      {% if section.settings.logo != blank %}
+        {{
+          section.settings.logo
+          | image_url: width: 360
+          | image_tag:
+            widths: '120, 180, 240, 300, 360',
+            sizes: '180px',
+            loading: 'eager',
+            class: 'site-header__logo-image',
+            alt: shop.name
+        }}
+      {% else %}
+        <span>{{ shop.name | escape }}</span>
+      {% endif %}
+    </a>
+
+    {% render 'header-menu', menu: section.settings.menu %}
+
+    <nav class="site-header__actions" aria-label="{{ 'sections.header.actions' | t }}">
+      <a class="header-action" href="{{ routes.search_url }}">
+        {% render 'icon', name: 'search', size: 20 %}
+        <span class="visually-hidden">{{ 'sections.header.search' | t }}</span>
+      </a>
+      <a class="header-action header-action--account" href="{{ routes.account_url }}">
+        {% render 'icon', name: 'account', size: 20 %}
+        <span class="visually-hidden">{{ 'sections.header.account' | t }}</span>
+      </a>
+      <a class="header-action header-action--cart" href="{{ routes.cart_url }}">
+        {% render 'icon', name: 'cart', size: 20 %}
+        <span class="visually-hidden">{{ 'sections.header.cart' | t }}</span>
+        {% if cart.item_count > 0 %}
+          <span class="header-action__count" aria-hidden="true">{{ cart.item_count }}</span>
+          <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
+        {% endif %}
+      </a>
+    </nav>
+  </div>
+</header>
+
+{% style %}
+  #shopify-section-{{ section.id }} .site-header__logo-image {
+    inline-size: {{ section.settings.logo_width }}px;
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Header compact",
+  "tag": "section",
+  "class": "section-header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "Largeur du logo",
+      "min": 80,
+      "max": 180,
+      "step": 5,
+      "unit": "px",
+      "default": 120
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu principal",
+      "default": "main-menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky",
+      "label": "Header sticky",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Header compact"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,41 @@
+{% doc %}
+Renders a product price with an optional compare-at price.
+
+@param {product} product - Product whose price should be displayed.
+@param {boolean} [use_variant] - Uses the selected or first available variant.
+@param {string} [class] - Additional CSS class.
+{% enddoc %}
+
+{% liquid
+  assign price_target = product
+  if use_variant and product != blank
+    assign price_target = product.selected_or_first_available_variant
+  endif
+
+  assign price_value = price_target.price
+  assign compare_value = price_target.compare_at_price
+  assign formatted_price = price_value | money
+  assign price_class = 'price'
+  if compare_value > price_value
+    assign price_class = price_class | append: ' price--sale'
+  endif
+  if class != blank
+    assign price_class = price_class | append: ' ' | append: class
+  endif
+%}
+
+{% if product != blank %}
+  <div class="{{ price_class }}">
+    {% if compare_value > price_value %}
+      <span class="visually-hidden">{{ 'products.price.regular' | t }}</span>
+      <s class="price__compare">{{ compare_value | money }}</s>
+      <span class="visually-hidden">{{ 'products.price.sale' | t }}</span>
+    {% endif %}
+
+    {% if product.price_varies and use_variant != true %}
+      <span>{{ 'products.price.from' | t: price: formatted_price }}</span>
+    {% else %}
+      <span>{{ price_value | money }}</span>
+    {% endif %}
+  </div>
+{% endif %}

@@ -1,0 +1,279 @@
+{% liquid
+  assign eyebrow = section.settings.eyebrow
+  if eyebrow == blank
+    assign eyebrow = 'sections.placeholder.eyebrow' | t
+  endif
+
+  assign heading = section.settings.heading
+  if heading == blank
+    assign heading = 'sections.placeholder.heading' | t
+  endif
+
+  assign content_class = 'main-placeholder__content container container--' | append: section.settings.content_width
+  assign section_class = 'main-placeholder color-scheme--' | append: section.settings.color_scheme
+  assign section_class = section_class | append: ' main-placeholder--' | append: section.settings.spacing
+  assign section_class = section_class | append: ' main-placeholder--' | append: section.settings.alignment
+%}
+
+<section
+  class="{{ section_class }}"
+  data-section-id="{{ section.id }}"
+  data-section-type="main-placeholder"
+>
+  <div class="{{ content_class }}">
+    {% if section.settings.show_mascot %}
+      {% render 'raccoon-illustration',
+        decorative: true,
+        size: section.settings.mascot_size,
+        position: section.settings.alignment,
+        expression: 'calm',
+        loading: 'eager',
+        class: 'main-placeholder__mascot'
+      %}
+    {% endif %}
+
+    <p class="main-placeholder__eyebrow">{{ eyebrow | escape }}</p>
+    <h1>{{ heading | escape }}</h1>
+
+    <div class="main-placeholder__text">
+      {% if section.settings.text != blank %}
+        {{ section.settings.text }}
+      {% else %}
+        <p>{{ 'sections.placeholder.text' | t }}</p>
+      {% endif %}
+    </div>
+
+    <p class="main-placeholder__status">
+      {% render 'icon', name: 'check', size: 18 %}
+      <span>{{ 'sections.placeholder.status' | t }}</span>
+    </p>
+  </div>
+</section>
+
+{% stylesheet %}
+  .main-placeholder {
+    display: grid;
+    min-block-size: auto;
+    align-items: center;
+    background: var(--color-background);
+    color: var(--color-text);
+  }
+
+  .main-placeholder--compact {
+    padding-block: var(--space-48);
+  }
+
+  .main-placeholder--standard {
+    padding-block: var(--space-64);
+  }
+
+  .main-placeholder--spacious {
+    padding-block: var(--space-64);
+  }
+
+  .main-placeholder__content {
+    inline-size: min(100% - (2 * var(--container-gutter)), var(--container-reading));
+  }
+
+  .main-placeholder--center .main-placeholder__content {
+    text-align: center;
+  }
+
+  .main-placeholder--end .main-placeholder__content {
+    text-align: end;
+  }
+
+  .main-placeholder__mascot {
+    margin-block-end: var(--space-24);
+  }
+
+  .main-placeholder__eyebrow {
+    margin-block-end: var(--space-12);
+    color: var(--color-accent);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .main-placeholder__text {
+    max-inline-size: 40rem;
+    margin-inline: auto;
+    color: var(--color-text-muted);
+    font-size: clamp(0.9375rem, 0.9rem + 0.2vw, 1.0625rem);
+  }
+
+  .main-placeholder--start .main-placeholder__text {
+    margin-inline-start: 0;
+  }
+
+  .main-placeholder--end .main-placeholder__text {
+    margin-inline-end: 0;
+  }
+
+  .main-placeholder__status {
+    display: inline-flex;
+    min-block-size: 2.75rem;
+    align-items: center;
+    gap: var(--space-8);
+    margin-block: var(--space-16) 0;
+    color: var(--color-accent);
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  @media (min-width: 22.5rem) {
+    .main-placeholder {
+      min-block-size: min(42rem, calc(100vh - 2rem));
+    }
+
+    .main-placeholder--spacious {
+      padding-block: var(--space-96);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Page temporaire",
+  "tag": "section",
+  "class": "section-main-placeholder",
+  "enabled_on": {
+    "templates": [
+      "index"
+    ]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Surtitre"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titre"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Texte"
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Alignement",
+      "options": [
+        {
+          "value": "start",
+          "label": "Début"
+        },
+        {
+          "value": "center",
+          "label": "Centre"
+        },
+        {
+          "value": "end",
+          "label": "Fin"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "content_width",
+      "label": "Largeur du contenu",
+      "options": [
+        {
+          "value": "reading",
+          "label": "Lecture — 720 px"
+        },
+        {
+          "value": "compact",
+          "label": "Compacte — 960 px"
+        },
+        {
+          "value": "standard",
+          "label": "Standard — 1120 px"
+        }
+      ],
+      "default": "reading"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Ambiance",
+      "options": [
+        {
+          "value": "light",
+          "label": "Claire"
+        },
+        {
+          "value": "soft",
+          "label": "Douce"
+        },
+        {
+          "value": "impact",
+          "label": "Impact"
+        },
+        {
+          "value": "inverse",
+          "label": "Sombre"
+        }
+      ],
+      "default": "light"
+    },
+    {
+      "type": "select",
+      "id": "spacing",
+      "label": "Espacement vertical",
+      "options": [
+        {
+          "value": "compact",
+          "label": "Compact"
+        },
+        {
+          "value": "standard",
+          "label": "Standard"
+        },
+        {
+          "value": "spacious",
+          "label": "Spacieux"
+        }
+      ],
+      "default": "standard"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_mascot",
+      "label": "Afficher la mascotte temporaire",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "mascot_size",
+      "label": "Taille de la mascotte",
+      "options": [
+        {
+          "value": "micro",
+          "label": "Micro"
+        },
+        {
+          "value": "small",
+          "label": "Petite"
+        },
+        {
+          "value": "medium",
+          "label": "Moyenne"
+        }
+      ],
+      "default": "small"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Page temporaire"
+    }
+  ]
+}
+{% endschema %}

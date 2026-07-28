@@ -1,0 +1,18 @@
+{% doc %}
+Renders one native accessible accordion item.
+
+@param {string} question - Accordion summary.
+@param {string} answer - Rich text answer.
+@param {boolean} [open] - Opens the item by default.
+@param {string} [attributes] - Shopify editor attributes.
+{% enddoc %}
+
+<details class="accordion-item" {% if open %}open{% endif %} {{ attributes }}>
+  <summary class="accordion-item__summary">
+    <span>{{ question | escape }}</span>
+    <span class="accordion-item__indicator" aria-hidden="true"></span>
+  </summary>
+  <div class="accordion-item__content rte">
+    {{ answer }}
+  </div>
+</details>

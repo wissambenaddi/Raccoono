@@ -1,0 +1,108 @@
+{
+  "accessibility": {
+    "skip_to_content": "Skip to content",
+    "loading": "Loading",
+    "no_javascript": "The store remains accessible without JavaScript. Some interactive enhancements are simply disabled.",
+    "raccoon_illustration": "Raccoon mascot illustration"
+  },
+  "products": {
+    "price": {
+      "regular": "Regular price",
+      "sale": "Sale price",
+      "from": "From {{ price }}",
+      "placeholder": "Price to be added"
+    },
+    "product": {
+      "sale": "Sale",
+      "sold_out": "Sold out",
+      "placeholder": "Select a product"
+    }
+  },
+  "sections": {
+    "placeholder": {
+      "eyebrow": "Raccoono foundation",
+      "heading": "The theme foundation is installed.",
+      "text": "This temporary page confirms that styles, translations, accessibility and the Theme Editor work before business components are added.",
+      "status": "Lot 3A — Technical foundation"
+    },
+    "announcement": {
+      "label": "Store information",
+      "default": "Welcome to Raccoono"
+    },
+    "header": {
+      "primary_navigation": "Primary navigation",
+      "mobile_navigation": "Mobile navigation",
+      "actions": "Store actions",
+      "open_menu": "Open menu",
+      "close_menu": "Close menu",
+      "menu": "Menu",
+      "search": "Search",
+      "account": "Account",
+      "cart": "Cart",
+      "cart_count": "{{ count }} items in cart"
+    },
+    "hero": {
+      "heading": "Products with character.",
+      "text": "A light, warm and committed store with products front and centre.",
+      "primary_action": "Discover the products",
+      "secondary_action": "Discover our mission"
+    },
+    "trust": {
+      "heading": "Raccoono commitments"
+    },
+    "featured_collection": {
+      "heading": "Discover the products",
+      "view_all": "View all products"
+    },
+    "mission": {
+      "heading": "Products with a tangible mission.",
+      "text_one": "Raccoono puts products at the centre of the store, with a warm identity supported by original illustrations.",
+      "text_two": "The project helps fund the restoration of forests affected by wildfires in France.",
+      "action": "Learn more"
+    },
+    "image_text": {
+      "heading": "A simple and engaging identity.",
+      "text": "The raccoon quietly supports the experience and the brand story without taking attention away from the products.",
+      "action": "Discover the selection"
+    },
+    "personalities": {
+      "heading": "Which profile feels like you today?",
+      "instruction": "Choose a raccoon to discover its mood.",
+      "profile": "Profile {{ index }}",
+      "placeholder_description": "Add a short description in the theme editor."
+    },
+    "testimonials": {
+      "heading": "What customers say",
+      "rating": "Rating: {{ rating }} out of {{ total }}",
+      "placeholder_text": "Add a genuine, verified customer review here.",
+      "placeholder_author": "Review to be added"
+    },
+    "collections": {
+      "heading": "Explore the collections",
+      "placeholder_title": "Select a collection",
+      "discover": "Discover"
+    },
+    "comparison": {
+      "heading": "Why choose Raccoono?",
+      "feature_column": "Criteria",
+      "other_column": "Other options",
+      "yes": "Yes",
+      "no": "No"
+    },
+    "faq": {
+      "heading": "Frequently asked questions",
+      "placeholder_question": "Add a question",
+      "placeholder_answer": "Add an approved answer in the theme editor."
+    },
+    "footer": {
+      "newsletter_heading": "Receive our news",
+      "impact_link": "Discover our impact",
+      "email_label": "Email address",
+      "email_placeholder": "Your email address",
+      "subscribe": "Subscribe",
+      "success": "Thank you for subscribing.",
+      "social": "Social media",
+      "payment_methods": "Accepted payment methods"
+    }
+  }
+}

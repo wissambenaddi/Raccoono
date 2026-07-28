@@ -1,0 +1,30 @@
+{
+  "current": {
+    "logo": null,
+    "favicon": null,
+    "social_share_image": null,
+    "type_display_font": "bricolage_grotesque_n7",
+    "type_body_font": "dm_sans_n4",
+    "layout_width": "main",
+    "default_color_scheme": "light",
+    "radius_style": "subtle",
+    "button_size": "standard",
+    "motion_level": "standard",
+    "underline_body_links": true
+  },
+  "presets": {
+    "Raccoono": {
+      "logo": null,
+      "favicon": null,
+      "social_share_image": null,
+      "type_display_font": "bricolage_grotesque_n7",
+      "type_body_font": "dm_sans_n4",
+      "layout_width": "main",
+      "default_color_scheme": "light",
+      "radius_style": "subtle",
+      "button_size": "standard",
+      "motion_level": "standard",
+      "underline_body_links": true
+    }
+  }
+}

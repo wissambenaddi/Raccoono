@@ -1,0 +1,15 @@
+{% doc %}
+Renders text that remains available to assistive technologies.
+
+@param {string} text - Text to expose to assistive technologies.
+@param {string} [class] - Additional CSS class.
+{% enddoc %}
+
+{% liquid
+  assign hidden_class = 'visually-hidden'
+  if class != blank
+    assign hidden_class = hidden_class | append: ' ' | append: class
+  endif
+%}
+
+<span class="{{ hidden_class }}">{{ text }}</span>

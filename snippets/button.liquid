@@ -1,0 +1,92 @@
+{% doc %}
+Renders a link or button with consistent sizing, states and optional icon.
+
+@param {string} label - Visible button label.
+@param {string} [href] - Destination URL. When omitted, a button element is rendered.
+@param {string} [type] - Button type.
+@param {string} [variant] - primary, secondary, tertiary or text.
+@param {string} [size] - compact, standard or large.
+@param {boolean} [full_width] - Expands the button to its container.
+@param {boolean} [disabled] - Disables the action.
+@param {boolean} [loading] - Shows a loading state.
+@param {string} [icon] - Optional controlled icon name.
+@param {string} [icon_position] - start or end.
+@param {boolean} [new_window] - Opens a link in a new tab.
+@param {string} [class] - Additional CSS class.
+{% enddoc %}
+
+{% liquid
+  assign button_variant = variant | default: 'primary'
+  assign button_size = size | default: settings.button_size | default: 'standard'
+  assign button_type = type | default: 'button'
+  assign resolved_icon_position = icon_position | default: 'end'
+
+  assign button_class = 'button button--' | append: button_variant
+  assign button_class = button_class | append: ' button--' | append: button_size
+
+  if full_width
+    assign button_class = button_class | append: ' button--full'
+  endif
+
+  if loading
+    assign button_class = button_class | append: ' is-loading'
+    assign loading_label = 'accessibility.loading' | t
+  endif
+
+  if class != blank
+    assign button_class = button_class | append: ' ' | append: class
+  endif
+%}
+
+{% capture button_content %}
+  {% if loading %}
+    {% render 'loading-spinner' %}
+    {% render 'visually-hidden', text: loading_label %}
+  {% endif %}
+
+  {% if icon != blank and resolved_icon_position == 'start' %}
+    {% render 'icon', name: icon, size: 18, class: 'button__icon' %}
+  {% endif %}
+
+  <span class="button__label">{{ label | escape }}</span>
+
+  {% if icon != blank and resolved_icon_position != 'start' %}
+    {% render 'icon', name: icon, size: 18, class: 'button__icon' %}
+  {% endif %}
+{% endcapture %}
+
+{% if href != blank %}
+  <a
+    class="{{ button_class }}"
+    {% unless disabled %}
+      href="{{ href }}"
+    {% endunless %}
+    {% if disabled %}
+      role="link"
+      aria-disabled="true"
+      tabindex="-1"
+    {% endif %}
+    {% if loading %}
+      aria-busy="true"
+    {% endif %}
+    {% if new_window and disabled != true %}
+      target="_blank"
+      rel="noopener noreferrer"
+    {% endif %}
+  >
+    {{ button_content }}
+  </a>
+{% else %}
+  <button
+    class="{{ button_class }}"
+    type="{{ button_type }}"
+    {% if disabled or loading %}
+      disabled
+    {% endif %}
+    {% if loading %}
+      aria-busy="true"
+    {% endif %}
+  >
+    {{ button_content }}
+  </button>
+{% endif %}

@@ -1,0 +1,187 @@
+{% liquid
+  assign heading = section.settings.heading
+  if heading == blank
+    assign heading = 'sections.personalities.heading' | t
+  endif
+
+  assign instruction = section.settings.instruction
+  if instruction == blank
+    assign instruction = 'sections.personalities.instruction' | t
+  endif
+%}
+
+<section
+  class="raccoon-personalities section-spacing"
+  data-personalities-section
+  data-section-id="{{ section.id }}"
+  data-section-type="raccoon-personalities"
+>
+  <div class="container container--standard">
+    <div class="section-heading section-heading--center">
+      <h2>{{ heading | escape }}</h2>
+      <p>{{ instruction | escape }}</p>
+    </div>
+
+    <div
+      class="raccoon-personalities__grid"
+      role="tablist"
+      aria-label="{{ heading | escape }}"
+      data-personality-tabs
+    >
+      {% for block in section.blocks %}
+        {% liquid
+          assign profile_name = block.settings.name
+          if profile_name == blank
+            assign profile_name = 'sections.personalities.profile' | t: index: forloop.index
+          endif
+
+          assign profile_description = block.settings.description
+          if profile_description == blank
+            assign profile_description = 'sections.personalities.placeholder_description' | t
+          endif
+        %}
+        <div
+          class="personality-option{% if forloop.first %} is-active{% endif %}"
+          data-personality-option
+          {{ block.shopify_attributes }}
+        >
+          <button
+            class="personality-option__trigger"
+            type="button"
+            role="tab"
+            id="PersonalityTab-{{ section.id }}-{{ block.id }}"
+            aria-controls="PersonalityPanel-{{ section.id }}"
+            aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+            tabindex="{% if forloop.first %}0{% else %}-1{% endif %}"
+            data-personality-trigger
+            data-profile-name="{{ profile_name | escape }}"
+            data-profile-description="{{ profile_description | escape }}"
+            data-profile-index="{{ forloop.index0 }}"
+          >
+            <span class="personality-option__image">
+              {% if block.settings.image != blank %}
+                {{
+                  block.settings.image
+                  | image_url: width: 480
+                  | image_tag:
+                    widths: '160, 240, 320, 400, 480',
+                    sizes: '(min-width: 750px) 180px, 36vw',
+                    loading: 'lazy',
+                    alt: block.settings.image_alt
+                }}
+              {% else %}
+                <img
+                  src="{{ 'raccoono-placeholder.svg' | asset_url }}"
+                  alt=""
+                  width="480"
+                  height="480"
+                  loading="lazy"
+                >
+              {% endif %}
+            </span>
+            <span class="personality-option__name">{{ profile_name | escape }}</span>
+          </button>
+          <p class="personality-option__static-description">{{ profile_description | escape }}</p>
+        </div>
+      {% endfor %}
+    </div>
+
+    {% if section.blocks.size > 0 %}
+      <div class="raccoon-personalities__track" aria-hidden="true">
+        <span data-personality-progress></span>
+      </div>
+
+      {% assign first_block = section.blocks.first %}
+      {% liquid
+        assign first_name = first_block.settings.name
+        if first_name == blank
+          assign first_name = 'sections.personalities.profile' | t: index: 1
+        endif
+
+        assign first_description = first_block.settings.description
+        if first_description == blank
+          assign first_description = 'sections.personalities.placeholder_description' | t
+        endif
+      %}
+      <div
+        class="raccoon-personalities__active"
+        id="PersonalityPanel-{{ section.id }}"
+        role="tabpanel"
+        aria-live="polite"
+        aria-labelledby="PersonalityTab-{{ section.id }}-{{ first_block.id }}"
+        data-personality-panel
+      >
+        <strong data-personality-name>{{ first_name | escape }}</strong>
+        <p data-personality-description>{{ first_description | escape }}</p>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Personnalités du raton",
+  "tag": "section",
+  "class": "section-raccoon-personalities",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titre"
+    },
+    {
+      "type": "textarea",
+      "id": "instruction",
+      "label": "Instruction courte"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "personality",
+      "name": "Personnalité",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Illustration du raton"
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Texte alternatif"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Nom du profil"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description courte"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Personnalités du raton",
+      "blocks": [
+        {
+          "type": "personality"
+        },
+        {
+          "type": "personality"
+        },
+        {
+          "type": "personality"
+        },
+        {
+          "type": "personality"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

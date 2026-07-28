@@ -1,0 +1,426 @@
+{
+  "sections": {
+    "announcement": {
+      "type": "announcement-bar",
+      "blocks": {
+        "message_1": {
+          "type": "message",
+          "settings": {
+            "text": "Bienvenue chez Raccoono",
+            "link": ""
+          }
+        },
+        "message_2": {
+          "type": "message",
+          "settings": {
+            "text": "Illustrations originales",
+            "link": ""
+          }
+        },
+        "message_3": {
+          "type": "message",
+          "settings": {
+            "text": "Une mission pour les forêts françaises",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "message_1",
+        "message_2",
+        "message_3"
+      ],
+      "settings": {
+        "hide_on_mobile": false
+      }
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "logo_width": 120,
+        "menu": "main-menu",
+        "sticky": true
+      }
+    },
+    "hero": {
+      "type": "hero-banner",
+      "settings": {
+        "image_alt": "",
+        "eyebrow": "Raccoono",
+        "heading": "Des produits qui ont du caractère.",
+        "text": "Une identité chaleureuse et une mission concrète pour les forêts françaises.",
+        "button_label": "Découvrir les produits",
+        "button_link": "/collections/all",
+        "secondary_button_label": "",
+        "secondary_button_link": "",
+        "height": "standard",
+        "content_position": "center",
+        "overlay_opacity": 25
+      }
+    },
+    "trust": {
+      "type": "trust-features",
+      "blocks": {
+        "feature_1": {
+          "type": "feature",
+          "settings": {
+            "title": "Produits au premier plan",
+            "text": "Une expérience simple et directe."
+          }
+        },
+        "feature_2": {
+          "type": "feature",
+          "settings": {
+            "title": "Illustrations originales",
+            "text": "Une identité chaleureuse et discrète."
+          }
+        },
+        "feature_3": {
+          "type": "feature",
+          "settings": {
+            "title": "Engagement pour les forêts",
+            "text": "Une mission environnementale concrète."
+          }
+        }
+      },
+      "block_order": [
+        "feature_1",
+        "feature_2",
+        "feature_3"
+      ],
+      "settings": {
+        "heading": "Les engagements Raccoono"
+      }
+    },
+    "products": {
+      "type": "featured-collection",
+      "settings": {
+        "eyebrow": "La sélection",
+        "heading": "Découvrir les produits",
+        "collection": "",
+        "products_to_show": 6,
+        "show_badges": true,
+        "show_view_all": true,
+        "view_all_label": "Voir tous les produits"
+      }
+    },
+    "mission": {
+      "type": "brand-mission",
+      "settings": {
+        "eyebrow": "Notre mission",
+        "heading": "Des produits, une mission concrète.",
+        "text": "<p>Raccoono place les produits au centre de la boutique, avec une identité chaleureuse portée par des illustrations originales.</p><p>Le projet participe au financement d’actions de restauration des forêts touchées par les incendies en France.</p>",
+        "link_label": "Découvrir notre démarche",
+        "link": ""
+      }
+    },
+    "story": {
+      "type": "image-with-text",
+      "settings": {
+        "image_alt": "",
+        "image_position": "left",
+        "eyebrow": "L’identité Raccoono",
+        "heading": "Une mascotte présente, jamais envahissante.",
+        "text": "<p>Le raton laveur accompagne le récit de la marque avec discrétion. Les produits restent toujours au centre de l’expérience.</p>",
+        "button_label": "Découvrir la sélection",
+        "button_link": "/collections/all"
+      }
+    },
+    "personalities": {
+      "type": "raccoon-personalities",
+      "blocks": {
+        "profile_1": {
+          "type": "personality",
+          "settings": {
+            "image_alt": "Le raton curieux",
+            "name": "Le curieux",
+            "description": "Toujours prêt à regarder les détails et à découvrir quelque chose de nouveau."
+          }
+        },
+        "profile_2": {
+          "type": "personality",
+          "settings": {
+            "image_alt": "Le raton discret",
+            "name": "Le discret",
+            "description": "Calme, attentif et à l’aise avec les choix simples."
+          }
+        },
+        "profile_3": {
+          "type": "personality",
+          "settings": {
+            "image_alt": "Le raton enthousiaste",
+            "name": "L’enthousiaste",
+            "description": "Partant pour les idées spontanées et les couleurs qui donnent le sourire."
+          }
+        },
+        "profile_4": {
+          "type": "personality",
+          "settings": {
+            "image_alt": "Le raton rêveur",
+            "name": "Le rêveur",
+            "description": "Un esprit libre qui laisse toujours une place à l’imagination."
+          }
+        }
+      },
+      "block_order": [
+        "profile_1",
+        "profile_2",
+        "profile_3",
+        "profile_4"
+      ],
+      "settings": {
+        "heading": "Quel profil vous ressemble aujourd’hui ?",
+        "instruction": "Choisissez un raton pour découvrir son humeur."
+      }
+    },
+    "reviews": {
+      "type": "testimonials",
+      "blocks": {
+        "review_1": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "text": "Ajoutez ici un avis client authentique et vérifié.",
+            "author": "Avis à renseigner",
+            "product_title": ""
+          }
+        },
+        "review_2": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "text": "Ajoutez ici un avis client authentique et vérifié.",
+            "author": "Avis à renseigner",
+            "product_title": ""
+          }
+        },
+        "review_3": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "text": "Ajoutez ici un avis client authentique et vérifié.",
+            "author": "Avis à renseigner",
+            "product_title": ""
+          }
+        },
+        "review_4": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "text": "Ajoutez ici un avis client authentique et vérifié.",
+            "author": "Avis à renseigner",
+            "product_title": ""
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3",
+        "review_4"
+      ],
+      "settings": {
+        "heading": "Ce que disent les clients",
+        "text": "Les contenus définitifs seront ajoutés uniquement à partir d’avis authentiques."
+      }
+    },
+    "collections": {
+      "type": "collection-showcase",
+      "blocks": {
+        "collection_1": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "title": "Les essentiels",
+            "link": ""
+          }
+        },
+        "collection_2": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "title": "Les nouveautés",
+            "link": ""
+          }
+        },
+        "collection_3": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "title": "Les favoris",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_1",
+        "collection_2",
+        "collection_3"
+      ],
+      "settings": {
+        "eyebrow": "Les collections",
+        "heading": "Explorer les collections"
+      }
+    },
+    "comparison": {
+      "type": "comparison-table",
+      "blocks": {
+        "row_1": {
+          "type": "row",
+          "settings": {
+            "label": "Illustrations originales",
+            "brand_value": true,
+            "other_value": false
+          }
+        },
+        "row_2": {
+          "type": "row",
+          "settings": {
+            "label": "Mission environnementale",
+            "brand_value": true,
+            "other_value": false
+          }
+        },
+        "row_3": {
+          "type": "row",
+          "settings": {
+            "label": "Produits au premier plan",
+            "brand_value": true,
+            "other_value": true
+          }
+        },
+        "row_4": {
+          "type": "row",
+          "settings": {
+            "label": "Identité chaleureuse",
+            "brand_value": true,
+            "other_value": false
+          }
+        },
+        "row_5": {
+          "type": "row",
+          "settings": {
+            "label": "Expérience simple et légère",
+            "brand_value": true,
+            "other_value": true
+          }
+        },
+        "row_6": {
+          "type": "row",
+          "settings": {
+            "label": "Mascotte discrète",
+            "brand_value": true,
+            "other_value": false
+          }
+        }
+      },
+      "block_order": [
+        "row_1",
+        "row_2",
+        "row_3",
+        "row_4",
+        "row_5",
+        "row_6"
+      ],
+      "settings": {
+        "heading": "Pourquoi choisir Raccoono ?",
+        "text": "",
+        "feature_heading": "Critères",
+        "brand_heading": "Raccoono",
+        "other_heading": "Autres options"
+      }
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "faq_1": {
+          "type": "item",
+          "settings": {
+            "question": "Quelle est la mission de Raccoono ?",
+            "answer": "<p>Raccoono participe au financement d’actions de restauration des forêts touchées par les incendies en France.</p>",
+            "open": true
+          }
+        },
+        "faq_2": {
+          "type": "item",
+          "settings": {
+            "question": "Le raton laveur est-il le produit ?",
+            "answer": "<p>Non. Le raton laveur est la mascotte de la marque. Les produits restent au centre de la boutique.</p>",
+            "open": false
+          }
+        },
+        "faq_3": {
+          "type": "item",
+          "settings": {
+            "question": "Où découvrir les produits ?",
+            "answer": "<p>La sélection et les collections sont accessibles directement depuis cette page et le menu principal.</p>",
+            "open": false
+          }
+        },
+        "faq_4": {
+          "type": "item",
+          "settings": {
+            "question": "Où trouver les informations de livraison ?",
+            "answer": "<p>Les conditions et délais applicables sont indiqués sur les pages d’information de la boutique.</p>",
+            "open": false
+          }
+        },
+        "faq_5": {
+          "type": "item",
+          "settings": {
+            "question": "Comment suivre les actions environnementales ?",
+            "answer": "<p>Les informations validées pourront être consultées depuis le lien Impact de la boutique.</p>",
+            "open": false
+          }
+        }
+      },
+      "block_order": [
+        "faq_1",
+        "faq_2",
+        "faq_3",
+        "faq_4",
+        "faq_5"
+      ],
+      "settings": {
+        "heading": "Questions fréquentes",
+        "text": ""
+      }
+    },
+    "footer": {
+      "type": "footer",
+      "settings": {
+        "tagline": "Des produits au premier plan, une mission pour les forêts.",
+        "impact_label": "Découvrir notre impact",
+        "impact_link": "/pages/impact",
+        "menu_1_heading": "Navigation",
+        "menu_1": "footer",
+        "menu_2_heading": "",
+        "menu_2": "",
+        "menu_3_heading": "",
+        "menu_3": "",
+        "show_newsletter": false,
+        "newsletter_heading": "Recevoir les nouvelles",
+        "show_social": true,
+        "instagram_url": "",
+        "facebook_url": "",
+        "tiktok_url": "",
+        "show_payment_icons": true
+      }
+    }
+  },
+  "order": [
+    "announcement",
+    "header",
+    "hero",
+    "trust",
+    "products",
+    "mission",
+    "story",
+    "personalities",
+    "reviews",
+    "collections",
+    "comparison",
+    "faq",
+    "footer"
+  ]
+}

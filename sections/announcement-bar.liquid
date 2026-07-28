@@ -1,0 +1,78 @@
+{% liquid
+  assign section_class = 'announcement-bar'
+  if section.settings.hide_on_mobile
+    assign section_class = section_class | append: ' announcement-bar--desktop-only'
+  endif
+%}
+
+<aside
+  class="{{ section_class }}"
+  aria-label="{{ 'sections.announcement.label' | t }}"
+  data-section-id="{{ section.id }}"
+  data-section-type="announcement-bar"
+>
+  <div class="announcement-bar__inner">
+    {% for block in section.blocks %}
+      {% liquid
+        assign message = block.settings.text
+        if message == blank
+          assign message = 'sections.announcement.default' | t
+        endif
+      %}
+      <p class="announcement-bar__item" {{ block.shopify_attributes }}>
+        {% if block.settings.link != blank %}
+          <a href="{{ block.settings.link }}">{{ message | escape }}</a>
+        {% else %}
+          {{ message | escape }}
+        {% endif %}
+      </p>
+    {% else %}
+      <p class="announcement-bar__item">{{ 'sections.announcement.default' | t }}</p>
+    {% endfor %}
+  </div>
+</aside>
+
+{% schema %}
+{
+  "name": "Barre d’annonce",
+  "tag": "section",
+  "class": "section-announcement-bar",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "hide_on_mobile",
+      "label": "Masquer sur mobile",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "message",
+      "name": "Message",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Texte"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Lien"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 5,
+  "presets": [
+    {
+      "name": "Barre d’annonce",
+      "blocks": [
+        {
+          "type": "message"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

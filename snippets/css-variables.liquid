@@ -1,0 +1,213 @@
+{% doc %}
+Renders the fixed Raccoono design tokens and the controlled global presets selected in the Theme Editor.
+{% enddoc %}
+
+{% liquid
+  case settings.layout_width
+    when 'standard'
+      assign selected_page_width = '70rem'
+    when 'product'
+      assign selected_page_width = '86.25rem'
+    else
+      assign selected_page_width = '82.5rem'
+  endcase
+
+  case settings.radius_style
+    when 'square'
+      assign selected_button_radius = '0.125rem'
+      assign selected_field_radius = '0.125rem'
+      assign selected_media_radius = '0'
+    when 'moderate'
+      assign selected_button_radius = '0.75rem'
+      assign selected_field_radius = '0.75rem'
+      assign selected_media_radius = '0.5rem'
+    else
+      assign selected_button_radius = '0.5rem'
+      assign selected_field_radius = '0.5rem'
+      assign selected_media_radius = '0.25rem'
+  endcase
+
+  case settings.button_size
+    when 'compact'
+      assign selected_button_height = '2.25rem'
+      assign selected_button_padding = '0.875rem'
+    when 'large'
+      assign selected_button_height = '2.75rem'
+      assign selected_button_padding = '1.375rem'
+    else
+      assign selected_button_height = '2.625rem'
+      assign selected_button_padding = '1.25rem'
+  endcase
+
+  case settings.motion_level
+    when 'none'
+      assign motion_fast = '0ms'
+      assign motion_standard = '0ms'
+      assign motion_slow = '0ms'
+    when 'subtle'
+      assign motion_fast = '100ms'
+      assign motion_standard = '160ms'
+      assign motion_slow = '240ms'
+    else
+      assign motion_fast = '120ms'
+      assign motion_standard = '200ms'
+      assign motion_slow = '320ms'
+  endcase
+%}
+
+<style>
+  :root {
+    --color-white: #ffffff;
+    --color-off-white: #f8f9f8;
+    --color-cream: #f7f1e6;
+    --color-navy: #071b37;
+    --color-gray: #5d6468;
+    --color-border-subtle: #e6e9e8;
+    --color-border: #8b9498;
+    --color-forest: #2f5b43;
+    --color-cyan: #25c7d9;
+    --color-coral: #ef725f;
+    --color-yellow: #f2c65d;
+    --color-success: #246b42;
+    --color-error: #b42318;
+    --color-warning: #7a4d00;
+    --color-info: #155eef;
+    --color-background: var(--color-white);
+    --color-background-soft: var(--color-off-white);
+    --color-surface: var(--color-white);
+    --color-text: var(--color-navy);
+    --color-text-muted: var(--color-gray);
+    --color-heading: var(--color-navy);
+    --color-link: var(--color-navy);
+    --color-accent: var(--color-forest);
+    --color-focus: var(--color-info);
+    --color-focus-halo: var(--color-white);
+    --color-selection-background: var(--color-cyan);
+    --color-selection-text: var(--color-navy);
+    --color-action-primary: var(--color-cyan);
+    --color-action-primary-hover: #1ab4c6;
+    --color-action-primary-text: var(--color-navy);
+    --color-action-secondary: var(--color-navy);
+    --color-action-secondary-hover: #102a4f;
+    --color-action-secondary-text: var(--color-white);
+    --space-0: 0;
+    --space-4: 0.25rem;
+    --space-8: 0.5rem;
+    --space-12: 0.75rem;
+    --space-14: 0.875rem;
+    --space-16: 1rem;
+    --space-20: 1.25rem;
+    --space-24: 1.5rem;
+    --space-32: 2rem;
+    --space-40: 2.5rem;
+    --space-48: 3rem;
+    --space-64: 4rem;
+    --space-80: 5rem;
+    --space-96: 6rem;
+    --space-128: 8rem;
+    --font-display-family: {{ settings.type_display_font.family }}, {{ settings.type_display_font.fallback_families }};
+    --font-display-style: {{ settings.type_display_font.style }};
+    --font-display-weight: {{ settings.type_display_font.weight }};
+    --font-body-family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+    --font-body-style: {{ settings.type_body_font.style }};
+    --font-body-weight: {{ settings.type_body_font.weight }};
+    --font-size-body: 0.9375rem;
+    --font-size-small: 0.875rem;
+    --font-size-button: 0.875rem;
+    --line-height-body: 1.6;
+    --container-product: 86.25rem;
+    --container-main: 82.5rem;
+    --container-standard: 70rem;
+    --container-compact: 60rem;
+    --container-reading: 45rem;
+    --container-marketing: 40rem;
+    --container-page: {{ selected_page_width }};
+    --container-gutter: var(--space-16);
+    --radius-0: 0;
+    --radius-2: 0.125rem;
+    --radius-4: 0.25rem;
+    --radius-8: 0.5rem;
+    --radius-12: 0.75rem;
+    --radius-full: 999px;
+    --radius-button: {{ selected_button_radius }};
+    --radius-field: {{ selected_field_radius }};
+    --radius-media: {{ selected_media_radius }};
+    --button-height: {{ selected_button_height }};
+    --button-padding-block: 0.625rem;
+    --button-padding-inline: {{ selected_button_padding }};
+    --field-height: 2.75rem;
+    --focus-width: 0.125rem;
+    --focus-offset: 0.125rem;
+    --focus-halo-width: 0.0625rem;
+    --motion-fast: {{ motion_fast }};
+    --motion-standard: {{ motion_standard }};
+    --motion-slow: {{ motion_slow }};
+    --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+    --ease-enter: cubic-bezier(0, 0, 0.2, 1);
+    --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+    --z-base: 0;
+    --z-sticky: 20;
+    --z-dropdown: 30;
+    --z-overlay: 40;
+    --z-drawer: 50;
+    --z-modal: 60;
+    --z-toast: 70;
+  }
+
+  .color-scheme--light {
+    --color-background: var(--color-white);
+    --color-background-soft: var(--color-off-white);
+    --color-surface: var(--color-white);
+    --color-text: var(--color-navy);
+    --color-text-muted: var(--color-gray);
+    --color-heading: var(--color-navy);
+    --color-link: var(--color-navy);
+    --color-accent: var(--color-forest);
+  }
+
+  .color-scheme--soft {
+    --color-background: var(--color-off-white);
+    --color-background-soft: var(--color-white);
+    --color-surface: var(--color-white);
+    --color-text: var(--color-navy);
+    --color-text-muted: var(--color-gray);
+    --color-heading: var(--color-navy);
+    --color-link: var(--color-navy);
+    --color-accent: var(--color-forest);
+  }
+
+  .color-scheme--impact {
+    --color-background: var(--color-white);
+    --color-background-soft: var(--color-off-white);
+    --color-surface: var(--color-white);
+    --color-text: var(--color-navy);
+    --color-text-muted: var(--color-gray);
+    --color-heading: var(--color-forest);
+    --color-link: var(--color-forest);
+    --color-accent: var(--color-forest);
+    --color-action-primary: var(--color-forest);
+    --color-action-primary-hover: #244a35;
+    --color-action-primary-text: var(--color-white);
+  }
+
+  .color-scheme--inverse {
+    --color-background: var(--color-navy);
+    --color-background-soft: #102a4f;
+    --color-surface: #102a4f;
+    --color-text: var(--color-white);
+    --color-text-muted: var(--color-off-white);
+    --color-heading: var(--color-white);
+    --color-link: var(--color-white);
+    --color-accent: var(--color-cyan);
+    --color-border-subtle: #687276;
+    --color-border: var(--color-off-white);
+    --color-focus: var(--color-cyan);
+    --color-focus-halo: var(--color-white);
+    --color-action-primary: var(--color-cyan);
+    --color-action-primary-hover: #1ab4c6;
+    --color-action-primary-text: var(--color-navy);
+    --color-action-secondary: var(--color-white);
+    --color-action-secondary-hover: var(--color-off-white);
+    --color-action-secondary-text: var(--color-navy);
+  }
+</style>

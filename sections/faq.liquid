@@ -1,0 +1,115 @@
+{% liquid
+  assign heading = section.settings.heading
+  if heading == blank
+    assign heading = 'sections.faq.heading' | t
+  endif
+%}
+
+<section
+  class="faq section-spacing"
+  data-section-id="{{ section.id }}"
+  data-section-type="faq"
+>
+  <div class="container container--compact">
+    <div class="section-heading">
+      <h2>{{ heading | escape }}</h2>
+      {% if section.settings.text != blank %}
+        <p>{{ section.settings.text | escape }}</p>
+      {% endif %}
+    </div>
+
+    <div class="faq__list">
+      {% for block in section.blocks %}
+        {% liquid
+          assign question = block.settings.question
+          if question == blank
+            assign question = 'sections.faq.placeholder_question' | t
+          endif
+
+          capture answer
+            if block.settings.answer != blank
+              echo block.settings.answer
+            else
+              echo '<p>'
+              echo 'sections.faq.placeholder_answer' | t
+              echo '</p>'
+            endif
+          endcapture
+        %}
+        {% render 'accordion-item',
+          question: question,
+          answer: answer,
+          open: block.settings.open,
+          attributes: block.shopify_attributes
+        %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FAQ",
+  "tag": "section",
+  "class": "section-faq",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titre"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Introduction"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Question",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Réponse"
+        },
+        {
+          "type": "checkbox",
+          "id": "open",
+          "label": "Ouverte par défaut",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "FAQ",
+      "blocks": [
+        {
+          "type": "item"
+        },
+        {
+          "type": "item"
+        },
+        {
+          "type": "item"
+        },
+        {
+          "type": "item"
+        },
+        {
+          "type": "item"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

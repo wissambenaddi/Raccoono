@@ -1,0 +1,177 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Raccoono",
+    "theme_author": "Raccoono",
+    "theme_version": "1.0.0",
+    "theme_documentation_url": "https://github.com/wissambenaddi/Raccoono",
+    "theme_support_url": "https://github.com/wissambenaddi/Raccoono/issues"
+  },
+  {
+    "name": "Identité",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo principal"
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon"
+      },
+      {
+        "type": "image_picker",
+        "id": "social_share_image",
+        "label": "Image de partage social"
+      }
+    ]
+  },
+  {
+    "name": "Typographie",
+    "settings": [
+      {
+        "type": "font_picker",
+        "id": "type_display_font",
+        "default": "bricolage_grotesque_n7",
+        "label": "Police des titres"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_body_font",
+        "default": "dm_sans_n4",
+        "label": "Police du corps"
+      }
+    ]
+  },
+  {
+    "name": "Mise en page",
+    "settings": [
+      {
+        "type": "select",
+        "id": "layout_width",
+        "label": "Largeur globale",
+        "options": [
+          {
+            "value": "standard",
+            "label": "Standard — 1120 px"
+          },
+          {
+            "value": "main",
+            "label": "Principale — 1320 px"
+          },
+          {
+            "value": "product",
+            "label": "Produit — 1380 px"
+          }
+        ],
+        "default": "main"
+      },
+      {
+        "type": "select",
+        "id": "default_color_scheme",
+        "label": "Ambiance par défaut",
+        "options": [
+          {
+            "value": "light",
+            "label": "Claire"
+          },
+          {
+            "value": "soft",
+            "label": "Douce"
+          },
+          {
+            "value": "impact",
+            "label": "Impact"
+          },
+          {
+            "value": "inverse",
+            "label": "Sombre"
+          }
+        ],
+        "default": "light"
+      }
+    ]
+  },
+  {
+    "name": "Composants",
+    "settings": [
+      {
+        "type": "select",
+        "id": "radius_style",
+        "label": "Arrondis",
+        "options": [
+          {
+            "value": "square",
+            "label": "Carrés"
+          },
+          {
+            "value": "subtle",
+            "label": "Subtils"
+          },
+          {
+            "value": "moderate",
+            "label": "Modérés"
+          }
+        ],
+        "default": "subtle"
+      },
+      {
+        "type": "select",
+        "id": "button_size",
+        "label": "Taille des boutons",
+        "options": [
+          {
+            "value": "compact",
+            "label": "Compacte"
+          },
+          {
+            "value": "standard",
+            "label": "Standard"
+          },
+          {
+            "value": "large",
+            "label": "Grande"
+          }
+        ],
+        "default": "standard"
+      }
+    ]
+  },
+  {
+    "name": "Mouvement",
+    "settings": [
+      {
+        "type": "select",
+        "id": "motion_level",
+        "label": "Niveau d’animation",
+        "options": [
+          {
+            "value": "none",
+            "label": "Aucune"
+          },
+          {
+            "value": "subtle",
+            "label": "Subtile"
+          },
+          {
+            "value": "standard",
+            "label": "Standard"
+          }
+        ],
+        "default": "standard"
+      }
+    ]
+  },
+  {
+    "name": "Accessibilité",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "underline_body_links",
+        "label": "Souligner les liens dans les textes",
+        "default": true
+      }
+    ]
+  }
+]

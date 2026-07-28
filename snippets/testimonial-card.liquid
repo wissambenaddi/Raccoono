@@ -1,0 +1,37 @@
+{% doc %}
+Renders a clearly identified testimonial entry.
+
+@param {number} rating - Rating from 1 to 5.
+@param {string} text - Testimonial text.
+@param {string} author - Customer first name.
+@param {string} product_title - Related product title.
+@param {string} [class] - Additional CSS class.
+@param {string} [attributes] - Shopify editor attributes.
+{% enddoc %}
+
+{% liquid
+  assign card_class = 'testimonial-card'
+  if class != blank
+    assign card_class = card_class | append: ' ' | append: class
+  endif
+%}
+
+<article class="{{ card_class }}" {{ attributes }}>
+  <div
+    class="testimonial-card__rating"
+    aria-label="{{ 'sections.testimonials.rating' | t: rating: rating, total: 5 }}"
+  >
+    {% for star in (1..5) %}
+      <span aria-hidden="true">{% if star <= rating %}★{% else %}☆{% endif %}</span>
+    {% endfor %}
+  </div>
+  <blockquote class="testimonial-card__quote">
+    <p>{{ text | escape }}</p>
+  </blockquote>
+  <footer class="testimonial-card__footer">
+    <strong>{{ author | escape }}</strong>
+    {% if product_title != blank %}
+      <span>{{ product_title | escape }}</span>
+    {% endif %}
+  </footer>
+</article>

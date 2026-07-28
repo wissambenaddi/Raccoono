@@ -1,5 +1,5 @@
 .section-spacing {
-  padding-block: var(--space-56, 3.5rem);
+  padding-block: var(--space-24);
 }
 
 .section-heading {
@@ -625,6 +625,16 @@
   background: var(--color-white);
 }
 
+.raccoon-personalities .section-heading {
+  margin-block-end: var(--space-20);
+}
+
+.raccoon-personalities .section-heading p {
+  color: var(--color-text-muted);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
 .raccoon-personalities__selector {
   display: grid;
   max-inline-size: 60rem;
@@ -1053,7 +1063,7 @@
 }
 
 .site-footer {
-  padding-block: var(--space-48) var(--space-24);
+  padding-block: var(--space-32) var(--space-24);
   background: var(--color-navy);
   color: var(--color-white);
 }
@@ -1218,7 +1228,7 @@
 
 @media (min-width: 46.875rem) {
   .section-spacing {
-    padding-block: var(--space-80);
+    padding-block: var(--space-32);
   }
 
   .section-heading {

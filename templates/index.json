@@ -178,15 +178,15 @@
       ],
       "settings": {
         "heading": "Quel raton êtes-vous aujourd’hui ?",
-        "subtitle": "Soyez honnête… votre panier connaît déjà la réponse.",
+        "subtitle": "Faites glisser le curseur pour trouver le chapeau parfait pour votre style et parcourez la collection.",
         "bar_start_color": "#4F82FF",
         "bar_end_color": "#EF4E55",
         "active_text_color": "#071C3F",
         "inactive_opacity": 42,
         "inactive_blur": 2,
         "enable_scale": true,
-        "padding_top": 64,
-        "padding_bottom": 64
+        "padding_top": 32,
+        "padding_bottom": 32
       }
     },
     "reviews": {

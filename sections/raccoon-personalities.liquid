@@ -99,12 +99,20 @@
           case forloop.index0
             when 0
               assign fallback_image = 'discret.png'
+              assign fallback_width = 1429
+              assign fallback_height = 931
             when 1
               assign fallback_image = 'Le fouineur.png'
+              assign fallback_width = 1536
+              assign fallback_height = 1024
             when 2
-              assign fallback_image = 'Le généreux.png'
+              assign fallback_image = 'raccoono-profile-genereux.png'
+              assign fallback_width = 1536
+              assign fallback_height = 1024
             else
               assign fallback_image = 'Le chaos.png'
+              assign fallback_width = 1536
+              assign fallback_height = 1024
           endcase
         %}
 
@@ -135,8 +143,8 @@
                 class="personality-option__illustration"
                 src="{{ fallback_image | asset_url }}"
                 alt="{{ profile_alt | escape }}"
-                width="720"
-                height="720"
+                width="{{ fallback_width }}"
+                height="{{ fallback_height }}"
                 loading="lazy"
               >
             {% endif %}
@@ -187,7 +195,7 @@
       "type": "textarea",
       "id": "subtitle",
       "label": "Sous-titre",
-      "default": "Soyez honnête… votre panier connaît déjà la réponse."
+      "default": "Faites glisser le curseur pour trouver le chapeau parfait pour votre style et parcourez la collection."
     },
     {
       "type": "header",
@@ -249,7 +257,7 @@
       "step": 4,
       "unit": "px",
       "label": "Espacement supérieur",
-      "default": 64
+      "default": 32
     },
     {
       "type": "range",
@@ -259,7 +267,7 @@
       "step": 4,
       "unit": "px",
       "label": "Espacement inférieur",
-      "default": 64
+      "default": 32
     }
   ],
   "blocks": [

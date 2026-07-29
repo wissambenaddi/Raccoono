@@ -7,24 +7,12 @@ Renders the compact desktop navigation with one level of native submenus.
 {% if menu != blank %}
   <nav class="header-menu" aria-label="{{ 'sections.header.primary_navigation' | t }}">
     <ul class="header-menu__list" role="list">
-      {% for link in menu.links limit: 4 %}
-        {% liquid
-          case forloop.index
-            when 1
-              assign link_label = 'sections.header.navigation.shop' | t
-            when 2
-              assign link_label = 'sections.header.navigation.best_sellers' | t
-            when 3
-              assign link_label = 'sections.header.navigation.about' | t
-            when 4
-              assign link_label = 'sections.header.navigation.mission' | t
-          endcase
-        %}
+      {% for link in menu.links %}
         <li class="header-menu__item">
           {% if link.links != blank %}
             <details class="header-menu__details">
               <summary class="header-menu__summary{% if link.current or link.child_active %} header-menu__summary--active{% endif %}">
-                <span>{{ link_label | escape }}</span>
+                <span>{{ link.title | escape }}</span>
                 {% render 'icon', name: 'chevron-down', size: 14 %}
               </summary>
               <ul class="header-menu__submenu" role="list">
@@ -39,19 +27,11 @@ Renders the compact desktop navigation with one level of native submenus.
             </details>
           {% else %}
             <a href="{{ link.url }}" {% if link.current %}aria-current="page"{% endif %}>
-              {{ link_label | escape }}
+              {{ link.title | escape }}
             </a>
           {% endif %}
         </li>
       {% endfor %}
-      <li class="header-menu__item">
-        <a
-          href="{{ routes.root_url }}pages/contact"
-          {% if request.path contains '/pages/contact' %}aria-current="page"{% endif %}
-        >
-          {{ 'sections.header.navigation.contact' | t }}
-        </a>
-      </li>
     </ul>
   </nav>
 {% endif %}

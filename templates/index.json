@@ -83,22 +83,22 @@
         "feature_1": {
           "type": "feature",
           "settings": {
-            "title": "Produits au premier plan",
-            "text": "Une expérience simple et directe."
+            "title": "Expédition rapide",
+            "text": "Votre commande préparée avec soin"
           }
         },
         "feature_2": {
           "type": "feature",
           "settings": {
-            "title": "Illustrations originales",
-            "text": "Une identité chaleureuse et discrète."
+            "title": "20 % de chaque commande soutiennent les forêts",
+            "text": ""
           }
         },
         "feature_3": {
           "type": "feature",
           "settings": {
-            "title": "Engagement pour les forêts",
-            "text": "Une mission environnementale concrète."
+            "title": "Emballage respectueux de l’environnement",
+            "text": ""
           }
         }
       },

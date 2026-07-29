@@ -5,6 +5,21 @@
   endif
 %}
 
+{% style %}
+  @font-face {
+    font-family: "Itim";
+    src: url("{{ 'itim-regular.woff2' | asset_url }}") format("woff2");
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+  }
+
+  #shopify-section-{{ section.id }} .trust-feature__title,
+  #shopify-section-{{ section.id }} .trust-feature__description {
+    font-family: "Itim", cursive;
+  }
+{% endstyle %}
+
 <section
   class="trust-features"
   aria-label="{{ accessible_heading | escape }}"
@@ -13,28 +28,54 @@
 >
   <div class="trust-features__grid container">
     {% for block in section.blocks %}
+      {% liquid
+        assign default_icon_asset = ''
+        assign default_icon_width = 512
+        assign default_icon_height = 512
+
+        case forloop.index
+          when 1
+            assign default_icon_asset = 'reassurance-shipping.png'
+          when 2
+            assign default_icon_asset = 'reassurance-forest.png'
+            assign default_icon_width = 1536
+            assign default_icon_height = 1024
+          when 3
+            assign default_icon_asset = 'reassurance-packaging.png'
+        endcase
+      %}
       <article class="trust-feature" {{ block.shopify_attributes }}>
-        <div class="trust-feature__icon" aria-hidden="true">
+        <div class="trust-feature__icon{% if forloop.index == 2 %} trust-feature__icon--wide{% endif %}" aria-hidden="true">
           {% if block.settings.icon != blank %}
             {{
               block.settings.icon
-              | image_url: width: 120
+              | image_url: width: 160
               | image_tag:
-                widths: '48, 72, 96, 120',
-                sizes: '40px',
+                widths: '56, 68, 96, 136, 160',
+                sizes: '(min-width: 750px) 68px, 56px',
                 loading: 'lazy',
                 alt: ''
             }}
+          {% elsif default_icon_asset != blank %}
+            <img
+              src="{{ default_icon_asset | asset_url }}"
+              alt=""
+              width="{{ default_icon_width }}"
+              height="{{ default_icon_height }}"
+              loading="lazy"
+            >
           {% else %}
             {% render 'icon', name: 'check', size: 22 %}
           {% endif %}
         </div>
-        {% if block.settings.title != blank %}
-          <h2>{{ block.settings.title | escape }}</h2>
-        {% endif %}
-        {% if block.settings.text != blank %}
-          <p>{{ block.settings.text | escape }}</p>
-        {% endif %}
+        <div class="trust-feature__content">
+          {% if block.settings.title != blank %}
+            <h2 class="trust-feature__title">{{ block.settings.title | escape }}</h2>
+          {% endif %}
+          {% if block.settings.text != blank %}
+            <p class="trust-feature__description">{{ block.settings.text | escape }}</p>
+          {% endif %}
+        </div>
       </article>
     {% endfor %}
   </div>

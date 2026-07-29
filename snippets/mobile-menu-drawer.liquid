@@ -29,12 +29,24 @@ Renders a progressively enhanced mobile menu drawer based on native details elem
     {% if menu != blank %}
       <nav aria-label="{{ 'sections.header.mobile_navigation' | t }}">
         <ul class="mobile-menu__list" role="list">
-          {% for link in menu.links %}
+          {% for link in menu.links limit: 4 %}
+            {% liquid
+              case forloop.index
+                when 1
+                  assign link_label = 'sections.header.navigation.shop' | t
+                when 2
+                  assign link_label = 'sections.header.navigation.best_sellers' | t
+                when 3
+                  assign link_label = 'sections.header.navigation.about' | t
+                when 4
+                  assign link_label = 'sections.header.navigation.mission' | t
+              endcase
+            %}
             <li>
               {% if link.links != blank %}
                 <details class="mobile-menu__nested">
                   <summary>
-                    <span>{{ link.title | escape }}</span>
+                    <span>{{ link_label | escape }}</span>
                     {% render 'icon', name: 'chevron-down', size: 16 %}
                   </summary>
                   <ul role="list">
@@ -49,11 +61,16 @@ Renders a progressively enhanced mobile menu drawer based on native details elem
                 </details>
               {% else %}
                 <a href="{{ link.url }}" {% if link.current %}aria-current="page"{% endif %}>
-                  {{ link.title | escape }}
+                  {{ link_label | escape }}
                 </a>
               {% endif %}
             </li>
           {% endfor %}
+          <li>
+            <a href="{{ routes.root_url }}pages/contact">
+              {{ 'sections.header.navigation.contact' | t }}
+            </a>
+          </li>
         </ul>
       </nav>
     {% endif %}

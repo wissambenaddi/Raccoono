@@ -38,8 +38,16 @@
       "menu": "Menu",
       "search": "Search",
       "account": "Account",
+      "account_label": "My account",
       "cart": "Cart",
-      "cart_count": "{{ count }} items in cart"
+      "cart_count": "{{ count }} items in cart",
+      "navigation": {
+        "shop": "Shop",
+        "best_sellers": "Best sellers",
+        "about": "About",
+        "mission": "Our mission",
+        "contact": "Contact us"
+      }
     },
     "hero": {
       "heading": "Products with character.",

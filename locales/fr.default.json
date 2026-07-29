@@ -38,8 +38,16 @@
       "menu": "Menu",
       "search": "Rechercher",
       "account": "Compte",
+      "account_label": "Mon compte",
       "cart": "Panier",
-      "cart_count": "{{ count }} articles dans le panier"
+      "cart_count": "{{ count }} articles dans le panier",
+      "navigation": {
+        "shop": "Boutique",
+        "best_sellers": "Meilleures ventes",
+        "about": "À propos",
+        "mission": "Notre mission",
+        "contact": "Contactez-nous"
+      }
     },
     "hero": {
       "heading": "Des produits qui ont du caractère.",

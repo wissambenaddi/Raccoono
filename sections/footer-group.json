@@ -1,0 +1,30 @@
+{
+  "type": "footer",
+  "name": "Pied de page",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "settings": {
+        "tagline": "Des produits au premier plan, une mission pour les forêts.",
+        "impact_label": "Découvrir notre impact",
+        "impact_link": "/pages/impact",
+        "menu_1_heading": "Navigation",
+        "menu_1": "footer",
+        "menu_2_heading": "",
+        "menu_2": "",
+        "menu_3_heading": "",
+        "menu_3": "",
+        "show_newsletter": false,
+        "newsletter_heading": "Recevoir les nouvelles",
+        "show_social": true,
+        "instagram_url": "",
+        "facebook_url": "",
+        "tiktok_url": "",
+        "show_payment_icons": true
+      }
+    }
+  },
+  "order": [
+    "footer"
+  ]
+}

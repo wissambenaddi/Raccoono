@@ -1,0 +1,94 @@
+{% liquid
+  assign login_label = 'customers.login.submit' | t
+  assign recover_label = 'customers.login.recover' | t
+%}
+
+<section class="storefront-section">
+  <div class="container container--compact">
+    <header class="storefront-heading storefront-heading--center">
+      <p class="section-eyebrow">{{ 'customers.login.eyebrow' | t }}</p>
+      <h1>{{ 'customers.login.title' | t }}</h1>
+    </header>
+
+    {% form 'customer_login', class: 'storefront-form' %}
+      {% if form.errors %}
+        <div class="form-status form-status--error" role="alert">
+          {{ form.errors | default_errors }}
+        </div>
+      {% endif %}
+
+      <div class="field">
+        <label for="CustomerEmail">{{ 'customers.fields.email' | t }}</label>
+        <input
+          id="CustomerEmail"
+          type="email"
+          name="customer[email]"
+          value="{{ form.email | escape }}"
+          autocomplete="email"
+          autocapitalize="off"
+          spellcheck="false"
+          required
+        >
+      </div>
+      <div class="field">
+        <label for="CustomerPassword">{{ 'customers.fields.password' | t }}</label>
+        <input
+          id="CustomerPassword"
+          type="password"
+          name="customer[password]"
+          autocomplete="current-password"
+          required
+        >
+      </div>
+      {% render 'button',
+        label: login_label,
+        type: 'submit',
+        variant: 'primary',
+        full_width: true
+      %}
+    {% endform %}
+
+    <div class="customer-secondary-actions">
+      <a href="{{ routes.account_register_url }}">{{ 'customers.login.create_account' | t }}</a>
+      <details>
+        <summary>{{ 'customers.login.forgot_password' | t }}</summary>
+        {% form 'recover_customer_password', class: 'storefront-form storefront-form--compact' %}
+          {% if form.posted_successfully? %}
+            <p class="form-status form-status--success" role="status">
+              {{ 'customers.login.recovery_success' | t }}
+            </p>
+          {% endif %}
+          {% if form.errors %}
+            <div class="form-status form-status--error" role="alert">
+              {{ form.errors | default_errors }}
+            </div>
+          {% endif %}
+          <div class="field">
+            <label for="RecoverEmail">{{ 'customers.fields.email' | t }}</label>
+            <input
+              id="RecoverEmail"
+              type="email"
+              name="email"
+              autocomplete="email"
+              autocapitalize="off"
+              spellcheck="false"
+              required
+            >
+          </div>
+          {% render 'button',
+            label: recover_label,
+            type: 'submit',
+            variant: 'secondary'
+          %}
+        {% endform %}
+      </details>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Connexion client",
+  "settings": []
+}
+{% endschema %}

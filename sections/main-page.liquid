@@ -1,0 +1,17 @@
+<section class="storefront-section">
+  <div class="container container--reading">
+    <header class="storefront-heading">
+      <h1>{{ page.title | escape }}</h1>
+    </header>
+    {% if page.content != blank %}
+      <div class="rte storefront-rte">{{ page.content }}</div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Page principale",
+  "settings": []
+}
+{% endschema %}

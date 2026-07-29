@@ -1,0 +1,41 @@
+<article class="storefront-section">
+  <div class="container container--reading">
+    <header class="storefront-heading storefront-heading--center">
+      <p class="section-eyebrow">{{ article.published_at | date: '%d/%m/%Y' }}</p>
+      <h1>{{ article.title | escape }}</h1>
+      {% if article.author != blank %}
+        <p class="storefront-heading__meta">
+          {{ 'templates.article.author' | t: author: article.author }}
+        </p>
+      {% endif %}
+    </header>
+
+    {% if article.image != blank %}
+      <div class="article-hero">
+        {{
+          article.image
+          | image_url: width: 1800
+          | image_tag:
+            widths: '600, 900, 1200, 1500, 1800',
+            sizes: '(min-width: 990px) 900px, 100vw',
+            loading: 'eager',
+            fetchpriority: 'high',
+            alt: article.image.alt
+        }}
+      </div>
+    {% endif %}
+
+    <div class="rte storefront-rte">{{ article.content }}</div>
+
+    <footer class="article-footer">
+      <a href="{{ blog.url }}">{{ 'templates.article.back_to_blog' | t }}</a>
+    </footer>
+  </div>
+</article>
+
+{% schema %}
+{
+  "name": "Article principal",
+  "settings": []
+}
+{% endschema %}

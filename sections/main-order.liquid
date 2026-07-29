@@ -1,0 +1,87 @@
+<section class="storefront-section">
+  <div class="container container--standard">
+    <header class="storefront-heading">
+      <p class="section-eyebrow">{{ 'customers.order.eyebrow' | t }}</p>
+      <h1>{{ 'customers.order.title' | t: name: order.name }}</h1>
+      <p>{{ order.created_at | date: '%d/%m/%Y' }}</p>
+      <a href="{{ routes.account_url }}">{{ 'customers.order.back' | t }}</a>
+    </header>
+
+    {% if order.cancelled %}
+      <div class="form-status form-status--error" role="status">
+        {{ 'customers.order.cancelled' | t }}
+      </div>
+    {% endif %}
+
+    <div class="table-scroll">
+      <table class="order-details">
+        <thead>
+          <tr>
+            <th scope="col">{{ 'customers.order.product' | t }}</th>
+            <th scope="col">{{ 'customers.order.sku' | t }}</th>
+            <th scope="col">{{ 'customers.order.price' | t }}</th>
+            <th scope="col">{{ 'customers.order.quantity' | t }}</th>
+            <th scope="col">{{ 'customers.order.total' | t }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for line_item in order.line_items %}
+            <tr>
+              <td>
+                {% if line_item.url != blank %}
+                  <a href="{{ line_item.url }}">{{ line_item.title | escape }}</a>
+                {% else %}
+                  {{ line_item.title | escape }}
+                {% endif %}
+              </td>
+              <td>{{ line_item.sku | escape }}</td>
+              <td>{{ line_item.final_price | money }}</td>
+              <td>{{ line_item.quantity }}</td>
+              <td>{{ line_item.final_line_price | money }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+        <tfoot>
+          <tr>
+            <th scope="row" colspan="4">{{ 'customers.order.subtotal' | t }}</th>
+            <td>{{ order.line_items_subtotal_price | money }}</td>
+          </tr>
+          {% for shipping_method in order.shipping_methods %}
+            <tr>
+              <th scope="row" colspan="4">{{ shipping_method.title | escape }}</th>
+              <td>{{ shipping_method.price | money }}</td>
+            </tr>
+          {% endfor %}
+          <tr>
+            <th scope="row" colspan="4">{{ 'customers.order.tax' | t }}</th>
+            <td>{{ order.tax_price | money }}</td>
+          </tr>
+          <tr>
+            <th scope="row" colspan="4">{{ 'customers.order.total' | t }}</th>
+            <td>{{ order.total_net_amount | money_with_currency }}</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <div class="order-addresses">
+      <section>
+        <h2>{{ 'customers.order.billing' | t }}</h2>
+        <p>{{ order.financial_status_label }}</p>
+        <div class="rte">{{ order.billing_address | format_address }}</div>
+      </section>
+      <section>
+        <h2>{{ 'customers.order.shipping' | t }}</h2>
+        <p>{{ order.fulfillment_status_label }}</p>
+        <div class="rte">{{ order.shipping_address | format_address }}</div>
+      </section>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Détail de commande",
+  "settings": []
+}
+{% endschema %}

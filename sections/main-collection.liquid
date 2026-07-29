@@ -1,0 +1,59 @@
+{% assign continue_shopping_label = 'general.continue_shopping' | t %}
+
+<section class="storefront-section">
+  <div class="container">
+    <header class="storefront-heading">
+      <p class="section-eyebrow">{{ 'templates.collection.eyebrow' | t }}</p>
+      <h1>{{ collection.title | escape }}</h1>
+      {% if section.settings.show_description and collection.description != blank %}
+        <div class="rte storefront-heading__description">{{ collection.description }}</div>
+      {% endif %}
+      <p class="storefront-heading__meta">
+        {{ 'templates.collection.count' | t: count: collection.products_count }}
+      </p>
+    </header>
+
+    {% paginate collection.products by section.settings.products_per_page %}
+      {% if collection.products_count > 0 %}
+        <div class="product-grid storefront-product-grid">
+          {% for product in collection.products %}
+            {% render 'product-card', product: product, show_badges: true %}
+          {% endfor %}
+        </div>
+        {% render 'pagination', paginate: paginate %}
+      {% else %}
+        <div class="storefront-empty">
+          <p>{{ 'templates.collection.empty' | t }}</p>
+          {% render 'button',
+            label: continue_shopping_label,
+            href: routes.all_products_collection_url,
+            variant: 'primary'
+          %}
+        </div>
+      {% endif %}
+    {% endpaginate %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection principale",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "Produits par page",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "default": 24
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Afficher la description",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

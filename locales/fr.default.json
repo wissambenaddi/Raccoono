@@ -5,6 +5,15 @@
     "no_javascript": "La boutique reste accessible sans JavaScript. Certaines améliorations interactives sont simplement désactivées.",
     "raccoon_illustration": "Illustration de la mascotte raton laveur"
   },
+  "general": {
+    "continue_shopping": "Continuer mes achats",
+    "pagination": {
+      "label": "Pagination",
+      "previous": "Précédent",
+      "next": "Suivant",
+      "page": "Page {{ number }}"
+    }
+  },
   "products": {
     "price": {
       "regular": "Prix habituel",
@@ -16,6 +25,158 @@
       "sale": "Promotion",
       "sold_out": "Épuisé",
       "placeholder": "Produit à sélectionner"
+    }
+  },
+  "templates": {
+    "collection": {
+      "eyebrow": "Collection",
+      "count": "{{ count }} produits",
+      "empty": "Cette collection ne contient aucun produit pour le moment."
+    },
+    "list_collections": {
+      "eyebrow": "Boutique",
+      "title": "Toutes les collections",
+      "empty": "Aucune collection n’est disponible pour le moment."
+    },
+    "product": {
+      "media": "Médias du produit",
+      "variant": "Modèle",
+      "quantity": "Quantité",
+      "add_to_cart": "Ajouter au panier",
+      "description": "Description"
+    },
+    "contact": {
+      "eyebrow": "Une question ?",
+      "title": "Contactez-nous",
+      "name": "Nom",
+      "email": "Adresse e-mail",
+      "phone": "Téléphone",
+      "message": "Message",
+      "submit": "Envoyer le message",
+      "success": "Merci. Votre message a bien été envoyé."
+    },
+    "cart": {
+      "eyebrow": "Votre sélection",
+      "title": "Panier",
+      "quantity": "Quantité",
+      "remove": "Supprimer",
+      "note": "Note de commande",
+      "subtotal": "Sous-total",
+      "taxes_shipping": "Les taxes et frais de livraison sont calculés à l’étape suivante.",
+      "update": "Mettre à jour",
+      "checkout": "Passer au paiement",
+      "empty": "Votre panier est vide."
+    },
+    "search": {
+      "eyebrow": "Recherche",
+      "title": "Rechercher dans la boutique",
+      "label": "Votre recherche",
+      "placeholder": "Casquette, collection, article…",
+      "submit": "Rechercher",
+      "count": "{{ count }} résultats pour « {{ terms }} »",
+      "empty": "Aucun résultat trouvé pour « {{ terms }} ».",
+      "article": "Article",
+      "page": "Page"
+    },
+    "not_found": {
+      "code": "Erreur 404",
+      "title": "Cette page reste introuvable",
+      "text": "Le lien est peut-être ancien ou la page a été déplacée.",
+      "action": "Retour à l’accueil"
+    },
+    "blog": {
+      "eyebrow": "Journal",
+      "read_more": "Lire l’article",
+      "empty": "Aucun article n’est encore publié."
+    },
+    "article": {
+      "author": "Par {{ author }}",
+      "back_to_blog": "Retour au blog"
+    }
+  },
+  "customers": {
+    "fields": {
+      "first_name": "Prénom",
+      "last_name": "Nom",
+      "email": "Adresse e-mail",
+      "password": "Mot de passe",
+      "password_confirmation": "Confirmation du mot de passe",
+      "company": "Entreprise",
+      "address1": "Adresse",
+      "address2": "Complément d’adresse",
+      "city": "Ville",
+      "zip": "Code postal",
+      "country": "Pays",
+      "province": "Région",
+      "phone": "Téléphone"
+    },
+    "login": {
+      "eyebrow": "Espace client",
+      "title": "Connexion",
+      "submit": "Se connecter",
+      "create_account": "Créer un compte",
+      "forgot_password": "Mot de passe oublié ?",
+      "recover": "Recevoir le lien",
+      "recovery_success": "Un e-mail de réinitialisation vous a été envoyé."
+    },
+    "register": {
+      "eyebrow": "Espace client",
+      "title": "Créer un compte",
+      "submit": "Créer mon compte",
+      "sign_in": "J’ai déjà un compte"
+    },
+    "account": {
+      "eyebrow": "Espace client",
+      "title": "Bonjour {{ name }}",
+      "addresses": "Gérer mes adresses",
+      "logout": "Se déconnecter",
+      "orders": "Mes commandes",
+      "order": "Commande",
+      "date": "Date",
+      "payment": "Paiement",
+      "fulfillment": "Expédition",
+      "total": "Total",
+      "no_orders": "Vous n’avez pas encore passé de commande."
+    },
+    "addresses": {
+      "eyebrow": "Espace client",
+      "title": "Mes adresses",
+      "back": "Retour au compte",
+      "add": "Ajouter une adresse",
+      "edit": "Modifier",
+      "save": "Enregistrer l’adresse",
+      "update": "Mettre à jour l’adresse",
+      "default": "Adresse par défaut",
+      "set_default": "Définir comme adresse par défaut",
+      "empty": "Aucune adresse n’est enregistrée."
+    },
+    "order": {
+      "eyebrow": "Commande",
+      "title": "Commande {{ name }}",
+      "back": "Retour au compte",
+      "cancelled": "Cette commande a été annulée.",
+      "product": "Produit",
+      "sku": "Référence",
+      "price": "Prix",
+      "quantity": "Quantité",
+      "subtotal": "Sous-total",
+      "tax": "Taxes",
+      "total": "Total",
+      "billing": "Adresse de facturation",
+      "shipping": "Adresse de livraison"
+    },
+    "activate": {
+      "eyebrow": "Activation",
+      "title": "Activer votre compte",
+      "text": "Choisissez un mot de passe pour finaliser l’activation.",
+      "submit": "Activer le compte",
+      "decline": "Refuser l’invitation"
+    },
+    "reset": {
+      "eyebrow": "Sécurité",
+      "title": "Réinitialiser le mot de passe",
+      "text": "Saisissez votre nouveau mot de passe.",
+      "submit": "Enregistrer le mot de passe"
     }
   },
   "sections": {

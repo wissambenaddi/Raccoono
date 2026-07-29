@@ -1,0 +1,130 @@
+{% doc %}
+Renders reusable customer address fields.
+
+@param {form} form - Shopify customer address form.
+@param {address} address - Customer address object.
+@param {string} id_suffix - Unique field ID suffix.
+{% enddoc %}
+
+{% if form.errors %}
+  <div class="form-status form-status--error" role="alert">
+    {{ form.errors | default_errors }}
+  </div>
+{% endif %}
+
+<div class="storefront-form__grid">
+  <div class="field">
+    <label for="AddressFirstName-{{ id_suffix }}">{{ 'customers.fields.first_name' | t }}</label>
+    <input
+      id="AddressFirstName-{{ id_suffix }}"
+      type="text"
+      name="address[first_name]"
+      value="{{ address.first_name | escape }}"
+      autocomplete="given-name"
+    >
+  </div>
+  <div class="field">
+    <label for="AddressLastName-{{ id_suffix }}">{{ 'customers.fields.last_name' | t }}</label>
+    <input
+      id="AddressLastName-{{ id_suffix }}"
+      type="text"
+      name="address[last_name]"
+      value="{{ address.last_name | escape }}"
+      autocomplete="family-name"
+    >
+  </div>
+</div>
+
+<div class="field">
+  <label for="AddressCompany-{{ id_suffix }}">{{ 'customers.fields.company' | t }}</label>
+  <input
+    id="AddressCompany-{{ id_suffix }}"
+    type="text"
+    name="address[company]"
+    value="{{ address.company | escape }}"
+    autocomplete="organization"
+  >
+</div>
+<div class="field">
+  <label for="AddressLine1-{{ id_suffix }}">{{ 'customers.fields.address1' | t }}</label>
+  <input
+    id="AddressLine1-{{ id_suffix }}"
+    type="text"
+    name="address[address1]"
+    value="{{ address.address1 | escape }}"
+    autocomplete="address-line1"
+    required
+  >
+</div>
+<div class="field">
+  <label for="AddressLine2-{{ id_suffix }}">{{ 'customers.fields.address2' | t }}</label>
+  <input
+    id="AddressLine2-{{ id_suffix }}"
+    type="text"
+    name="address[address2]"
+    value="{{ address.address2 | escape }}"
+    autocomplete="address-line2"
+  >
+</div>
+<div class="storefront-form__grid">
+  <div class="field">
+    <label for="AddressCity-{{ id_suffix }}">{{ 'customers.fields.city' | t }}</label>
+    <input
+      id="AddressCity-{{ id_suffix }}"
+      type="text"
+      name="address[city]"
+      value="{{ address.city | escape }}"
+      autocomplete="address-level2"
+      required
+    >
+  </div>
+  <div class="field">
+    <label for="AddressZip-{{ id_suffix }}">{{ 'customers.fields.zip' | t }}</label>
+    <input
+      id="AddressZip-{{ id_suffix }}"
+      type="text"
+      name="address[zip]"
+      value="{{ address.zip | escape }}"
+      autocomplete="postal-code"
+      autocapitalize="characters"
+      required
+    >
+  </div>
+</div>
+<div class="storefront-form__grid">
+  <div class="field">
+    <label for="AddressCountry-{{ id_suffix }}">{{ 'customers.fields.country' | t }}</label>
+    <select
+      id="AddressCountry-{{ id_suffix }}"
+      name="address[country]"
+      data-address-country
+      data-default="{{ address.country | escape }}"
+      required
+    >
+      {{ all_country_option_tags }}
+    </select>
+  </div>
+  <div class="field" data-address-province-container>
+    <label for="AddressProvince-{{ id_suffix }}">{{ 'customers.fields.province' | t }}</label>
+    <select
+      id="AddressProvince-{{ id_suffix }}"
+      name="address[province]"
+      data-address-province
+      data-default="{{ address.province | escape }}"
+    ></select>
+  </div>
+</div>
+<div class="field">
+  <label for="AddressPhone-{{ id_suffix }}">{{ 'customers.fields.phone' | t }}</label>
+  <input
+    id="AddressPhone-{{ id_suffix }}"
+    type="tel"
+    name="address[phone]"
+    value="{{ address.phone | escape }}"
+    autocomplete="tel"
+  >
+</div>
+<label class="checkbox-field">
+  {{ form.set_as_default_checkbox }}
+  <span>{{ 'customers.addresses.set_default' | t }}</span>
+</label>

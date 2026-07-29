@@ -1,0 +1,79 @@
+<section class="storefront-section">
+  <div class="container">
+    <header class="storefront-heading storefront-heading--center">
+      <p class="section-eyebrow">{{ 'templates.search.eyebrow' | t }}</p>
+      <h1>{{ 'templates.search.title' | t }}</h1>
+    </header>
+
+    <form class="search-form" action="{{ routes.search_url }}" method="get" role="search">
+      <label class="visually-hidden" for="SearchInput-{{ section.id }}">
+        {{ 'templates.search.label' | t }}
+      </label>
+      <input
+        id="SearchInput-{{ section.id }}"
+        type="search"
+        name="q"
+        value="{{ search.terms | escape }}"
+        placeholder="{{ 'templates.search.placeholder' | t }}"
+      >
+      <input type="hidden" name="options[prefix]" value="last">
+      <button class="button button--primary button--standard" type="submit">
+        {{ 'templates.search.submit' | t }}
+      </button>
+    </form>
+
+    {% if search.performed %}
+      <p class="search-summary" role="status">
+        {{ 'templates.search.count' | t: count: search.results_count, terms: search.terms }}
+      </p>
+
+      {% paginate search.results by section.settings.results_per_page %}
+        {% if search.results_count > 0 %}
+          <div class="search-results">
+            {% for item in search.results %}
+              {% if item.object_type == 'product' %}
+                {% render 'product-card', product: item, show_badges: true, class: 'search-result search-result--product' %}
+              {% else %}
+                <article class="search-result search-result--content">
+                  <p class="search-result__type">
+                    {% if item.object_type == 'article' %}
+                      {{ 'templates.search.article' | t }}
+                    {% else %}
+                      {{ 'templates.search.page' | t }}
+                    {% endif %}
+                  </p>
+                  <h2><a href="{{ item.url }}">{{ item.title | escape }}</a></h2>
+                  {% if item.content != blank %}
+                    <p>{{ item.content | strip_html | truncatewords: 28 }}</p>
+                  {% endif %}
+                </article>
+              {% endif %}
+            {% endfor %}
+          </div>
+          {% render 'pagination', paginate: paginate %}
+        {% else %}
+          <div class="storefront-empty">
+            <p>{{ 'templates.search.empty' | t: terms: search.terms }}</p>
+          </div>
+        {% endif %}
+      {% endpaginate %}
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Recherche principale",
+  "settings": [
+    {
+      "type": "range",
+      "id": "results_per_page",
+      "label": "Résultats par page",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "default": 24
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,21 @@
+{% assign home_label = 'templates.not_found.action' | t %}
+
+<section class="storefront-section storefront-section--centered">
+  <div class="container container--compact">
+    <p class="section-eyebrow">{{ 'templates.not_found.code' | t }}</p>
+    <h1>{{ 'templates.not_found.title' | t }}</h1>
+    <p>{{ 'templates.not_found.text' | t }}</p>
+    {% render 'button',
+      label: home_label,
+      href: routes.root_url,
+      variant: 'primary'
+    %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Page introuvable",
+  "settings": []
+}
+{% endschema %}

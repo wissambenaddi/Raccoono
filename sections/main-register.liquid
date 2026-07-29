@@ -1,0 +1,81 @@
+{% assign register_label = 'customers.register.submit' | t %}
+
+<section class="storefront-section">
+  <div class="container container--compact">
+    <header class="storefront-heading storefront-heading--center">
+      <p class="section-eyebrow">{{ 'customers.register.eyebrow' | t }}</p>
+      <h1>{{ 'customers.register.title' | t }}</h1>
+    </header>
+
+    {% form 'create_customer', class: 'storefront-form' %}
+      {% if form.errors %}
+        <div class="form-status form-status--error" role="alert">
+          {{ form.errors | default_errors }}
+        </div>
+      {% endif %}
+
+      <div class="storefront-form__grid">
+        <div class="field">
+          <label for="RegisterFirstName">{{ 'customers.fields.first_name' | t }}</label>
+          <input
+            id="RegisterFirstName"
+            type="text"
+            name="customer[first_name]"
+            value="{{ form.first_name | escape }}"
+            autocomplete="given-name"
+          >
+        </div>
+        <div class="field">
+          <label for="RegisterLastName">{{ 'customers.fields.last_name' | t }}</label>
+          <input
+            id="RegisterLastName"
+            type="text"
+            name="customer[last_name]"
+            value="{{ form.last_name | escape }}"
+            autocomplete="family-name"
+          >
+        </div>
+      </div>
+      <div class="field">
+        <label for="RegisterEmail">{{ 'customers.fields.email' | t }}</label>
+        <input
+          id="RegisterEmail"
+          type="email"
+          name="customer[email]"
+          value="{{ form.email | escape }}"
+          autocomplete="email"
+          autocapitalize="off"
+          spellcheck="false"
+          required
+        >
+      </div>
+      <div class="field">
+        <label for="RegisterPassword">{{ 'customers.fields.password' | t }}</label>
+        <input
+          id="RegisterPassword"
+          type="password"
+          name="customer[password]"
+          autocomplete="new-password"
+          required
+        >
+      </div>
+      {% render 'button',
+        label: register_label,
+        type: 'submit',
+        variant: 'primary',
+        full_width: true
+      %}
+    {% endform %}
+
+    <p class="customer-secondary-actions">
+      <a href="{{ routes.account_login_url }}">{{ 'customers.register.sign_in' | t }}</a>
+    </p>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Inscription client",
+  "settings": []
+}
+{% endschema %}

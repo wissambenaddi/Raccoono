@@ -5,6 +5,15 @@
     "no_javascript": "The store remains accessible without JavaScript. Some interactive enhancements are simply disabled.",
     "raccoon_illustration": "Raccoon mascot illustration"
   },
+  "general": {
+    "continue_shopping": "Continue shopping",
+    "pagination": {
+      "label": "Pagination",
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page {{ number }}"
+    }
+  },
   "products": {
     "price": {
       "regular": "Regular price",
@@ -16,6 +25,158 @@
       "sale": "Sale",
       "sold_out": "Sold out",
       "placeholder": "Select a product"
+    }
+  },
+  "templates": {
+    "collection": {
+      "eyebrow": "Collection",
+      "count": "{{ count }} products",
+      "empty": "This collection does not contain any products yet."
+    },
+    "list_collections": {
+      "eyebrow": "Shop",
+      "title": "All collections",
+      "empty": "No collections are available yet."
+    },
+    "product": {
+      "media": "Product media",
+      "variant": "Style",
+      "quantity": "Quantity",
+      "add_to_cart": "Add to cart",
+      "description": "Description"
+    },
+    "contact": {
+      "eyebrow": "Have a question?",
+      "title": "Contact us",
+      "name": "Name",
+      "email": "Email address",
+      "phone": "Phone",
+      "message": "Message",
+      "submit": "Send message",
+      "success": "Thank you. Your message has been sent."
+    },
+    "cart": {
+      "eyebrow": "Your selection",
+      "title": "Cart",
+      "quantity": "Quantity",
+      "remove": "Remove",
+      "note": "Order note",
+      "subtotal": "Subtotal",
+      "taxes_shipping": "Taxes and shipping are calculated at the next step.",
+      "update": "Update",
+      "checkout": "Checkout",
+      "empty": "Your cart is empty."
+    },
+    "search": {
+      "eyebrow": "Search",
+      "title": "Search the store",
+      "label": "Your search",
+      "placeholder": "Cap, collection, article…",
+      "submit": "Search",
+      "count": "{{ count }} results for “{{ terms }}”",
+      "empty": "No results found for “{{ terms }}”.",
+      "article": "Article",
+      "page": "Page"
+    },
+    "not_found": {
+      "code": "Error 404",
+      "title": "This page cannot be found",
+      "text": "The link might be outdated or the page may have moved.",
+      "action": "Back to home"
+    },
+    "blog": {
+      "eyebrow": "Journal",
+      "read_more": "Read article",
+      "empty": "No articles have been published yet."
+    },
+    "article": {
+      "author": "By {{ author }}",
+      "back_to_blog": "Back to blog"
+    }
+  },
+  "customers": {
+    "fields": {
+      "first_name": "First name",
+      "last_name": "Last name",
+      "email": "Email address",
+      "password": "Password",
+      "password_confirmation": "Confirm password",
+      "company": "Company",
+      "address1": "Address",
+      "address2": "Apartment, suite, etc.",
+      "city": "City",
+      "zip": "Postal code",
+      "country": "Country",
+      "province": "State or province",
+      "phone": "Phone"
+    },
+    "login": {
+      "eyebrow": "Customer account",
+      "title": "Sign in",
+      "submit": "Sign in",
+      "create_account": "Create account",
+      "forgot_password": "Forgot your password?",
+      "recover": "Send reset link",
+      "recovery_success": "A password reset email has been sent."
+    },
+    "register": {
+      "eyebrow": "Customer account",
+      "title": "Create account",
+      "submit": "Create my account",
+      "sign_in": "I already have an account"
+    },
+    "account": {
+      "eyebrow": "Customer account",
+      "title": "Hello {{ name }}",
+      "addresses": "Manage addresses",
+      "logout": "Sign out",
+      "orders": "My orders",
+      "order": "Order",
+      "date": "Date",
+      "payment": "Payment",
+      "fulfillment": "Fulfilment",
+      "total": "Total",
+      "no_orders": "You have not placed any orders yet."
+    },
+    "addresses": {
+      "eyebrow": "Customer account",
+      "title": "My addresses",
+      "back": "Back to account",
+      "add": "Add an address",
+      "edit": "Edit",
+      "save": "Save address",
+      "update": "Update address",
+      "default": "Default address",
+      "set_default": "Set as default address",
+      "empty": "No addresses are saved."
+    },
+    "order": {
+      "eyebrow": "Order",
+      "title": "Order {{ name }}",
+      "back": "Back to account",
+      "cancelled": "This order was cancelled.",
+      "product": "Product",
+      "sku": "SKU",
+      "price": "Price",
+      "quantity": "Quantity",
+      "subtotal": "Subtotal",
+      "tax": "Tax",
+      "total": "Total",
+      "billing": "Billing address",
+      "shipping": "Shipping address"
+    },
+    "activate": {
+      "eyebrow": "Activation",
+      "title": "Activate your account",
+      "text": "Choose a password to complete activation.",
+      "submit": "Activate account",
+      "decline": "Decline invitation"
+    },
+    "reset": {
+      "eyebrow": "Security",
+      "title": "Reset password",
+      "text": "Enter your new password.",
+      "submit": "Save password"
     }
   },
   "sections": {

@@ -1,0 +1,64 @@
+{% liquid
+  assign save_label = 'customers.addresses.save' | t
+  assign update_label = 'customers.addresses.update' | t
+%}
+
+<section class="storefront-section">
+  <div class="container container--standard">
+    <header class="storefront-heading">
+      <p class="section-eyebrow">{{ 'customers.addresses.eyebrow' | t }}</p>
+      <h1>{{ 'customers.addresses.title' | t }}</h1>
+      <a href="{{ routes.account_url }}">{{ 'customers.addresses.back' | t }}</a>
+    </header>
+
+    <details class="customer-address-form">
+      <summary>{{ 'customers.addresses.add' | t }}</summary>
+      {% form 'customer_address', customer.new_address, class: 'storefront-form' %}
+        {% render 'customer-address-fields', form: form, address: customer.new_address, id_suffix: 'New' %}
+        {% render 'button',
+          label: save_label,
+          type: 'submit',
+          variant: 'primary'
+        %}
+      {% endform %}
+    </details>
+
+    <div class="customer-addresses">
+      {% paginate customer.addresses by 10 %}
+        {% for address in customer.addresses %}
+          <article class="customer-address">
+            {% if address == customer.default_address %}
+              <p class="customer-address__default">{{ 'customers.addresses.default' | t }}</p>
+            {% endif %}
+            <div class="rte">{{ address | format_address }}</div>
+            <details class="customer-address-form">
+              <summary>{{ 'customers.addresses.edit' | t }}</summary>
+              {% form 'customer_address', address, class: 'storefront-form' %}
+                {% render 'customer-address-fields', form: form, address: address, id_suffix: address.id %}
+                {% render 'button',
+                  label: update_label,
+                  type: 'submit',
+                  variant: 'secondary'
+                %}
+              {% endform %}
+            </details>
+          </article>
+        {% else %}
+          <div class="storefront-empty">
+            <p>{{ 'customers.addresses.empty' | t }}</p>
+          </div>
+        {% endfor %}
+        {% render 'pagination', paginate: paginate %}
+      {% endpaginate %}
+    </div>
+  </div>
+</section>
+
+<script src="{{ 'customer-addresses.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "Adresses client",
+  "settings": []
+}
+{% endschema %}

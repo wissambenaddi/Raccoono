@@ -1,0 +1,52 @@
+{
+  "type": "header",
+  "name": "En-tête",
+  "sections": {
+    "announcement": {
+      "type": "announcement-bar",
+      "blocks": {
+        "message_1": {
+          "type": "message",
+          "settings": {
+            "text": "Bienvenue chez Raccoono",
+            "link": ""
+          }
+        },
+        "message_2": {
+          "type": "message",
+          "settings": {
+            "text": "Illustrations originales",
+            "link": ""
+          }
+        },
+        "message_3": {
+          "type": "message",
+          "settings": {
+            "text": "Une mission pour les forêts françaises",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "message_1",
+        "message_2",
+        "message_3"
+      ],
+      "settings": {
+        "hide_on_mobile": false
+      }
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "logo_width": 140,
+        "menu": "main-menu",
+        "sticky": true
+      }
+    }
+  },
+  "order": [
+    "announcement",
+    "header"
+  ]
+}

@@ -1,0 +1,61 @@
+{% assign continue_shopping_label = 'general.continue_shopping' | t %}
+
+<section class="storefront-section">
+  <div class="container container--standard">
+    <header class="storefront-heading">
+      <p class="section-eyebrow">{{ 'customers.account.eyebrow' | t }}</p>
+      <h1>{{ 'customers.account.title' | t: name: customer.first_name }}</h1>
+      <div class="customer-account-actions">
+        <a href="{{ routes.account_addresses_url }}">{{ 'customers.account.addresses' | t }}</a>
+        <a href="{{ routes.account_logout_url }}">{{ 'customers.account.logout' | t }}</a>
+      </div>
+    </header>
+
+    <h2>{{ 'customers.account.orders' | t }}</h2>
+    {% paginate customer.orders by 20 %}
+      {% if customer.orders.size > 0 %}
+        <div class="table-scroll">
+          <table class="customer-orders">
+            <thead>
+              <tr>
+                <th scope="col">{{ 'customers.account.order' | t }}</th>
+                <th scope="col">{{ 'customers.account.date' | t }}</th>
+                <th scope="col">{{ 'customers.account.payment' | t }}</th>
+                <th scope="col">{{ 'customers.account.fulfillment' | t }}</th>
+                <th scope="col">{{ 'customers.account.total' | t }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for order in customer.orders %}
+                <tr>
+                  <td><a href="{{ order.customer_url }}">{{ order.name }}</a></td>
+                  <td>{{ order.created_at | date: '%d/%m/%Y' }}</td>
+                  <td>{{ order.financial_status_label }}</td>
+                  <td>{{ order.fulfillment_status_label }}</td>
+                  <td>{{ order.total_net_amount | money_with_currency }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% render 'pagination', paginate: paginate %}
+      {% else %}
+        <div class="storefront-empty">
+          <p>{{ 'customers.account.no_orders' | t }}</p>
+          {% render 'button',
+            label: continue_shopping_label,
+            href: routes.all_products_collection_url,
+            variant: 'primary'
+          %}
+        </div>
+      {% endif %}
+    {% endpaginate %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Compte client",
+  "settings": []
+}
+{% endschema %}

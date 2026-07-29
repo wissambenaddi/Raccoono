@@ -1,0 +1,90 @@
+{% liquid
+  assign contact_title = page.title
+
+  if contact_title == blank
+    assign contact_title = 'templates.contact.title' | t
+  endif
+
+  assign submit_label = 'templates.contact.submit' | t
+%}
+
+<section class="storefront-section">
+  <div class="container container--compact">
+    <header class="storefront-heading storefront-heading--center">
+      <p class="section-eyebrow">{{ 'templates.contact.eyebrow' | t }}</p>
+      <h1>{{ contact_title | escape }}</h1>
+      {% if page.content != blank %}
+        <div class="rte storefront-heading__description">{{ page.content }}</div>
+      {% endif %}
+    </header>
+
+    {% form 'contact', class: 'storefront-form' %}
+      {% if form.posted_successfully? %}
+        <p class="form-status form-status--success" role="status">
+          {{ 'templates.contact.success' | t }}
+        </p>
+      {% endif %}
+
+      {% if form.errors %}
+        <div class="form-status form-status--error" role="alert">
+          {{ form.errors | default_errors }}
+        </div>
+      {% endif %}
+
+      <div class="storefront-form__grid">
+        <div class="field">
+          <label for="ContactName-{{ section.id }}">{{ 'templates.contact.name' | t }}</label>
+          <input
+            id="ContactName-{{ section.id }}"
+            type="text"
+            name="contact[name]"
+            value="{{ form.name | escape }}"
+            autocomplete="name"
+          >
+        </div>
+        <div class="field">
+          <label for="ContactEmail-{{ section.id }}">{{ 'templates.contact.email' | t }}</label>
+          <input
+            id="ContactEmail-{{ section.id }}"
+            type="email"
+            name="contact[email]"
+            value="{{ form.email | escape }}"
+            autocomplete="email"
+            autocapitalize="off"
+            spellcheck="false"
+            required
+          >
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="ContactPhone-{{ section.id }}">{{ 'templates.contact.phone' | t }}</label>
+        <input
+          id="ContactPhone-{{ section.id }}"
+          type="tel"
+          name="contact[phone]"
+          value="{{ form.phone | escape }}"
+          autocomplete="tel"
+        >
+      </div>
+
+      <div class="field">
+        <label for="ContactMessage-{{ section.id }}">{{ 'templates.contact.message' | t }}</label>
+        <textarea id="ContactMessage-{{ section.id }}" name="contact[body]" required>{{ form.body | escape }}</textarea>
+      </div>
+
+      {% render 'button',
+        label: submit_label,
+        type: 'submit',
+        variant: 'primary'
+      %}
+    {% endform %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Formulaire de contact",
+  "settings": []
+}
+{% endschema %}

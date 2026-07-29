@@ -1,0 +1,142 @@
+{% liquid
+  assign selected_variant = product.selected_or_first_available_variant
+  assign product_form_id = 'ProductForm-' | append: section.id
+%}
+
+<section class="storefront-section">
+  <div class="container container--product">
+    <div class="main-product">
+      <div class="main-product__media" aria-label="{{ 'templates.product.media' | t }}">
+        {% if product.media.size > 0 %}
+          {% for media in product.media %}
+            <div class="main-product__media-item">
+              {% case media.media_type %}
+                {% when 'image' %}
+                  {{
+                    media
+                    | image_url: width: 1800
+                    | image_tag:
+                      widths: '480, 720, 960, 1200, 1500, 1800',
+                      sizes: '(min-width: 990px) 55vw, 100vw',
+                      loading: 'lazy',
+                      alt: media.alt
+                  }}
+                {% when 'video' %}
+                  {{ media | video_tag: controls: true, preload: 'metadata' }}
+                {% when 'external_video' %}
+                  {{ media | external_video_tag }}
+                {% when 'model' %}
+                  {{ media | model_viewer_tag }}
+                {% else %}
+                  {% if media.preview_image != blank %}
+                    {{
+                      media.preview_image
+                      | image_url: width: 1600
+                      | image_tag:
+                        widths: '480, 720, 960, 1200, 1600',
+                        sizes: '(min-width: 990px) 55vw, 100vw',
+                        loading: 'lazy',
+                        alt: media.alt
+                    }}
+                  {% endif %}
+              {% endcase %}
+            </div>
+          {% endfor %}
+        {% else %}
+          {{ 'product-1' | placeholder_svg_tag: 'main-product__placeholder' }}
+        {% endif %}
+      </div>
+
+      <div class="main-product__details">
+        {% if section.settings.show_vendor and product.vendor != blank %}
+          <p class="section-eyebrow">{{ product.vendor | escape }}</p>
+        {% endif %}
+        <h1>{{ product.title | escape }}</h1>
+        {% render 'price', product: product, use_variant: true, class: 'main-product__price' %}
+
+        {% form 'product', product, id: product_form_id, class: 'product-form' %}
+          {% if product.has_only_default_variant %}
+            <input type="hidden" name="id" value="{{ selected_variant.id }}">
+          {% else %}
+            <div class="field">
+              <label for="VariantSelect-{{ section.id }}">{{ 'templates.product.variant' | t }}</label>
+              <select id="VariantSelect-{{ section.id }}" name="id">
+                {% for variant in product.variants %}
+                  <option
+                    value="{{ variant.id }}"
+                    {% if variant == selected_variant %}
+                      selected
+                    {% endif %}
+                    {% unless variant.available %}
+                      disabled
+                    {% endunless %}
+                  >
+                    {{ variant.title | escape }} — {{ variant.price | money }}
+                    {% unless variant.available %} — {{ 'products.product.sold_out' | t }}{% endunless %}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+          {% endif %}
+
+          <div class="field product-form__quantity">
+            <label for="Quantity-{{ section.id }}">{{ 'templates.product.quantity' | t }}</label>
+            <input
+              id="Quantity-{{ section.id }}"
+              type="number"
+              name="quantity"
+              value="1"
+              min="1"
+              inputmode="numeric"
+            >
+          </div>
+
+          {% liquid
+            assign submit_label = 'templates.product.add_to_cart' | t
+            assign submit_disabled = false
+            unless selected_variant.available
+              assign submit_label = 'products.product.sold_out' | t
+              assign submit_disabled = true
+            endunless
+          %}
+          {% render 'button',
+            label: submit_label,
+            type: 'submit',
+            variant: 'primary',
+            full_width: true,
+            disabled: submit_disabled
+          %}
+
+          {{ form | payment_terms }}
+        {% endform %}
+
+        {% if section.settings.show_description and product.description != blank %}
+          <div class="main-product__description">
+            <h2>{{ 'templates.product.description' | t }}</h2>
+            <div class="rte storefront-rte">{{ product.description }}</div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Produit principal",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Afficher la marque",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Afficher la description",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,43 @@
+<section class="storefront-section">
+  <div class="container">
+    <header class="storefront-heading">
+      <p class="section-eyebrow">{{ 'templates.list_collections.eyebrow' | t }}</p>
+      <h1>{{ 'templates.list_collections.title' | t }}</h1>
+    </header>
+
+    {% paginate collections by section.settings.collections_per_page %}
+      {% if collections.size > 0 %}
+        <div class="storefront-collection-grid">
+          {% for collection in collections %}
+            {% render 'collection-card',
+              collection: collection,
+              placeholder_index: forloop.index
+            %}
+          {% endfor %}
+        </div>
+        {% render 'pagination', paginate: paginate %}
+      {% else %}
+        <div class="storefront-empty">
+          <p>{{ 'templates.list_collections.empty' | t }}</p>
+        </div>
+      {% endif %}
+    {% endpaginate %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Liste des collections",
+  "settings": [
+    {
+      "type": "range",
+      "id": "collections_per_page",
+      "label": "Collections par page",
+      "min": 6,
+      "max": 36,
+      "step": 3,
+      "default": 24
+    }
+  ]
+}
+{% endschema %}

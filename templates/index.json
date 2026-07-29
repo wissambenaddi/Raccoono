@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "announcement": {
@@ -37,7 +46,7 @@
     "header": {
       "type": "header",
       "settings": {
-        "logo_width": 120,
+        "logo_width": 140,
         "menu": "main-menu",
         "sticky": true
       }
@@ -142,40 +151,44 @@
         "profile_1": {
           "type": "personality",
           "settings": {
-            "image_alt": "Raton discret qui observe derrière une ligne",
             "name": "Le discret",
             "quote": "« Je vais réfléchir. »",
             "description": "La phrase préférée de quelqu’un qui reviendra dans 10 minutes.",
+            "image_alt": "Raton discret qui observe derrière une ligne",
+            "link": "",
             "link_label": ""
           }
         },
         "profile_2": {
           "type": "personality",
           "settings": {
-            "image_alt": "Raton fouineur avec une loupe",
             "name": "Le fouineur",
             "quote": "« Je regarde juste. »",
             "description": "C’est exactement comme ça que tout commence.",
+            "image_alt": "Raton fouineur avec une loupe",
+            "link": "",
             "link_label": ""
           }
         },
         "profile_3": {
           "type": "personality",
           "settings": {
-            "image_alt": "Raton généreux aux pattes ouvertes",
             "name": "Le généreux",
             "quote": "« Quitte à craquer, autant donner un coup de pouce aux forêts. »",
             "description": "",
+            "image_alt": "Raton généreux aux pattes ouvertes",
+            "link": "",
             "link_label": ""
           }
         },
         "profile_4": {
           "type": "personality",
           "settings": {
-            "image_alt": "Raton au profil chaotique et enthousiaste",
             "name": "Le chaos",
             "quote": "« J’étais venu pour un seul produit. »",
             "description": "Mon panier avait visiblement d’autres projets.",
+            "image_alt": "Raton au profil chaotique et enthousiaste",
+            "link": "",
             "link_label": ""
           }
         }
@@ -189,9 +202,9 @@
       "settings": {
         "heading": "Quel raton êtes-vous aujourd’hui ?",
         "subtitle": "Faites glisser le curseur pour trouver le chapeau parfait pour votre style et parcourez la collection.",
-        "bar_start_color": "#4F82FF",
-        "bar_end_color": "#EF4E55",
-        "active_text_color": "#071C3F",
+        "bar_start_color": "#4f82ff",
+        "bar_end_color": "#ef4e55",
+        "active_text_color": "#071c3f",
         "inactive_opacity": 42,
         "inactive_blur": 2,
         "enable_scale": true,

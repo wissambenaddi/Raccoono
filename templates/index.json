@@ -111,38 +111,55 @@
         "heading": "Les engagements Raccoono"
       }
     },
+    "collections": {
+      "type": "collection-showcase",
+      "blocks": {
+        "collection_1": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "title": "Les essentiels",
+            "link": ""
+          }
+        },
+        "collection_2": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "title": "Les nouveautés",
+            "link": ""
+          }
+        },
+        "collection_3": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "title": "Les favoris",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_1",
+        "collection_2",
+        "collection_3"
+      ],
+      "settings": {
+        "eyebrow": "",
+        "heading": "Les plus populaires"
+      }
+    },
     "products": {
       "type": "featured-collection",
+      "custom_css": [],
       "settings": {
-        "eyebrow": "La sélection",
-        "heading": "Découvrir les produits",
+        "eyebrow": "",
+        "heading": "Collections",
         "collection": "",
-        "products_to_show": 6,
+        "products_to_show": 5,
         "show_badges": true,
         "show_view_all": true,
         "view_all_label": "Voir tous les produits"
-      }
-    },
-    "mission": {
-      "type": "brand-mission",
-      "settings": {
-        "eyebrow": "Notre mission",
-        "heading": "Des produits, une mission concrète.",
-        "text": "<p>Raccoono place les produits au centre de la boutique, avec une identité chaleureuse portée par des illustrations originales.</p><p>Le projet participe au financement d’actions de restauration des forêts touchées par les incendies en France.</p>",
-        "link_label": "Découvrir notre démarche",
-        "link": ""
-      }
-    },
-    "story": {
-      "type": "image-with-text",
-      "settings": {
-        "image_alt": "",
-        "image_position": "left",
-        "eyebrow": "L’identité Raccoono",
-        "heading": "Une mascotte présente, jamais envahissante.",
-        "text": "<p>Le raton laveur accompagne le récit de la marque avec discrétion. Les produits restent toujours au centre de l’expérience.</p>",
-        "button_label": "Découvrir la sélection",
-        "button_link": "/collections/all"
       }
     },
     "personalities": {
@@ -261,44 +278,6 @@
       "settings": {
         "heading": "Ce que disent les clients",
         "text": "Les contenus définitifs seront ajoutés uniquement à partir d’avis authentiques."
-      }
-    },
-    "collections": {
-      "type": "collection-showcase",
-      "blocks": {
-        "collection_1": {
-          "type": "collection",
-          "settings": {
-            "collection": "",
-            "title": "Les essentiels",
-            "link": ""
-          }
-        },
-        "collection_2": {
-          "type": "collection",
-          "settings": {
-            "collection": "",
-            "title": "Les nouveautés",
-            "link": ""
-          }
-        },
-        "collection_3": {
-          "type": "collection",
-          "settings": {
-            "collection": "",
-            "title": "Les favoris",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "collection_1",
-        "collection_2",
-        "collection_3"
-      ],
-      "settings": {
-        "eyebrow": "Les collections",
-        "heading": "Explorer les collections"
       }
     },
     "comparison": {
@@ -452,12 +431,10 @@
     "header",
     "hero",
     "trust",
+    "collections",
     "products",
-    "mission",
-    "story",
     "personalities",
     "reviews",
-    "collections",
     "comparison",
     "faq",
     "footer"

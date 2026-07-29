@@ -5,6 +5,7 @@
   assign secondary_button_label = section.settings.secondary_button_label
   assign sequence_alt = section.settings.sequence_alt
   assign overlay_opacity = section.settings.overlay_opacity | divided_by: 100.0
+  assign loop_duration_ms = section.settings.loop_duration | times: 1000
 
   assign desktop_first_filename = section.settings.desktop_sequence_prefix | append: '001.' | append: section.settings.sequence_extension
   assign mobile_first_filename = section.settings.mobile_sequence_prefix | append: '001.' | append: section.settings.sequence_extension
@@ -23,7 +24,6 @@
 <section
   class="scroll-sequence-hero scroll-sequence-hero--{{ section.settings.content_position }}"
   style="
-    --sequence-scroll-height: {{ section.settings.scroll_height }}vh;
     --sequence-overlay-opacity: {{ overlay_opacity }};
   "
   data-scroll-sequence-hero
@@ -33,11 +33,11 @@
   data-mobile-first-url="{{ mobile_first_url | escape }}"
   data-desktop-frames="{{ section.settings.desktop_frame_count }}"
   data-mobile-frames="{{ section.settings.mobile_frame_count }}"
-  data-start-offset="{{ section.settings.start_offset }}"
-  data-end-offset="{{ section.settings.end_offset }}"
+  data-loop-duration="{{ loop_duration_ms }}"
+  data-pause-when-hidden="{{ section.settings.pause_when_hidden }}"
   data-reduced-frame="{{ section.settings.reduced_motion_frame }}"
 >
-  <div class="scroll-sequence-hero__sticky" data-sequence-sticky>
+  <div class="scroll-sequence-hero__stage" data-sequence-stage>
     <div class="scroll-sequence-hero__media">
       <picture class="scroll-sequence-hero__fallback" data-sequence-fallback>
         {% if section.settings.mobile_fallback_image != blank %}
@@ -74,8 +74,8 @@
             class="scroll-sequence-hero__fallback-image"
             src="{{ desktop_first_url }}"
             alt="{{ sequence_alt | escape }}"
-            width="1672"
-            height="941"
+            width="1280"
+            height="720"
             loading="eager"
             fetchpriority="high"
           >
@@ -132,12 +132,29 @@
         {% endif %}
       </div>
     </div>
+
+    {% if section.settings.enable_animation %}
+      <button
+        class="scroll-sequence-hero__animation-toggle"
+        type="button"
+        aria-pressed="false"
+        aria-label="{{ 'sections.scroll_sequence_hero.pause_animation' | t | escape }}"
+        data-sequence-toggle
+        data-pause-label="{{ 'sections.scroll_sequence_hero.pause_animation' | t | escape }}"
+        data-play-label="{{ 'sections.scroll_sequence_hero.play_animation' | t | escape }}"
+      >
+        <span class="scroll-sequence-hero__animation-toggle-icon" aria-hidden="true"></span>
+        <span class="visually-hidden" data-sequence-toggle-label>
+          {{- 'sections.scroll_sequence_hero.pause_animation' | t -}}
+        </span>
+      </button>
+    {% endif %}
   </div>
 </section>
 
 {% schema %}
 {
-  "name": "Hero séquence scroll",
+  "name": "Hero séquence automatique",
   "tag": "section",
   "class": "section-scroll-sequence-hero",
   "settings": [
@@ -149,25 +166,25 @@
       "type": "text",
       "id": "eyebrow",
       "label": "Surtitre",
-      "default": "Raccoono"
+      "default": "Casquettes premium · Forêts françaises"
     },
     {
       "type": "text",
       "id": "heading",
       "label": "Titre",
-      "default": "Un petit geste aujourd’hui. Une forêt qui reprend racine demain."
+      "default": "La casquette qui donne du caractère à vos aventures."
     },
     {
       "type": "textarea",
       "id": "text",
       "label": "Texte",
-      "default": "Découvrez des produits qui donnent le sourire et contribuent à des actions concrètes de restauration forestière."
+      "default": "Des casquettes premium pensées pour durer. Chaque commande contribue aussi à restaurer les forêts françaises."
     },
     {
       "type": "text",
       "id": "button_label",
       "label": "Bouton principal",
-      "default": "Découvrir les produits"
+      "default": "Découvrir les casquettes"
     },
     {
       "type": "url",
@@ -178,7 +195,7 @@
       "type": "text",
       "id": "secondary_button_label",
       "label": "Lien secondaire",
-      "default": "Comprendre notre engagement"
+      "default": "Notre engagement"
     },
     {
       "type": "url",
@@ -203,7 +220,7 @@
       "type": "text",
       "id": "sequence_alt",
       "label": "Description accessible",
-      "default": "Raccoono arrose une jeune pousse dans une forêt française en reconstruction."
+      "default": "Raccoono, la mascotte au chapeau bleu, présente des casquettes premium dans une clairière et arrose un jeune chêne."
     },
     {
       "type": "header",
@@ -212,7 +229,7 @@
     {
       "type": "checkbox",
       "id": "enable_animation",
-      "label": "Activer l’animation au défilement",
+      "label": "Activer la boucle automatique",
       "default": true
     },
     {
@@ -262,7 +279,7 @@
       "min": 24,
       "max": 40,
       "step": 1,
-      "default": 32
+      "default": 40
     },
     {
       "type": "range",
@@ -271,41 +288,28 @@
       "min": 12,
       "max": 32,
       "step": 1,
-      "default": 24
+      "default": 32
     },
     {
       "type": "header",
-      "content": "Défilement"
+      "content": "Lecture automatique"
     },
     {
       "type": "range",
-      "id": "scroll_height",
-      "label": "Hauteur de la zone de défilement",
-      "min": 160,
-      "max": 400,
-      "step": 20,
-      "unit": "vh",
-      "default": 260
-    },
-    {
-      "type": "range",
-      "id": "start_offset",
-      "label": "Pause au début",
-      "min": 0,
-      "max": 25,
+      "id": "loop_duration",
+      "label": "Durée de la boucle",
+      "min": 8,
+      "max": 12,
       "step": 1,
-      "unit": "%",
-      "default": 5
+      "unit": "s",
+      "default": 9
     },
     {
-      "type": "range",
-      "id": "end_offset",
-      "label": "Pause à la fin",
-      "min": 0,
-      "max": 25,
-      "step": 1,
-      "unit": "%",
-      "default": 5
+      "type": "checkbox",
+      "id": "pause_when_hidden",
+      "label": "Suspendre hors de l’écran",
+      "info": "Réduit l’usage du processeur lorsque le hero n’est pas visible.",
+      "default": true
     },
     {
       "type": "header",
@@ -364,7 +368,7 @@
   ],
   "presets": [
     {
-      "name": "Hero séquence scroll"
+      "name": "Hero séquence automatique"
     }
   ]
 }

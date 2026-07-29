@@ -48,6 +48,10 @@
       "secondary_action": "Découvrir notre mission",
       "fallback_alt": "Le raton Raccoono participe à la restauration d’une forêt"
     },
+    "scroll_sequence_hero": {
+      "pause_animation": "Mettre l’animation en pause",
+      "play_animation": "Relancer l’animation"
+    },
     "trust": {
       "heading": "Les engagements Raccoono"
     },

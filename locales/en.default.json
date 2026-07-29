@@ -48,6 +48,10 @@
       "secondary_action": "Discover our mission",
       "fallback_alt": "The Raccoono raccoon helps restore a forest"
     },
+    "scroll_sequence_hero": {
+      "pause_animation": "Pause the animation",
+      "play_animation": "Play the animation"
+    },
     "trust": {
       "heading": "Raccoono commitments"
     },

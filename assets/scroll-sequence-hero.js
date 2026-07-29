@@ -13,33 +13,39 @@
   const mountSequence = (section) => {
     if (!(section instanceof HTMLElement) || mountedSections.has(section)) return;
 
-    const sticky = section.querySelector('[data-sequence-sticky]');
+    const stage = section.querySelector('[data-sequence-stage]');
     const canvas = section.querySelector('[data-sequence-canvas]');
     const fallback = section.querySelector('[data-sequence-fallback]');
+    const toggle = section.querySelector('[data-sequence-toggle]');
+    const toggleLabel = section.querySelector('[data-sequence-toggle-label]');
 
-    if (!(sticky instanceof HTMLElement) || !(canvas instanceof HTMLCanvasElement)) return;
+    if (!(stage instanceof HTMLElement) || !(canvas instanceof HTMLCanvasElement)) return;
 
     const context = canvas.getContext('2d', { alpha: false });
     if (!context) return;
 
     const controller = new AbortController();
     const signal = controller.signal;
+    const enabled = section.dataset.enabled === 'true';
+    const pauseWhenHidden = section.dataset.pauseWhenHidden !== 'false';
+    const durationMs = clamp(Number(section.dataset.loopDuration) || 9000, 8000, 12000);
+
     const state = {
-      active: false,
       currentIndex: 0,
       drawnIndex: -1,
-      frameCount: 0,
+      frameCount: 1,
       firstFrameUrl: '',
       frames: new Map(),
       observer: null,
       rafId: 0,
       idleId: 0,
-      preloadGeneration: 0
+      preloadGeneration: 0,
+      startedAt: 0,
+      elapsedMs: 0,
+      visible: !('IntersectionObserver' in window),
+      documentVisible: !document.hidden,
+      userPaused: false
     };
-
-    const enabled = section.dataset.enabled === 'true';
-    const startOffset = clamp(Number(section.dataset.startOffset) || 0, 0, 25) / 100;
-    const endOffset = clamp(Number(section.dataset.endOffset) || 0, 0, 25) / 100;
 
     const configureSource = () => {
       const mobile = mobileQuery.matches;
@@ -55,6 +61,8 @@
       state.frameCount = Number.isFinite(frameCount) ? Math.max(frameCount, 1) : 1;
       state.currentIndex = 0;
       state.drawnIndex = -1;
+      state.elapsedMs = 0;
+      state.startedAt = 0;
       state.frames.clear();
       state.preloadGeneration += 1;
       section.classList.remove('is-sequence-ready');
@@ -63,7 +71,7 @@
     };
 
     const resizeCanvas = () => {
-      const bounds = sticky.getBoundingClientRect();
+      const bounds = stage.getBoundingClientRect();
       const pixelRatio = Math.min(window.devicePixelRatio || 1, 1.5);
       const width = Math.max(Math.round(bounds.width * pixelRatio), 1);
       const height = Math.max(Math.round(bounds.height * pixelRatio), 1);
@@ -139,7 +147,11 @@
 
       state.frames.forEach((record, index) => {
         if (record.status !== 'ready') return;
-        const distance = Math.abs(index - targetIndex);
+
+        const directDistance = Math.abs(index - targetIndex);
+        const loopDistance = state.frameCount - directDistance;
+        const distance = Math.min(directDistance, loopDistance);
+
         if (!nearest || distance < nearest.distance) {
           nearest = { index, distance, image: record.image };
         }
@@ -154,7 +166,7 @@
 
       const record = state.frames.get(safeIndex);
       if (record?.status === 'ready') {
-        drawImageCover(record.image, safeIndex);
+        if (state.drawnIndex !== safeIndex) drawImageCover(record.image, safeIndex);
         return;
       }
 
@@ -174,14 +186,15 @@
       } else {
         window.clearTimeout(state.idleId);
       }
+
       state.idleId = 0;
     };
 
     const scheduleIdleTask = (callback) => {
       if ('requestIdleCallback' in window) {
-        state.idleId = window.requestIdleCallback(callback, { timeout: 600 });
+        state.idleId = window.requestIdleCallback(callback, { timeout: 450 });
       } else {
-        state.idleId = window.setTimeout(callback, 80);
+        state.idleId = window.setTimeout(callback, 60);
       }
     };
 
@@ -190,8 +203,17 @@
 
       const generation = state.preloadGeneration;
       const order = Array.from({ length: state.frameCount }, (_, index) => index).sort(
-        (first, second) =>
-          Math.abs(first - state.currentIndex) - Math.abs(second - state.currentIndex)
+        (first, second) => {
+          const firstDistance = Math.min(
+            Math.abs(first - state.currentIndex),
+            state.frameCount - Math.abs(first - state.currentIndex)
+          );
+          const secondDistance = Math.min(
+            Math.abs(second - state.currentIndex),
+            state.frameCount - Math.abs(second - state.currentIndex)
+          );
+          return firstDistance - secondDistance;
+        }
       );
       let cursor = 0;
 
@@ -210,52 +232,108 @@
       loadNext();
     };
 
-    const updateFromScroll = () => {
-      if (!state.active) return;
+    const shouldPlay = () =>
+      enabled &&
+      !motionQuery.matches &&
+      !state.userPaused &&
+      state.documentVisible &&
+      (!pauseWhenHidden || state.visible);
 
-      const bounds = section.getBoundingClientRect();
-      const scrollDistance = Math.max(section.offsetHeight - window.innerHeight, 1);
-      const baseProgress = clamp(-bounds.top / scrollDistance, 0, 1);
-      const availableProgress = Math.max(1 - startOffset - endOffset, 0.01);
-      const progress = clamp((baseProgress - startOffset) / availableProgress, 0, 1);
-      const frameIndex = Math.round(progress * (state.frameCount - 1));
+    const stopLoop = () => {
+      if (state.rafId) {
+        window.cancelAnimationFrame(state.rafId);
+        state.rafId = 0;
+      }
 
-      requestFrame(frameIndex);
+      if (state.startedAt) {
+        state.elapsedMs = (performance.now() - state.startedAt) % durationMs;
+        state.startedAt = 0;
+      }
     };
 
-    const scheduleScrollUpdate = () => {
-      if (state.rafId) return;
+    const tick = (timestamp) => {
+      state.rafId = 0;
+      if (!shouldPlay()) return;
 
-      state.rafId = window.requestAnimationFrame(() => {
-        state.rafId = 0;
-        updateFromScroll();
-      });
+      if (!state.startedAt) {
+        state.startedAt = timestamp - state.elapsedMs;
+      }
+
+      const elapsed = (timestamp - state.startedAt) % durationMs;
+      const progress = elapsed / durationMs;
+      const frameIndex = Math.min(
+        Math.floor(progress * state.frameCount),
+        state.frameCount - 1
+      );
+
+      requestFrame(frameIndex);
+      state.rafId = window.requestAnimationFrame(tick);
+    };
+
+    const startLoop = () => {
+      if (!shouldPlay() || state.rafId) return;
+      state.rafId = window.requestAnimationFrame(tick);
+    };
+
+    const syncPlayback = () => {
+      if (shouldPlay()) {
+        startLoop();
+      } else {
+        stopLoop();
+      }
+    };
+
+    const updateToggle = () => {
+      if (!(toggle instanceof HTMLButtonElement)) return;
+
+      const paused = state.userPaused;
+      const label = paused ? toggle.dataset.playLabel : toggle.dataset.pauseLabel;
+
+      toggle.setAttribute('aria-pressed', String(paused));
+      toggle.setAttribute('aria-label', label || '');
+      section.classList.toggle('is-user-paused', paused);
+
+      if (toggleLabel instanceof HTMLElement) {
+        toggleLabel.textContent = label || '';
+      }
     };
 
     const activateAnimatedMode = () => {
       section.classList.remove('is-static');
 
-      if (!state.observer) {
+      if ('IntersectionObserver' in window && !state.observer) {
         state.observer = new IntersectionObserver(
           (entries) => {
             entries.forEach((entry) => {
-              state.active = entry.isIntersecting;
-              if (!state.active) return;
+              state.visible = entry.isIntersecting;
 
-              updateFromScroll();
-              beginProgressivePreload();
+              if (entry.isIntersecting) {
+                beginProgressivePreload();
+              }
+
+              syncPlayback();
             });
           },
-          { rootMargin: '100% 0px 100% 0px' }
+          { rootMargin: '50% 0px 50% 0px', threshold: 0.01 }
         );
       }
 
-      state.observer.observe(section);
+      if (state.observer) {
+        state.observer.observe(section);
+      } else {
+        state.visible = true;
+        beginProgressivePreload();
+      }
+
+      loadFrame(0).then((image) => {
+        if (image && state.drawnIndex < 0) drawImageCover(image, 0);
+        syncPlayback();
+      });
     };
 
     const activateStaticMode = () => {
-      state.active = false;
       state.observer?.disconnect();
+      stopLoop();
       section.classList.add('is-static');
 
       const reducedFrame = section.dataset.reducedFrame || 'fallback';
@@ -288,34 +366,52 @@
     };
 
     const handleSourceChange = () => {
+      stopLoop();
       configureSource();
       refreshMode();
     };
 
     const handleResize = () => {
-      if (state.drawnIndex >= 0) {
-        const record = state.frames.get(state.drawnIndex);
-        if (record?.status === 'ready') {
-          drawImageCover(record.image, state.drawnIndex);
-        }
+      if (state.drawnIndex < 0) return;
+
+      const record = state.frames.get(state.drawnIndex);
+      if (record?.status === 'ready') {
+        drawImageCover(record.image, state.drawnIndex);
       }
-      scheduleScrollUpdate();
+    };
+
+    const handleVisibilityChange = () => {
+      state.documentVisible = !document.hidden;
+      syncPlayback();
     };
 
     configureSource();
+    updateToggle();
     refreshMode();
 
-    window.addEventListener('scroll', scheduleScrollUpdate, { passive: true, signal });
     window.addEventListener('resize', handleResize, { passive: true, signal });
+    document.addEventListener('visibilitychange', handleVisibilityChange, { signal });
     mobileQuery.addEventListener('change', handleSourceChange, { signal });
     motionQuery.addEventListener('change', refreshMode, { signal });
+
+    if (toggle instanceof HTMLButtonElement) {
+      toggle.addEventListener(
+        'click',
+        () => {
+          state.userPaused = !state.userPaused;
+          updateToggle();
+          syncPlayback();
+        },
+        { signal }
+      );
+    }
 
     mountedSections.set(section, {
       controller,
       destroy: () => {
         state.observer?.disconnect();
         cancelIdleTask();
-        if (state.rafId) window.cancelAnimationFrame(state.rafId);
+        stopLoop();
       }
     });
   };

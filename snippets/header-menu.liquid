@@ -23,7 +23,7 @@ Renders the compact desktop navigation with one level of native submenus.
         <li class="header-menu__item">
           {% if link.links != blank %}
             <details class="header-menu__details">
-              <summary class="header-menu__summary">
+              <summary class="header-menu__summary{% if link.current or link.child_active %} header-menu__summary--active{% endif %}">
                 <span>{{ link_label | escape }}</span>
                 {% render 'icon', name: 'chevron-down', size: 14 %}
               </summary>
@@ -45,7 +45,10 @@ Renders the compact desktop navigation with one level of native submenus.
         </li>
       {% endfor %}
       <li class="header-menu__item">
-        <a href="{{ routes.root_url }}pages/contact">
+        <a
+          href="{{ routes.root_url }}pages/contact"
+          {% if request.path contains '/pages/contact' %}aria-current="page"{% endif %}
+        >
           {{ 'sections.header.navigation.contact' | t }}
         </a>
       </li>

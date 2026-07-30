@@ -4,11 +4,24 @@
       "type": "main-product",
       "settings": {
         "show_vendor": false,
-        "show_description": true
+        "show_sku": true,
+        "media_fit": "contain",
+        "show_description": true,
+        "collapse_description": true,
+        "show_dynamic_checkout": true,
+        "show_reassurance": true
+      }
+    },
+    "recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "heading": "",
+        "products_to_show": 4
       }
     }
   },
   "order": [
-    "main"
+    "main",
+    "recommendations"
   ]
 }

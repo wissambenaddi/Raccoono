@@ -1,0 +1,128 @@
+{% doc %}
+Renders stock information, quantity controls, add-to-cart and optional accelerated checkout.
+
+@param {variant} selected_variant - Currently selected product variant.
+@param {form} form - Parent Shopify product form object.
+@param {string} section_id - Parent section identifier.
+@param {boolean} [show_dynamic_checkout] - Shows accelerated checkout buttons.
+@param {boolean} [show_sku] - Shows the selected variant SKU.
+{% enddoc %}
+
+{% liquid
+  assign add_label = 'templates.product.add_to_cart' | t
+  assign sold_out_label = 'products.product.sold_out' | t
+  assign unavailable_label = 'templates.product.unavailable' | t
+  assign in_stock_label = 'templates.product.in_stock' | t
+  assign low_stock_label = 'templates.product.low_stock' | t
+
+  assign availability_label = in_stock_label
+  assign availability_class = 'is-available'
+  unless selected_variant.available
+    assign availability_label = sold_out_label
+    assign availability_class = 'is-unavailable'
+  else
+    if selected_variant.inventory_management != blank and selected_variant.inventory_policy != 'continue'
+      if selected_variant.inventory_quantity > 0 and selected_variant.inventory_quantity <= 5
+        assign availability_label = low_stock_label
+        assign availability_class = 'is-low'
+      endif
+    endif
+  endunless
+
+  assign submit_label = add_label
+  assign submit_disabled = false
+  unless selected_variant.available
+    assign submit_label = sold_out_label
+    assign submit_disabled = true
+  endunless
+%}
+
+<div class="product-form__status-row">
+  <p
+    class="product-availability {{ availability_class }}"
+    data-product-availability
+    data-label-in-stock="{{ in_stock_label | escape }}"
+    data-label-low-stock="{{ low_stock_label | escape }}"
+    data-label-sold-out="{{ sold_out_label | escape }}"
+    data-label-unavailable="{{ unavailable_label | escape }}"
+    role="status"
+  >
+    <span class="product-availability__dot" aria-hidden="true"></span>
+    <span data-availability-text>{{ availability_label }}</span>
+  </p>
+
+  {% if show_sku %}
+    <p class="product-sku" data-product-sku {% if selected_variant.sku == blank %}hidden{% endif %}>
+      {{ 'templates.product.sku' | t }}
+      <span data-sku-value>{{ selected_variant.sku | escape }}</span>
+    </p>
+  {% endif %}
+</div>
+
+<div class="product-form__purchase-row">
+  <div class="product-quantity">
+    <label class="visually-hidden" for="Quantity-{{ section_id }}">
+      {{ 'templates.product.quantity' | t }}
+    </label>
+    <button
+      class="product-quantity__button"
+      type="button"
+      data-quantity-decrease
+      aria-label="{{ 'templates.product.decrease_quantity' | t | escape }}"
+    >
+      {% render 'icon', name: 'minus', size: 18 %}
+    </button>
+    <input
+      id="Quantity-{{ section_id }}"
+      class="product-quantity__input"
+      type="number"
+      name="quantity"
+      value="1"
+      min="1"
+      inputmode="numeric"
+      data-quantity-input
+    >
+    <button
+      class="product-quantity__button"
+      type="button"
+      data-quantity-increase
+      aria-label="{{ 'templates.product.increase_quantity' | t | escape }}"
+    >
+      {% render 'icon', name: 'plus', size: 18 %}
+    </button>
+  </div>
+
+  <button
+    class="button button--primary button--large button--full product-form__submit"
+    type="submit"
+    name="add"
+    data-add-to-cart
+    data-label-add="{{ add_label | escape }}"
+    data-label-sold-out="{{ sold_out_label | escape }}"
+    data-label-unavailable="{{ unavailable_label | escape }}"
+    {% if submit_disabled %}
+      disabled
+    {% endif %}
+  >
+    {% render 'icon', name: 'backpack', size: 22 %}
+    <span data-add-to-cart-text>{{ submit_label }}</span>
+  </button>
+</div>
+
+{% if show_dynamic_checkout %}
+  <div class="product-form__dynamic-checkout">
+    {{ form | payment_button }}
+  </div>
+{% endif %}
+
+<div class="product-form__payment-terms">
+  {{ form | payment_terms }}
+</div>
+
+<p class="product-form__tax-note">
+  {% if cart.taxes_included %}
+    {{ 'templates.product.taxes_included' | t }}
+  {% else %}
+    {{ 'templates.product.taxes_shipping_checkout' | t }}
+  {% endif %}
+</p>

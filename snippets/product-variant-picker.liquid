@@ -1,0 +1,107 @@
+{% doc %}
+Renders product option buttons backed by a native variant select for no-JavaScript support.
+
+@param {product} product - Product whose variants should be selected.
+@param {variant} selected_variant - Currently selected product variant.
+@param {string} section_id - Parent section identifier.
+{% enddoc %}
+
+<div class="product-options" data-product-options>
+  {% for option in product.options_with_values %}
+    <fieldset class="product-option" data-product-option data-option-position="{{ option.position }}">
+      <legend class="product-option__legend">
+        <span>{{ option.name | escape }}</span>
+        <strong data-selected-option-value>{{ option.selected_value | escape }}</strong>
+      </legend>
+
+      <div class="product-option__values">
+        {% for value in option.values %}
+          {% liquid
+            assign value_name = value.name | default: value
+            assign value_selected = value.selected
+            if value_selected == nil
+              assign value_selected = false
+              if option.selected_value == value_name
+                assign value_selected = true
+              endif
+            endif
+
+            assign value_available = value.available
+            if value_available == nil
+              assign value_available = true
+            endif
+
+            assign input_id = 'ProductOption-' | append: section_id | append: '-' | append: option.position | append: '-' | append: forloop.index
+          %}
+          <input
+            class="product-option__input visually-hidden"
+            id="{{ input_id }}"
+            type="radio"
+            name="options[{{ option.name | escape }}]"
+            value="{{ value_name | escape }}"
+            data-option-value
+            data-option-position="{{ option.position }}"
+            {% if value.id != blank %}
+              data-option-value-id="{{ value.id }}"
+            {% endif %}
+            {% if value.product_url != blank %}
+              data-product-url="{{ value.product_url }}"
+            {% endif %}
+            {% if value_selected %}
+              checked
+            {% endif %}
+            {% unless value_available %}
+              disabled
+            {% endunless %}
+          >
+          <label
+            class="product-option__value{% if value.swatch != blank %} product-option__value--swatch{% endif %}"
+            for="{{ input_id }}"
+            {% unless value_available %}
+              data-unavailable
+            {% endunless %}
+          >
+            {% if value.swatch != blank %}
+              {% liquid
+                assign swatch_image_url = blank
+                if value.swatch.image != blank
+                  assign swatch_image_url = value.swatch.image | image_url: width: 96
+                endif
+              %}
+              <span
+                class="product-option__swatch"
+                {% if swatch_image_url != blank %}
+                  style="background-image: url('{{ swatch_image_url }}');"
+                {% elsif value.swatch.color != blank %}
+                  style="background-color: {{ value.swatch.color }};"
+                {% endif %}
+                aria-hidden="true"
+              ></span>
+            {% endif %}
+            <span>{{ value_name | escape }}</span>
+          </label>
+        {% endfor %}
+      </div>
+    </fieldset>
+  {% endfor %}
+</div>
+
+<div class="field product-form__variant-select">
+  <label for="VariantSelect-{{ section_id }}">{{ 'templates.product.variant' | t }}</label>
+  <select id="VariantSelect-{{ section_id }}" name="id" data-variant-select>
+    {% for variant in product.variants %}
+      <option
+        value="{{ variant.id }}"
+        {% if variant == selected_variant %}
+          selected
+        {% endif %}
+        {% unless variant.available %}
+          disabled
+        {% endunless %}
+      >
+        {{ variant.title | escape }} — {{ variant.price | money }}
+        {% unless variant.available %} — {{ 'products.product.sold_out' | t }}{% endunless %}
+      </option>
+    {% endfor %}
+  </select>
+</div>

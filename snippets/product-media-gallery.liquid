@@ -1,0 +1,193 @@
+{% doc %}
+Renders an accessible single-stage product media gallery with thumbnails.
+
+@param {product} product - Product whose media should be displayed.
+@param {variant} selected_variant - Currently selected product variant.
+@param {string} section_id - Parent section identifier.
+@param {string} [media_fit] - contain or cover.
+{% enddoc %}
+
+{% liquid
+  assign active_media = selected_variant.featured_media | default: product.featured_media | default: product.media.first
+  assign media_fit = media_fit | default: 'contain'
+  assign media_count = product.media.size
+  assign zoom_label = 'templates.product.zoom_image' | t
+  assign previous_label = 'templates.product.previous_media' | t
+  assign next_label = 'templates.product.next_media' | t
+%}
+
+<div
+  class="product-gallery"
+  data-product-gallery
+  data-media-count="{{ media_count }}"
+  style="--product-media-fit: {{ media_fit }};"
+>
+  {% if media_count > 0 %}
+    <div class="product-gallery__stage">
+      {% for media in product.media %}
+        {% liquid
+          assign is_active = false
+          if media.id == active_media.id
+            assign is_active = true
+          endif
+
+          assign media_loading = 'lazy'
+          assign media_priority = 'auto'
+          if is_active
+            assign media_loading = 'eager'
+            assign media_priority = 'high'
+          endif
+
+          assign media_alt = media.alt | default: product.title
+        %}
+        <div
+          id="ProductMedia-{{ section_id }}-{{ media.id }}"
+          class="product-gallery__panel{% if is_active %} is-active{% endif %}"
+          role="tabpanel"
+          aria-labelledby="ProductMediaTab-{{ section_id }}-{{ media.id }}"
+          data-product-media
+          data-media-id="{{ media.id }}"
+          data-media-type="{{ media.media_type }}"
+          {% unless is_active %}
+            hidden
+          {% endunless %}
+        >
+          {% case media.media_type %}
+            {% when 'image' %}
+              <a
+                class="product-gallery__zoom"
+                href="{{ media | image_url: width: 2400 }}"
+                target="_blank"
+                rel="noopener"
+                aria-label="{{ zoom_label | escape }}"
+              >
+                {{
+                  media
+                  | image_url: width: 1800
+                  | image_tag:
+                    widths: '480, 720, 960, 1200, 1500, 1800',
+                    sizes: '(min-width: 990px) 58vw, 100vw',
+                    loading: media_loading,
+                    fetchpriority: media_priority,
+                    alt: media_alt,
+                    class: 'product-gallery__image'
+                }}
+                <span class="product-gallery__zoom-icon">
+                  {% render 'icon', name: 'zoom-in', size: 20 %}
+                </span>
+              </a>
+            {% when 'video' %}
+              {{
+                media
+                | video_tag:
+                  controls: true,
+                  preload: 'metadata',
+                  class: 'product-gallery__video',
+                  image_size: '1200x'
+              }}
+            {% when 'external_video' %}
+              <div class="product-gallery__external-video">
+                {{ media | external_video_tag }}
+              </div>
+            {% when 'model' %}
+              {{ media | model_viewer_tag: reveal: 'interaction', toggleable: true }}
+            {% else %}
+              {% if media.preview_image != blank %}
+                {{
+                  media.preview_image
+                  | image_url: width: 1600
+                  | image_tag:
+                    widths: '480, 720, 960, 1200, 1600',
+                    sizes: '(min-width: 990px) 58vw, 100vw',
+                    loading: media_loading,
+                    alt: media_alt,
+                    class: 'product-gallery__image'
+                }}
+              {% endif %}
+          {% endcase %}
+        </div>
+      {% endfor %}
+
+      {% if media_count > 1 %}
+        <button
+          class="product-gallery__arrow product-gallery__arrow--previous"
+          type="button"
+          data-gallery-previous
+          aria-label="{{ previous_label | escape }}"
+        >
+          {% render 'icon', name: 'arrow-right', size: 20 %}
+        </button>
+        <button
+          class="product-gallery__arrow product-gallery__arrow--next"
+          type="button"
+          data-gallery-next
+          aria-label="{{ next_label | escape }}"
+        >
+          {% render 'icon', name: 'arrow-right', size: 20 %}
+        </button>
+        <p class="product-gallery__counter" aria-live="polite">
+          <span data-gallery-current>1</span>
+          <span aria-hidden="true">/</span>
+          <span>{{ media_count }}</span>
+        </p>
+      {% endif %}
+    </div>
+
+    {% if media_count > 1 %}
+      <div
+        class="product-gallery__thumbnails"
+        role="tablist"
+        aria-label="{{ 'templates.product.media_thumbnails' | t | escape }}"
+        data-gallery-thumbnails
+      >
+        {% for media in product.media %}
+          {% liquid
+            assign is_active = false
+            if media.id == active_media.id
+              assign is_active = true
+            endif
+            assign thumbnail_alt = 'templates.product.media_thumbnail' | t: number: forloop.index
+          %}
+          <button
+            id="ProductMediaTab-{{ section_id }}-{{ media.id }}"
+            class="product-gallery__thumbnail{% if is_active %} is-active{% endif %}"
+            type="button"
+            role="tab"
+            aria-controls="ProductMedia-{{ section_id }}-{{ media.id }}"
+            aria-selected="{% if is_active %}true{% else %}false{% endif %}"
+            aria-label="{{ thumbnail_alt | escape }}"
+            tabindex="{% if is_active %}0{% else %}-1{% endif %}"
+            data-gallery-thumbnail
+            data-media-id="{{ media.id }}"
+          >
+            {% if media.preview_image != blank %}
+              {{
+                media.preview_image
+                | image_url: width: 180
+                | image_tag:
+                  widths: '80, 120, 180',
+                  sizes: '72px',
+                  loading: 'lazy',
+                  alt: '',
+                  class: 'product-gallery__thumbnail-image'
+              }}
+            {% endif %}
+            {% unless media.media_type == 'image' %}
+              <span class="product-gallery__media-badge">
+                {% if media.media_type == 'model' %}
+                  3D
+                {% else %}
+                  {% render 'icon', name: 'play', size: 14 %}
+                {% endif %}
+              </span>
+            {% endunless %}
+          </button>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% else %}
+    <div class="product-gallery__stage product-gallery__stage--placeholder">
+      {{ 'product-1' | placeholder_svg_tag: 'product-gallery__placeholder' }}
+    </div>
+  {% endif %}
+</div>

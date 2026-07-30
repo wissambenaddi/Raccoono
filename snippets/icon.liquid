@@ -60,6 +60,26 @@ Renders an inline icon from the controlled Raccoono icon set.
     {% when 'search' %}
       <circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.75"/>
       <path d="m16 16 4 4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+    {% when 'zoom-in' %}
+      <circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="1.75"/>
+      <path d="m15.5 15.5 4 4M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+    {% when 'play' %}
+      <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.75"/>
+      <path d="m10 8.5 6 3.5-6 3.5v-7Z" fill="currentColor" stroke="currentColor" stroke-linejoin="round"/>
+    {% when 'plus' %}
+      <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+    {% when 'minus' %}
+      <path d="M5 12h14" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+    {% when 'truck' %}
+      <path d="M3 6h11v10H3V6Zm11 4h4l3 3v3h-7v-6Z" stroke="currentColor" stroke-width="1.65" stroke-linejoin="round"/>
+      <circle cx="7" cy="18" r="2" stroke="currentColor" stroke-width="1.65"/>
+      <circle cx="18" cy="18" r="2" stroke="currentColor" stroke-width="1.65"/>
+    {% when 'leaf' %}
+      <path d="M20 4C12 4 6 7 5 13c-.7 4.2 2.5 6.5 6 5 5-2.2 7.4-8.3 9-14Z" stroke="currentColor" stroke-width="1.65" stroke-linejoin="round"/>
+      <path d="M4 20c2.4-4.3 6.1-7.4 11-9.5" stroke="currentColor" stroke-width="1.65" stroke-linecap="round"/>
+    {% when 'shield-check' %}
+      <path d="M12 3 20 6v5.5c0 4.7-3.2 7.8-8 9.5-4.8-1.7-8-4.8-8-9.5V6l8-3Z" stroke="currentColor" stroke-width="1.65" stroke-linejoin="round"/>
+      <path d="m8.5 12 2.2 2.2 4.8-5" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"/>
     {% when 'account' %}
       <circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="1.65"/>
       <path d="M5 20c.7-4 3-6 7-6s6.3 2 7 6" stroke="currentColor" stroke-width="1.65" stroke-linecap="round"/>

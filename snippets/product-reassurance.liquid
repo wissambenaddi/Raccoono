@@ -1,0 +1,27 @@
+{% doc %}
+Renders compact product-page reassurance messages.
+{% enddoc %}
+
+<ul class="product-reassurance" role="list">
+  <li class="product-reassurance__item">
+    <span class="product-reassurance__icon">{% render 'icon', name: 'truck', size: 23 %}</span>
+    <span>
+      <strong>{{ 'templates.product.shipping_title' | t }}</strong>
+      <small>{{ 'templates.product.shipping_text' | t }}</small>
+    </span>
+  </li>
+  <li class="product-reassurance__item">
+    <span class="product-reassurance__icon">{% render 'icon', name: 'leaf', size: 23 %}</span>
+    <span>
+      <strong>{{ 'templates.product.impact_title' | t }}</strong>
+      <small>{{ 'templates.product.impact_text' | t }}</small>
+    </span>
+  </li>
+  <li class="product-reassurance__item">
+    <span class="product-reassurance__icon">{% render 'icon', name: 'shield-check', size: 23 %}</span>
+    <span>
+      <strong>{{ 'templates.product.payment_title' | t }}</strong>
+      <small>{{ 'templates.product.payment_text' | t }}</small>
+    </span>
+  </li>
+</ul>

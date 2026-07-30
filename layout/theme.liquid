@@ -26,6 +26,9 @@
       {{ 'scroll-sequence-hero.css' | asset_url | stylesheet_tag }}
     {% else %}
       {{ 'storefront.css' | asset_url | stylesheet_tag }}
+      {% if request.page_type == 'product' %}
+        {{ 'product-page.css' | asset_url | stylesheet_tag }}
+      {% endif %}
     {% endif %}
 
     <script>
@@ -37,6 +40,8 @@
     {% if request.page_type == 'index' %}
       <script src="{{ 'raccoon-personalities.js' | asset_url }}" defer></script>
       <script src="{{ 'scroll-sequence-hero.js' | asset_url }}" defer></script>
+    {% elsif request.page_type == 'product' %}
+      <script src="{{ 'product-page.js' | asset_url }}" defer></script>
     {% endif %}
 
     {{ content_for_header }}
